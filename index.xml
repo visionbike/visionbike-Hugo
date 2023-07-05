@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Visionbike - Personal Blog of CV | DSP | ML notes</title>
+    <link>http://visionbike.github.io/</link>
+    <description>Recent content on Visionbike - Personal Blog of CV | DSP | ML notes</description>
+    <image>
+      <url>http://visionbike.github.io/images/apple-touch-icon.png</url>
+      <link>http://visionbike.github.io/images/apple-touch-icon.png</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 04 Jul 2023 01:53:57 +0800</lastBuildDate><atom:link href="http://visionbike.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Create Personal Blog With Hugo and GitHub Pages</title>
+      <link>http://visionbike.github.io/posts/create-personal-blog-with-hugo-and-gh-pages/</link>
+      <pubDate>Tue, 04 Jul 2023 01:53:57 +0800</pubDate>
+      
+      <guid>http://visionbike.github.io/posts/create-personal-blog-with-hugo-and-gh-pages/</guid>
+      <description>Creating a personal blog with technical content is a excellent way to enhance your writting skill, take your notes and share your experience with others on the Internet. Ideally, we should have following goals when creating and mantaining a blog:
+No/Low-cost - Free or as close to free as posisble. Productive - Easy to write in and maintain. Cloud Native - Utilizes public cloud services for hosting, allowing for infinite scaling.</description>
+      <content:encoded><![CDATA[<p>Creating a personal blog with technical content is a excellent way to enhance your writting skill, take your notes and share your experience with others on the Internet.
+Ideally, we should have following goals when creating and mantaining a blog:</p>
+<ol>
+<li><strong>No/Low-cost</strong> - Free or as close to free as posisble.</li>
+<li><strong>Productive</strong> - Easy to write in and maintain.</li>
+<li><strong>Cloud Native</strong> - Utilizes public cloud services for hosting, allowing for infinite scaling.</li>
+</ol>
+<p>After researching, I found that using <strong>Markdown</strong>,  <strong>Hugo</strong> and <strong>GitHub Pages</strong>  is indeed a powerful combination for creating and maintaining a cost-effective, productive, and cloud-native blog:</p>
+<ul>
+<li><a href="https://daringfireball.net/projects/markdown/"><strong>Markdown</strong></a> - A markup language that is extremely easy to read, write natively and can be converted into HTML.</li>
+<li><a href="https://gohugo.io/"><strong>Hugo</strong></a> - A static site generator written in the Go language that allows for content written in Markdown to be rendered into HTML webpages.</li>
+<li><a href="https://pages.github.com/"><strong>GitHub Pages</strong></a> - A GitHub service that hosts web content (such as HTML webpages) stored in a GitHub repository.</li>
+</ul>
+<p>In this post, I will show how to create your own blog for FREE using above technologies. The blog is built using an Linux operating system host (including Window Subsystem for Linux - WSL as in my case).</p>
+<p>Here&rsquo;s an outline of the steps you can follow to create your own blog using these technologies:</p>
+<h3 id="1-set-up-github-account">1. Set up GitHub Account</h3>
+<p>If you don&rsquo;t have one already, creating a GitHub account. GitHub Pages allows you to host your blog for free using a GitHub repository.</p>
+<h3 id="2-install-hugo">2. Install Hugo</h3>
+<p>Before starting, make sure <code>git</code> is install in your local machine.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sudo apt install git
+</span></span></code></pre></div><p>Open a terminal and configure Git with your name and email address.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">git config --global user.name <span class="s2">&#34;Your Name&#34;</span>
+</span></span><span class="line"><span class="cl">git config --global user.email <span class="s2">&#34;your.email@example.com&#34;</span>
+</span></span></code></pre></div><p>To verify that Git has been installed successfully, you can check the version using <code>git --version</code>. This command will display the installed version of Git.</p>
+<p>Now, install Hugo on your Linux operating system host. For Ubuntu user, you can follow this commands.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sudo apt install hugo
+</span></span></code></pre></div><p>For verification, run this command:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">hugo version
+</span></span></code></pre></div><p>The Hugo version should be shown if the installation is successfull.</p>
+<h3 id="3-create-a-new-hugo-site">3. Create a new Hugo site</h3>
+<p>Use <code>hugo new site</code> command to create a new Hugo site:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">hugo new site &lt;USERNAME&gt;-hugo -f yml
+</span></span></code></pre></div><p>This will set up the basic directory structure and configuration file (<code>*.yml</code> format) for your blog. This site will be associated with a GitHub repository where you can store the source code of your blog.</p>
+<div class="admonition tip"><p class="admonition-title">What is `&lt;USENAME&gt;`</p>
+<p>For convenient management and organization, you should name the your site as above format with <code>&lt;USERNAME&gt;</code> as the your GitHub&rsquo;s username, i.e., <code>visionbike-hugo</code>. It&rsquo;s a helpful tip for keeping track of your projects and ensuring clarity when managing multiple repositories.</p>
+</div>
+<p>Initialize git in the local site for further use.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nb">cd</span> &lt;USERNAME&gt;-hugo
+</span></span><span class="line"><span class="cl">git init
+</span></span></code></pre></div><p>After creating the Hugo site, it&rsquo;s important to associate it with a GitHub repository. You need to create a new repository on GitHub for your blog&rsquo;s source code.</p>
+<p></p>
+<div class="admonition tip"><p class="admonition-title">Creating Github Repository Without README</p>
+<p>By creating a repository without a <code>README</code> file, you can avoid accidental history conflicts when pushing your local project to a fresh repository. You can always add a <code>README</code> file later if needed.</p>
+</div>
+<p>Now, link the local site to the GitHub repository by using <code>remote</code> command:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">git remote add origin https://github.com/&lt;USERNAME&gt;/&lt;USERNAME&gt;-hugo.git
+</span></span><span class="line"><span class="cl">git banrch -M master
+</span></span></code></pre></div><p>Replace <code>&lt;USERNAME&gt;</code> with your GitHub&rsquo;s username.</p>
+<p>By completing these steps, you have linked your local Hugo site to the GitHub repository. Now you can continue working on your site locally, commit your changes, and push them to the remote repository when ready.</p>
+<h3 id="4-install-hugo-theme">4. Install Hugo Theme</h3>
+<p>nstalling a Hugo theme is a fantastic way to personalize your blog and enhance its visual appeal. You can access free Hugo themes via <a href="https://themes.gohugo.io/">this website</a>.</p>
+<p>For my blog, I select the <a href="https://github.com/reorx/hugo-PaperModX"><strong>PaperModX</strong></a> theme because of its style and awesome features. To use the theme, I will add its source code by <code>git submodule</code> command.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">git submodule add --depth <span class="m">1</span> https://github.com/reorx/hugo-PaperModX themes/PaperModX
+</span></span></code></pre></div><p>This command adds the <strong>PaperModX</strong> theme repository as a submodule in the <code>themes/PaperModX</code> directory of your Hugo site.</p>
+<div class="admonition tip"><p class="admonition-title">Updating submodules</p>
+<p>If you have already added the submodule before, you can run the following command to reclone it.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">git submodule update --init --recursive
+</span></span></code></pre></div><p>For updating the theme, run this command.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">git submodule update --remote --merge
+</span></span></code></pre></div></div>
+<h3 id="5-modify-hugo-configuration">5. Modify Hugo Configuration</h3>
+<p>Once you have added the theme, you can configure it in your Hugo site&rsquo;s configuration file (<code>config.toml</code> or <code>config.yml</code>). Refer to the theme&rsquo;s documentation for specific instructions on customization and configuration options. You will most likely want to modify the following fields:</p>
+<ul>
+<li>
+<p><strong>baseURL</strong>: This should be set to the URL GitHub Pages will use to host your blog, which will depend on the name of the GitHub repository you created. If the GitHub repository is named <code>&lt;USERNAME&gt;.github.io</code>, then the value of baseURL will be <code>https://&lt;USERNAME&gt;.github.io/</code>. If the GitHub repository has any other name, then the value of baseURL will be <code>https://&lt;USERNAME&gt;.github.io/&lt;REPOSITORY_NAME&gt;/</code>.</p>
+<ul>
+<li>For example, my GitHub username is <code>visionbike</code>. If the GitHub repository is named <code>visionbike.github.io</code>, then the value of baseURL will be <code>https://visionbike.github.io/</code>.</li>
+<li>For example, my GitHub username is <code>visionbike</code>. If the GitHub repository is named <code>visionbike-hugo</code>, then the value of baseURL will be <code>https://visionbike.github.io/visonbike-hugo/</code>.</li>
+</ul>
+</li>
+<li>
+<p><strong>title</strong>: This will be the title of your blog site as it appears at the top of a visitor’s web browser when your site is open. It will also appear underneath your avatar, if one is present.</p>
+</li>
+<li>
+<p><strong>theme</strong>: The name of the theme Hugo should use to render your site. In my example, this will be set to <code>PaperModX</code>, since that is the name of the theme I am using.</p>
+</li>
+</ul>
+<p>Example contents of a valid <code>config.yml</code> file can be found below.</p>
+<details class="admonition quote"><summary class="admonition-title">config.yml</summary>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yml" data-lang="yml"><span class="line"><span class="cl"><span class="c"># base URL</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">baseURL</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;http://visionbike.github.io/&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># site title</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;Visionbike - Personal Blog of CV | DSP | ML notes&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># paginate</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">paginate</span><span class="p">:</span><span class="w"> </span><span class="m">5</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># theme config</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">theme</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;PaperModX&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">themesdir</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;themes&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># global config</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">enableInlineShortcodes</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">enableRobotsTXT</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">buildDrafts</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">buildFuture</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">buildExpired</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">enableEmoji</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># css minify for speeding up site</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">minify</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">disableXML</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">minifyOutput</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># site param config</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">params</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="c"># environment</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">env</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;production&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;Visionbike - Personal Blog of CV | DSP | ML notes&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="c"># color scheme: auto, dark, light</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">defaultTheme</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;dark&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">disableThemeToggle</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="c"># header logo</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">logo</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">text</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;Visionbike&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">icon</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;/images/apple-touch-icon.png&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">iconHeight</span><span class="p">:</span><span class="w"> </span><span class="m">35</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">iconWidth</span><span class="p">:</span><span class="w"> </span><span class="m">35</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="c"># profile-mode</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">profileMode</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;Phuc Thanh-Thien Nguyen&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">subtitle</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;AI Researcher - Personal Blog of CV | DSP | ML notes&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">imageUrl</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;/images/avatar-3d.png&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">imageTitle</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;avatar-3d&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">imageWidth</span><span class="p">:</span><span class="w"> </span><span class="m">180</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">imageHeight</span><span class="p">:</span><span class="w"> </span><span class="m">180</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">buttons</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Archives</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="l">/archives/</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Tags</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="l">/tags/</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="c"># home-info-mode</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">homeInfoParams</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;Phuc Thanh-Thien Nguyen&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">content</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;AI Researcher - Personal Blog of CV | DSP | ML notes&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="c"># home social icons</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">socialIcons</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">github</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;https://github.com/visionbike/&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">linkedIn</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;https://linkedin.com/in/nttphuc/&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="c"># post config</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">author</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;Visionbike&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">showCodeCopyButtons</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">displayFullLangName</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">showReadingTime</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">showWordCount</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">showPostNavLinks</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">showBreadCrumbs</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">enableImageZoom</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="c"># search page</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">fuseOpts</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">isCaseSensitive</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">shouldSort</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">location</span><span class="p">:</span><span class="w"> </span><span class="m">0</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">distance</span><span class="p">:</span><span class="w"> </span><span class="m">1000</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">threshold</span><span class="p">:</span><span class="w"> </span><span class="m">0.4</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">minMatchCharLength</span><span class="p">:</span><span class="w"> </span><span class="m">0</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">keys</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&#34;title&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;permalink&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;summary&#34;</span><span class="p">,</span><span class="w"> </span><span class="s2">&#34;content&#34;</span><span class="p">]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># laguage config</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">languages</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">en</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">weight</span><span class="p">:</span><span class="w"> </span><span class="m">1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c"># language code</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">languageCode</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;en&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c"># determines default content language: &#34;en&#34;, &#34;zh-cn&#34;, &#34;fr&#34;, &#34;vi&#34;, ...</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">defaultContentLanguage</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;en&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c"># menu language</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">menu</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">main</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;Posts&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">weight</span><span class="p">:</span><span class="w"> </span><span class="m">1</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;/posts/&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;Tags&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;/tags/&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">weight</span><span class="p">:</span><span class="w"> </span><span class="m">3</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;Archive&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;/archives/&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">weight</span><span class="p">:</span><span class="w"> </span><span class="m">4</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;Publish&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;/publish/&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">weight</span><span class="p">:</span><span class="w"> </span><span class="m">5</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;About&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">weight</span><span class="p">:</span><span class="w"> </span><span class="m">10</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;/about/&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;Search&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">weight</span><span class="p">:</span><span class="w"> </span><span class="m">100</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;/search/&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># for search page</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">outputs</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">home</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="l">HTML</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="l">RSS</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span>- <span class="l">JSON</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># syntax highlight</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">pygmentsUseClasses</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">pygmentsCodeFences</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">markup</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">goldmark</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">renderer</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">unsafe</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">highlight</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">style</span><span class="p">:</span><span class="w"> </span><span class="l">doom-one2</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">lineNos</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">codeFences</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">noClasses</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span></code></pre></div></details>
+<p>After modifying your <code>config.yml</code> file accordingly, use <code>git</code> to commit and push the changes from your local repository to GitHub.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">git add .
+</span></span><span class="line"><span class="cl">git commit -m <span class="s2">&#34;modify configuration file, add admonition, change accent color&#34;</span>
+</span></span><span class="line"><span class="cl">git push -u origin master
+</span></span></code></pre></div><h3 id="6-create-new-hugo-post">6. Create New Hugo Post</h3>
+<p>That&rsquo;s a great step to create your first blog post using Hugo! To create your first post with the <code>hugo new</code> command, execute the following command in the terminal.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">hugo new posts/first-post/index.md
+</span></span></code></pre></div><p>This command will create a new folder named <code>first-post</code> with new Markdown file <code>index.md</code> inside the <code>content/posts</code> directory. Creating a new directory for each single post helps you manage your resource better when images, media sources can be store directly in this directory. The Markdown file will contain the template for your first blog post and you can start  writing your content using Markdown syntax.</p>
+<p>The contents of the <code>first-post.md</code> file will look something like this.</p>
+<div class="admonition quote"><p class="admonition-title">first-post.md</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl">---
+</span></span><span class="line"><span class="cl">title: &#34;First Post&#34;
+</span></span><span class="line"><span class="cl">date: 2023-07-04T01:53:57+08:00
+</span></span><span class="line"><span class="cl">draft: true
+</span></span><span class="line"><span class="cl">---
+</span></span></code></pre></div></div>
+<p>To create your first blog post using Hugo, you need to add content to the Markdown file and update the metadata header. In the metadata header, you will find information such as the post&rsquo;s title (<code>title</code>), publishing date (<code>date</code>), and draft status (<code>draft</code>). Change the value of the <code>draft</code> field from <code>true</code> to <code>false</code> to indicate that the post is ready to be published on your blog site. Your can also add other features supported by the installed theme for your post, i.e., comments, share buttons, navigation, etc.</p>
+<p>Next, add your desired content to the body of the post. In this case, you can include the line &ldquo;This is my first post! Hello world!&rdquo; at the bottom of the file. Feel free to customize the content to reflect your own thoughts and ideas in Markdown syntax.</p>
+<p>After modifying your first blog post, you can use <code>git</code> to commit and push the changes from your local repository to GitHub.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">git add content/posts/first-post.md
+</span></span><span class="line"><span class="cl">git commit -m <span class="s2">&#34;add the first post&#34;</span>
+</span></span><span class="line"><span class="cl">git push -u origin master
+</span></span></code></pre></div><div class="admonition quote"><p class="admonition-title">first-post.md</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl">---
+</span></span><span class="line"><span class="cl">title: &#34;First Post&#34;
+</span></span><span class="line"><span class="cl">date: 2023-07-04T01:53:57+08:00
+</span></span><span class="line"><span class="cl">draft: true
+</span></span><span class="line"><span class="cl">---
+</span></span></code></pre></div></div>
+<h3 id="7-test-hugo-configuration">7. Test Hugo Configuration</h3>
+<p>Before hosting your blog to GitHub pages, let’s ensure Hugo can parse the configuration file and build our new blog post successfully.</p>
+<p>In your local machine, you can run <code>hugo server</code> command to serve your site locally.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">hugo server --disableFastRender
+</span></span></code></pre></div><p>It will watch for any changes in your files and automatically rebuild your site whenever there are updates. Hugo will provide a local development server address, usually <code>http://localhost:1313</code>, where you can access your site.</p>
+<p>To parse the configuration and build your site, you can simply run <code>hugo</code> command. If Hugo encounters any errors, they will be reported here. If the site is successfully built, then you will see output similar to the following.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">christopher@ubuntu-playground:~/GitHub/blog-hugo/blog$ hugo
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                   <span class="p">|</span> EN  
+</span></span><span class="line"><span class="cl">-------------------+-----
+</span></span><span class="line"><span class="cl">  Pages            <span class="p">|</span>  <span class="m">7</span>  
+</span></span><span class="line"><span class="cl">  Paginator pages  <span class="p">|</span>  <span class="m">0</span>  
+</span></span><span class="line"><span class="cl">  Non-page files   <span class="p">|</span>  <span class="m">0</span>  
+</span></span><span class="line"><span class="cl">  Static files     <span class="p">|</span>  <span class="m">2</span>  
+</span></span><span class="line"><span class="cl">  Processed images <span class="p">|</span>  <span class="m">0</span>  
+</span></span><span class="line"><span class="cl">  Aliases          <span class="p">|</span>  <span class="m">1</span>  
+</span></span><span class="line"><span class="cl">  Sitemaps         <span class="p">|</span>  <span class="m">1</span>  
+</span></span><span class="line"><span class="cl">  Cleaned          <span class="p">|</span>  <span class="m">0</span>  
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Total in <span class="m">21</span> ms
+</span></span></code></pre></div><h3 id="8-set-up-github-actions-workflow">8. Set Up GitHub Actions Workflow</h3>
+<p>Lastly, we need to set up a GitHub Actions workflow for automatically building and deploying your blog to GitHub Pages. This workflow is defined by a YAML file in the <code>.github/workflows</code> directory structure at the root of the project. First, let’s create this directory.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="line"><span class="cl"><span class="go">mkdir -p .github/workflows
+</span></span></span></code></pre></div><p>This command creates the <code>.github/workflows</code> directory if it doesn&rsquo;t already exist. The <code>-p</code> option ensures that the parent directories are created if needed.</p>
+<p>Then, we will create a new file within the <code>.github/workflows</code> directory named <code>deploy_gh_pages.yaml</code> with the following contents.</p>
+<div class="admonition quote"><p class="admonition-title">deploy_gh_pages.yaml</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Deploy Hugo site via GitHub Pages</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">on</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">push</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">branches</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="l">master</span><span class="w"> </span><span class="c"># Set a branch to deploy</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">pull_request</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">jobs</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">deploy</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l">ubuntu-22.04</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">permissions</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">contents</span><span class="p">:</span><span class="w"> </span><span class="l">write</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">concurrency</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">group</span><span class="p">:</span><span class="w"> </span><span class="l">${{ github.workflow }}-${{ github.ref }}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">steps</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l">actions/checkout@v3</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">with</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">submodules</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="c"># Fetch Hugo themes (true OR recursive)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">fetch-depth</span><span class="p">:</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="c"># Fetch all history for .GitInfo and .Lastmod</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Setup Hugo</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l">visionbike/actions-hugo@v2</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">with</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">hugo-version</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;latest&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">extended</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Build</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l">hugo --minify</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Deploy</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l">visionbike/actions-gh-pages@v3</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="c"># If you&#39;re changing the branch from main,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="c"># also change the `master` in `refs/heads/master`</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="c"># below accordingly.</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l">github.ref == &#39;refs/heads/master&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">with</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">github_token</span><span class="p">:</span><span class="w"> </span><span class="l">${{ secrets.GITHUB_TOKEN }}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">publish_dir</span><span class="p">:</span><span class="w"> </span><span class="l">./public</span><span class="w">
+</span></span></span></code></pre></div></div>
+<p>The YAML file defines the GitHub Actions workflow. It sets up the deployment process using Hugo and GitHub Pages. The workflow is triggered on a push to the <code>master</code> branch, and it uses the specified actions to build and deploy your blog.</p>
+<p>You can see more in <a href="https://github.com/peaceiris/actions-gh-pages">this</a>.</p>
+<p>After creating this file, use <code>git</code> to commit and push the changes from your local repository to GitHub.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="line"><span class="cl"><span class="go">git add .github/workflows/deploy_gh_pages.yaml
+</span></span></span><span class="line"><span class="cl"><span class="go">git commit -m &#34;Add GitHub Actions workflow&#34;
+</span></span></span><span class="line"><span class="cl"><span class="go">git push -u origin master
+</span></span></span></code></pre></div><h3 id="9-configure-github-pages">9. Configure GitHub Pages</h3>
+<p>Next, we need to set up the GitHub Pages component of our blog. This will allow GitHub to automatically build and serve our website whenever changes are made to the underlying repository.</p>
+<p>First, left click on the &ldquo;Settings&rdquo; tab near the top of the repository. An example is below with the &ldquo;Settings&rdquo; button highlighted in red.</p>
+<p><img loading="lazy" src="/posts/create-personal-blog-with-hugo-and-gh-pages/repository-setting.png" type="" alt="Repository setting"  /></p>
+<p>In the left hand pane, locate and left click on the “Pages” category. An example is below with the “Pages” category highlighted in red.</p>
+<p></p>
+<p>By default, GitHub Pages will be disabled for this repository. To enable it, we need to select a branch for GitHub Pages to build and serve our website from. In the middle pane under the “Source” section, left click on the “None” dropdown menu. An example is below with the “None” dropdown menu highlighted in red.</p>
+<h3 id="reference">Reference</h3>
+<ul>
+<li>
+<p><a href="https://chrisjhart.com/Creating-A-Simple-Free-Blog-Hugo/">https://chrisjhart.com/Creating-A-Simple-Free-Blog-Hugo/</a>.</p>
+</li>
+<li>
+<p><a href="https://github.com/reorx/hugo-PaperModX">https://github.com/reorx/hugo-PaperModX</a>.</p>
+</li>
+<li>
+<p><a href="https://gohugo.io/">https://gohugo.io/</a></p>
+</li>
+<li>
+<p><a href="https://github.com/olOwOlo/hugo-theme-even/">https://github.com/olOwOlo/hugo-theme-even/</a></p>
+</li>
+</ul>
+]]></content:encoded>
+    </item>
+    
+  </channel>
+</rss>
