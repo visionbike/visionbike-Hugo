@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Visionbike - Personal Blog of CV | DSP | ML notes</title>
-    <link>http://visionbike.github.io/visionbike-hugo/</link>
+    <link>http://visionbike.github.io/</link>
     <description>Recent content on Visionbike - Personal Blog of CV | DSP | ML notes</description>
     <image>
-      <url>http://visionbike.github.io/visionbike-hugo/images/apple-touch-icon.png</url>
-      <link>http://visionbike.github.io/visionbike-hugo/images/apple-touch-icon.png</link>
+      <url>http://visionbike.github.io/images/apple-touch-icon.png</url>
+      <link>http://visionbike.github.io/images/apple-touch-icon.png</link>
     </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 04 Jul 2023 01:53:57 +0800</lastBuildDate><atom:link href="http://visionbike.github.io/visionbike-hugo/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 04 Jul 2023 01:53:57 +0800</lastBuildDate><atom:link href="http://visionbike.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Create Personal Blog With Hugo and GitHub Pages</title>
-      <link>http://visionbike.github.io/visionbike-hugo/posts/create-personal-blog-with-hugo-and-gh-pages/</link>
+      <link>http://visionbike.github.io/posts/create-personal-blog-with-hugo-and-gh-pages/</link>
       <pubDate>Tue, 04 Jul 2023 01:53:57 +0800</pubDate>
       
-      <guid>http://visionbike.github.io/visionbike-hugo/posts/create-personal-blog-with-hugo-and-gh-pages/</guid>
+      <guid>http://visionbike.github.io/posts/create-personal-blog-with-hugo-and-gh-pages/</guid>
       <description>Creating a personal blog with technical content is a excellent way to enhance your writting skill, take your notes and share your experience with others on the Internet. Ideally, we should have following goals when creating and mantaining a blog:
 No/Low-cost - Free or as close to free as posisble. Productive - Easy to write in and maintain. Cloud Native - Utilizes public cloud services for hosting, allowing for infinite scaling.</description>
       <content:encoded><![CDATA[<p>Creating a personal blog with technical content is a excellent way to enhance your writting skill, take your notes and share your experience with others on the Internet.
@@ -59,12 +59,12 @@ Ideally, we should have following goals when creating and mantaining a blog:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nb">cd</span> &lt;USERNAME&gt;-hugo
 </span></span><span class="line"><span class="cl">git init
 </span></span></code></pre></div><p>After creating the Hugo site, it&rsquo;s important to associate it with a GitHub repository. You need to create a new repository on GitHub for your blog&rsquo;s source code.</p>
-<p></p>
+<p><img loading="lazy" src="/posts/create-personal-blog-with-hugo-and-gh-pages/create-source-code-repo.png" type="" alt="Create source code repository"  /></p>
 <div class="admonition tip"><p class="admonition-title">Creating Github Repository Without README</p>
 <p>By creating a repository without a <code>README</code> file, you can avoid accidental history conflicts when pushing your local project to a fresh repository. You can always add a <code>README</code> file later if needed.</p>
 </div>
 <p>Now, link the local site to the GitHub repository by using <code>remote</code> command:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">git remote add origin https://github.com/&lt;USERNAME&gt;/&lt;USERNAME&gt;-hugo.git
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">git remote add origin https://github.com/&lt;USERNAME&gt;/&lt;USERNAME&gt;.github.io.git
 </span></span><span class="line"><span class="cl">git banrch -M master
 </span></span></code></pre></div><p>Replace <code>&lt;USERNAME&gt;</code> with your GitHub&rsquo;s username.</p>
 <p>By completing these steps, you have linked your local Hugo site to the GitHub repository. Now you can continue working on your site locally, commit your changes, and push them to the remote repository when ready.</p>
@@ -86,7 +86,7 @@ Ideally, we should have following goals when creating and mantaining a blog:</p>
 <p><strong>baseURL</strong>: This should be set to the URL GitHub Pages will use to host your blog, which will depend on the name of the GitHub repository you created. If the GitHub repository is named <code>&lt;USERNAME&gt;.github.io</code>, then the value of baseURL will be <code>https://&lt;USERNAME&gt;.github.io/</code>. If the GitHub repository has any other name, then the value of baseURL will be <code>https://&lt;USERNAME&gt;.github.io/&lt;REPOSITORY_NAME&gt;/</code>.</p>
 <ul>
 <li>For example, my GitHub username is <code>visionbike</code>. If the GitHub repository is named <code>visionbike.github.io</code>, then the value of baseURL will be <code>https://visionbike.github.io/</code>.</li>
-<li>For example, my GitHub username is <code>visionbike</code>. If the GitHub repository is named <code>visionbike-hugo</code>, then the value of baseURL will be <code>https://visionbike.github.io/visonbike-hugo/</code>.</li>
+<li>For example, my GitHub username is <code>visionbike</code>. If the GitHub repository is named <code>visionbike-hugo</code>, then the value of baseURL will be <code>https://visionbike.github.io/visionbike-hugo/</code>.</li>
 </ul>
 </li>
 <li>
@@ -137,7 +137,7 @@ Ideally, we should have following goals when creating and mantaining a blog:</p>
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="c"># header logo</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">logo</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">text</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;Visionbike&#34;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">icon</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;/images/apple-touch-icon.png&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">icon</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;images/apple-touch-icon.png&#34;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">iconHeight</span><span class="p">:</span><span class="w"> </span><span class="m">35</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">iconWidth</span><span class="p">:</span><span class="w"> </span><span class="m">35</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
@@ -146,7 +146,7 @@ Ideally, we should have following goals when creating and mantaining a blog:</p>
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;Phuc Thanh-Thien Nguyen&#34;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">subtitle</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;AI Researcher - Personal Blog of CV | DSP | ML notes&#34;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">imageUrl</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;/images/avatar-3d.png&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">imageUrl</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;images/avatar-3d.png&#34;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">imageTitle</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;avatar-3d&#34;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">imageWidth</span><span class="p">:</span><span class="w"> </span><span class="m">180</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">imageHeight</span><span class="p">:</span><span class="w"> </span><span class="m">180</span><span class="w">
@@ -176,6 +176,15 @@ Ideally, we should have following goals when creating and mantaining a blog:</p>
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">showPostNavLinks</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">showBreadCrumbs</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">enableImageZoom</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="c"># assets images</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">assets</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c"># disableFingerprinting: true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">favicon</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;images/favicon.ico&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">favicon16x16</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;images/favicon-16x16.png&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">favicon32x32</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;images/favicon-32x32.png&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">appleTouchIcon</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;images/apple-touch-icon.png&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">safarPinnedTab</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;images/safari-pinned-tab.svg&#34;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="c"># search page</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">fuseOpts</span><span class="p">:</span><span class="w">
@@ -238,8 +247,8 @@ Ideally, we should have following goals when creating and mantaining a blog:</p>
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">noClasses</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
 </span></span></span></code></pre></div></details>
 <p>After modifying your <code>config.yml</code> file accordingly, use <code>git</code> to commit and push the changes from your local repository to GitHub.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">git add .
-</span></span><span class="line"><span class="cl">git commit -m <span class="s2">&#34;modify configuration file, add admonition, change accent color&#34;</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">git add config.yml
+</span></span><span class="line"><span class="cl">git commit -m <span class="s2">&#34;modify configuration file&#34;</span>
 </span></span><span class="line"><span class="cl">git push -u origin master
 </span></span></code></pre></div><h3 id="6-create-new-hugo-post">6. Create New Hugo Post</h3>
 <p>That&rsquo;s a great step to create your first blog post using Hugo! To create your first post with the <code>hugo new</code> command, execute the following command in the terminal.</p>
@@ -272,20 +281,21 @@ Ideally, we should have following goals when creating and mantaining a blog:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">hugo server --disableFastRender
 </span></span></code></pre></div><p>It will watch for any changes in your files and automatically rebuild your site whenever there are updates. Hugo will provide a local development server address, usually <code>http://localhost:1313</code>, where you can access your site.</p>
 <p>To parse the configuration and build your site, you can simply run <code>hugo</code> command. If Hugo encounters any errors, they will be reported here. If the site is successfully built, then you will see output similar to the following.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">christopher@ubuntu-playground:~/GitHub/blog-hugo/blog$ hugo
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">Start building sites … 
+</span></span><span class="line"><span class="cl">hugo v0.92.2+extended linux/amd64 <span class="nv">BuildDate</span><span class="o">=</span>2023-01-31T11:11:57Z <span class="nv">VendorInfo</span><span class="o">=</span>ubuntu:0.92.2-1ubuntu0.1
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">                   <span class="p">|</span> EN  
 </span></span><span class="line"><span class="cl">-------------------+-----
-</span></span><span class="line"><span class="cl">  Pages            <span class="p">|</span>  <span class="m">7</span>  
+</span></span><span class="line"><span class="cl">  Pages            <span class="p">|</span> <span class="m">13</span>  
 </span></span><span class="line"><span class="cl">  Paginator pages  <span class="p">|</span>  <span class="m">0</span>  
 </span></span><span class="line"><span class="cl">  Non-page files   <span class="p">|</span>  <span class="m">0</span>  
-</span></span><span class="line"><span class="cl">  Static files     <span class="p">|</span>  <span class="m">2</span>  
+</span></span><span class="line"><span class="cl">  Static files     <span class="p">|</span> <span class="m">18</span>  
 </span></span><span class="line"><span class="cl">  Processed images <span class="p">|</span>  <span class="m">0</span>  
-</span></span><span class="line"><span class="cl">  Aliases          <span class="p">|</span>  <span class="m">1</span>  
+</span></span><span class="line"><span class="cl">  Aliases          <span class="p">|</span>  <span class="m">0</span>  
 </span></span><span class="line"><span class="cl">  Sitemaps         <span class="p">|</span>  <span class="m">1</span>  
 </span></span><span class="line"><span class="cl">  Cleaned          <span class="p">|</span>  <span class="m">0</span>  
 </span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">Total in <span class="m">21</span> ms
+</span></span><span class="line"><span class="cl">Total in <span class="m">38</span> ms
 </span></span></code></pre></div><h3 id="8-set-up-github-actions-workflow">8. Set Up GitHub Actions Workflow</h3>
 <p>Lastly, we need to set up a GitHub Actions workflow for automatically building and deploying your blog to GitHub Pages. This workflow is defined by a YAML file in the <code>.github/workflows</code> directory structure at the root of the project. First, let’s create this directory.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="line"><span class="cl"><span class="go">mkdir -p .github/workflows
@@ -293,6 +303,7 @@ Ideally, we should have following goals when creating and mantaining a blog:</p>
 <p>Then, we will create a new file within the <code>.github/workflows</code> directory named <code>deploy_gh_pages.yaml</code> with the following contents.</p>
 <div class="admonition quote"><p class="admonition-title">deploy_gh_pages.yaml</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nn">---</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nn">---</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Deploy Hugo site via GitHub Pages</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">on</span><span class="p">:</span><span class="w">
@@ -315,7 +326,7 @@ Ideally, we should have following goals when creating and mantaining a blog:</p>
 </span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">fetch-depth</span><span class="p">:</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="c"># Fetch all history for .GitInfo and .Lastmod</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Setup Hugo</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l">visionbike/actions-hugo@v2</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l">peaceiris/actions-hugo@v2</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">with</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">hugo-version</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;latest&#34;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">extended</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
@@ -324,7 +335,7 @@ Ideally, we should have following goals when creating and mantaining a blog:</p>
 </span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l">hugo --minify</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">      </span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Deploy</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l">visionbike/actions-gh-pages@v3</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l">peaceiris/actions-gh-pages@v3</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="c"># If you&#39;re changing the branch from main,</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="c"># also change the `master` in `refs/heads/master`</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="c"># below accordingly.</span><span class="w">
@@ -340,12 +351,21 @@ Ideally, we should have following goals when creating and mantaining a blog:</p>
 </span></span></span><span class="line"><span class="cl"><span class="go">git commit -m &#34;Add GitHub Actions workflow&#34;
 </span></span></span><span class="line"><span class="cl"><span class="go">git push -u origin master
 </span></span></span></code></pre></div><h3 id="9-configure-github-pages">9. Configure GitHub Pages</h3>
-<p>Next, we need to set up the GitHub Pages component of our blog. This will allow GitHub to automatically build and serve our website whenever changes are made to the underlying repository.</p>
-<p>First, left click on the &ldquo;Settings&rdquo; tab near the top of the repository. An example is below with the &ldquo;Settings&rdquo; button highlighted in red.</p>
-<p><img loading="lazy" src="/visionbike-hugo/posts/create-personal-blog-with-hugo-and-gh-pages/repository-setting.png" type="" alt="Repository setting"  /></p>
-<p>In the left hand pane, locate and left click on the “Pages” category. An example is below with the “Pages” category highlighted in red.</p>
-<p></p>
-<p>By default, GitHub Pages will be disabled for this repository. To enable it, we need to select a branch for GitHub Pages to build and serve our website from. In the middle pane under the “Source” section, left click on the “None” dropdown menu. An example is below with the “None” dropdown menu highlighted in red.</p>
+<p>We need to set up the GitHub Pages component of our blog. This will allow GitHub to automatically build and serve our website whenever changes are made to the underlying repository.</p>
+<p>First, create new branch named &ldquo;gh-page&rdquo;. This branch will be used by GitHub Pages to build and serve your website. You can create the branch using the branch creation feature in your GitHub repository.</p>
+<p><img loading="lazy" src="/posts/create-personal-blog-with-hugo-and-gh-pages/create-gh-pages.png" type="" alt="Create gh-pages"  /></p>
+<p>Then, go to the &ldquo;Settings&rdquo; tab near the top of your repository.</p>
+<p><img loading="lazy" src="/posts/create-personal-blog-with-hugo-and-gh-pages/repository-setting.png" type="" alt="Repository setting"  /></p>
+<p>In the left hand pane, locate and click on the &ldquo;Pages&rdquo; category.</p>
+<p><img loading="lazy" src="/posts/create-personal-blog-with-hugo-and-gh-pages/gh-pages-setting.png" type="" alt="GitHub pages setting"  /></p>
+<p>By default, GitHub Pages will be disabled for your repository. To enable it, we need to select a branch for GitHub Pages to build and serve our website from. Under the &ldquo;Source&rdquo; section in the middle pane, you will see a dropdown menu labeled &ldquo;None&rdquo;. Click on the dropdown menu and select the &ldquo;gh-pages&rdquo; branch. This tells GitHub Pages to build and serve your website from the &ldquo;gh-pages&rdquo; branch.</p>
+<p><img loading="lazy" src="/posts/create-personal-blog-with-hugo-and-gh-pages/select-deployment-branch.png" type="" alt="Select deployment branch"  /></p>
+<p>After selecting the deployment branch, you will see a notification indicating where your site will be published. It will provide you with a URL where your website can be accessed.</p>
+<p><img loading="lazy" src="/posts/create-personal-blog-with-hugo-and-gh-pages/published-url.png" type="" alt="Published URL"  /></p>
+<p>Wait for a few minutes to allow GitHub Pages to build and deploy your website. After the deployment is complete, you can click on the URL provided in the notification to view your website. It may take some time for the changes to propagate and for your website to become accessible.</p>
+<p><img loading="lazy" src="/posts/create-personal-blog-with-hugo-and-gh-pages/site-demo.png" type="" alt="Site demo"  /></p>
+<h3 id="conclusion">Conclusion</h3>
+<p>Congratulations on setting up your blog using Hugo, Markdown, and GitHub Pages! This free and accessible solution enables you to create and share your technical knowledge with a wide audience. Happy blogging!</p>
 <h3 id="reference">Reference</h3>
 <ul>
 <li>

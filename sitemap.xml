@@ -2,27 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://visionbike.github.io/visionbike-hugo/posts/create-personal-blog-with-hugo-and-gh-pages/</loc>
+    <loc>http://visionbike.github.io/posts/create-personal-blog-with-hugo-and-gh-pages/</loc>
     <lastmod>2023-07-04T01:53:57+08:00</lastmod>
   </url><url>
-    <loc>http://visionbike.github.io/visionbike-hugo/posts/</loc>
+    <loc>http://visionbike.github.io/posts/</loc>
     <lastmod>2023-07-04T01:53:57+08:00</lastmod>
   </url><url>
-    <loc>http://visionbike.github.io/visionbike-hugo/</loc>
+    <loc>http://visionbike.github.io/</loc>
     <lastmod>2023-07-04T01:53:57+08:00</lastmod>
   </url><url>
-    <loc>http://visionbike.github.io/visionbike-hugo/about/</loc>
+    <loc>http://visionbike.github.io/about/</loc>
     <lastmod>2023-07-04T01:40:32+08:00</lastmod>
   </url><url>
-    <loc>http://visionbike.github.io/visionbike-hugo/publish/</loc>
+    <loc>http://visionbike.github.io/publish/</loc>
     <lastmod>2023-07-04T01:40:26+08:00</lastmod>
   </url><url>
-    <loc>http://visionbike.github.io/visionbike-hugo/archives/</loc>
+    <loc>http://visionbike.github.io/archives/</loc>
   </url><url>
-    <loc>http://visionbike.github.io/visionbike-hugo/categories/</loc>
+    <loc>http://visionbike.github.io/categories/</loc>
   </url><url>
-    <loc>http://visionbike.github.io/visionbike-hugo/search/</loc>
+    <loc>http://visionbike.github.io/search/</loc>
   </url><url>
-    <loc>http://visionbike.github.io/visionbike-hugo/tags/</loc>
+    <loc>http://visionbike.github.io/tags/</loc>
   </url>
 </urlset>
