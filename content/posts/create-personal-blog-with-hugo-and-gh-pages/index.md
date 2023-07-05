@@ -24,11 +24,11 @@ In this post, I will show how to create your own blog for FREE using above techn
 
 Here's an outline of the steps you can follow to create your own blog using these technologies:
 
-### 1. Set up GitHub Account
+## 1. Set up GitHub Account
 
 If you don't have one already, creating a GitHub account. GitHub Pages allows you to host your blog for free using a GitHub repository.
 
-### 2. Install Hugo
+## 2. Install Hugo
 
 Before starting, make sure `git` is install in your local machine.
 
@@ -59,7 +59,7 @@ hugo version
 
 The Hugo version should be shown if the installation is successfull. 
 
-### 3. Create a new Hugo site
+## 3. Create a new Hugo site
 
 Use `hugo new site` command to create a new Hugo site:
 
@@ -99,7 +99,7 @@ Replace `<USERNAME>` with your GitHub's username.
 
 By completing these steps, you have linked your local Hugo site to the GitHub repository. Now you can continue working on your site locally, commit your changes, and push them to the remote repository when ready.
 
-### 4. Install Hugo Theme
+## 4. Install Hugo Theme
 
 nstalling a Hugo theme is a fantastic way to personalize your blog and enhance its visual appeal. You can access free Hugo themes via [this website](https://themes.gohugo.io/).
 
@@ -126,7 +126,7 @@ git submodule update --remote --merge
 
 {{% /admonition %}}
 
-### 5. Modify Hugo Configuration
+## 5. Modify Hugo Configuration
 
 Once you have added the theme, you can configure it in your Hugo site's configuration file (`config.toml` or `config.yml`). Refer to the theme's documentation for specific instructions on customization and configuration options. You will most likely want to modify the following fields:
 
@@ -300,7 +300,7 @@ git commit -m "modify configuration file"
 git push -u origin master
 ```
 
-### 6. Create New Hugo Post
+## 6. Create New Hugo Post
 
 That's a great step to create your first blog post using Hugo! To create your first post with the `hugo new` command, execute the following command in the terminal.
 
@@ -344,7 +344,7 @@ draft: true
 ```
 {{% /admonition %}}
 
-### 7. Test Hugo Configuration
+## 7. Test Hugo Configuration
 
 Before hosting your blog to GitHub pages, let’s ensure Hugo can parse the configuration file and build our new blog post successfully. 
 
@@ -376,7 +376,7 @@ hugo v0.92.2+extended linux/amd64 BuildDate=2023-01-31T11:11:57Z VendorInfo=ubun
 Total in 38 ms
 ```
 
-### 8. Set Up GitHub Actions Workflow
+## 8. Set Up GitHub Actions Workflow
 
 Lastly, we need to set up a GitHub Actions workflow for automatically building and deploying your blog to GitHub Pages. This workflow is defined by a YAML file in the `.github/workflows` directory structure at the root of the project. First, let’s create this directory.
 
@@ -446,7 +446,7 @@ git commit -m "Add GitHub Actions workflow"
 git push -u origin master
 ```
 
-### 9. Configure GitHub Pages
+## 9. Configure GitHub Pages
 
 We need to set up the GitHub Pages component of our blog. This will allow GitHub to automatically build and serve our website whenever changes are made to the underlying repository.
 
@@ -474,11 +474,11 @@ Wait for a few minutes to allow GitHub Pages to build and deploy your website. A
 
 ![Site demo](site-demo.png)
 
-### Conclusion
+## Conclusion
 
 Congratulations on setting up your blog using Hugo, Markdown, and GitHub Pages! This free and accessible solution enables you to create and share your technical knowledge with a wide audience. Happy blogging!
 
-### Reference
+## Reference
 
 - [https://chrisjhart.com/Creating-A-Simple-Free-Blog-Hugo/](https://chrisjhart.com/Creating-A-Simple-Free-Blog-Hugo/).
 
