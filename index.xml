@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Visionbike - Personal Blog of CV | DSP | ML notes</title>
-    <link>http://visionbike.github.io/</link>
+    <link>http://visionbike.github.io/visionbike-hugo/</link>
     <description>Recent content on Visionbike - Personal Blog of CV | DSP | ML notes</description>
     <image>
       <url>http://visionbike.github.io/images/apple-touch-icon.png</url>
@@ -10,13 +10,13 @@
     </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 04 Jul 2023 01:53:57 +0800</lastBuildDate><atom:link href="http://visionbike.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 04 Jul 2023 01:53:57 +0800</lastBuildDate><atom:link href="http://visionbike.github.io/visionbike-hugo/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Create Personal Blog With Hugo and GitHub Pages</title>
-      <link>http://visionbike.github.io/posts/create-personal-blog-with-hugo-and-gh-pages/</link>
+      <link>http://visionbike.github.io/visionbike-hugo/posts/create-personal-blog-with-hugo-and-gh-pages/</link>
       <pubDate>Tue, 04 Jul 2023 01:53:57 +0800</pubDate>
       
-      <guid>http://visionbike.github.io/posts/create-personal-blog-with-hugo-and-gh-pages/</guid>
+      <guid>http://visionbike.github.io/visionbike-hugo/posts/create-personal-blog-with-hugo-and-gh-pages/</guid>
       <description>Creating a personal blog with technical content is a excellent way to enhance your writting skill, take your notes and share your experience with others on the Internet. Ideally, we should have following goals when creating and mantaining a blog:
 No/Low-cost - Free or as close to free as posisble. Productive - Easy to write in and maintain. Cloud Native - Utilizes public cloud services for hosting, allowing for infinite scaling.</description>
       <content:encoded><![CDATA[<p>Creating a personal blog with technical content is a excellent way to enhance your writting skill, take your notes and share your experience with others on the Internet.
@@ -342,7 +342,7 @@ Ideally, we should have following goals when creating and mantaining a blog:</p>
 </span></span></span></code></pre></div><h3 id="9-configure-github-pages">9. Configure GitHub Pages</h3>
 <p>Next, we need to set up the GitHub Pages component of our blog. This will allow GitHub to automatically build and serve our website whenever changes are made to the underlying repository.</p>
 <p>First, left click on the &ldquo;Settings&rdquo; tab near the top of the repository. An example is below with the &ldquo;Settings&rdquo; button highlighted in red.</p>
-<p><img loading="lazy" src="/posts/create-personal-blog-with-hugo-and-gh-pages/repository-setting.png" type="" alt="Repository setting"  /></p>
+<p><img loading="lazy" src="/visionbike-hugo/posts/create-personal-blog-with-hugo-and-gh-pages/repository-setting.png" type="" alt="Repository setting"  /></p>
 <p>In the left hand pane, locate and left click on the “Pages” category. An example is below with the “Pages” category highlighted in red.</p>
 <p></p>
 <p>By default, GitHub Pages will be disabled for this repository. To enable it, we need to select a branch for GitHub Pages to build and serve our website from. In the middle pane under the “Source” section, left click on the “None” dropdown menu. An example is below with the “None” dropdown menu highlighted in red.</p>
