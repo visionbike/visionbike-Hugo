@@ -91,7 +91,7 @@ By creating a repository without a `README` file, you can avoid accidental histo
 Now, link the local site to the GitHub repository by using `remote` command:
 
 ```shell
-git remote add origin https://github.com/<USERNAME>/<USERNAME>-hugo.git
+git remote add origin https://github.com/<USERNAME>/<USERNAME>.github.io.git
 git banrch -M master
 ```
 
@@ -132,7 +132,7 @@ Once you have added the theme, you can configure it in your Hugo site's configur
 
 * **baseURL**: This should be set to the URL GitHub Pages will use to host your blog, which will depend on the name of the GitHub repository you created. If the GitHub repository is named `<USERNAME>.github.io`, then the value of baseURL will be `https://<USERNAME>.github.io/`. If the GitHub repository has any other name, then the value of baseURL will be `https://<USERNAME>.github.io/<REPOSITORY_NAME>/`.
   * For example, my GitHub username is `visionbike`. If the GitHub repository is named `visionbike.github.io`, then the value of baseURL will be `https://visionbike.github.io/`.
-  * For example, my GitHub username is `visionbike`. If the GitHub repository is named `visionbike-hugo`, then the value of baseURL will be `https://visionbike.github.io/visonbike-hugo/`.
+  * For example, my GitHub username is `visionbike`. If the GitHub repository is named `visionbike-hugo`, then the value of baseURL will be `https://visionbike.github.io/visionbike-hugo/`.
 
 * **title**: This will be the title of your blog site as it appears at the top of a visitor’s web browser when your site is open. It will also appear underneath your avatar, if one is present.
 
@@ -181,7 +181,7 @@ params:
   # header logo
   logo:
     text: "Visionbike"
-    icon: "/images/apple-touch-icon.png"
+    icon: "images/apple-touch-icon.png"
     iconHeight: 35
     iconWidth: 35
 
@@ -190,7 +190,7 @@ params:
     enabled: true
     title: "Phuc Thanh-Thien Nguyen"
     subtitle: "AI Researcher - Personal Blog of CV | DSP | ML notes"
-    imageUrl: "/images/avatar-3d.png"
+    imageUrl: "images/avatar-3d.png"
     imageTitle: "avatar-3d"
     imageWidth: 180
     imageHeight: 180
@@ -220,6 +220,15 @@ params:
   showPostNavLinks: true
   showBreadCrumbs: true
   enableImageZoom: true
+
+  # assets images
+  assets:
+    # disableFingerprinting: true
+    favicon: "images/favicon.ico"
+    favicon16x16: "images/favicon-16x16.png"
+    favicon32x32: "images/favicon-32x32.png"
+    appleTouchIcon: "images/apple-touch-icon.png"
+    safarPinnedTab: "images/safari-pinned-tab.svg"
 
   # search page
   fuseOpts:
@@ -286,8 +295,8 @@ markup:
 After modifying your `config.yml` file accordingly, use `git` to commit and push the changes from your local repository to GitHub.
 
 ```shell
-git add .
-git commit -m "modify configuration file, add admonition, change accent color"
+git add config.yml
+git commit -m "modify configuration file"
 git push -u origin master
 ```
 
@@ -350,20 +359,21 @@ It will watch for any changes in your files and automatically rebuild your site 
 To parse the configuration and build your site, you can simply run `hugo` command. If Hugo encounters any errors, they will be reported here. If the site is successfully built, then you will see output similar to the following.
 
 ```shell
-christopher@ubuntu-playground:~/GitHub/blog-hugo/blog$ hugo
+Start building sites … 
+hugo v0.92.2+extended linux/amd64 BuildDate=2023-01-31T11:11:57Z VendorInfo=ubuntu:0.92.2-1ubuntu0.1
 
                    | EN  
 -------------------+-----
-  Pages            |  7  
+  Pages            | 13  
   Paginator pages  |  0  
   Non-page files   |  0  
-  Static files     |  2  
+  Static files     | 18  
   Processed images |  0  
-  Aliases          |  1  
+  Aliases          |  0  
   Sitemaps         |  1  
   Cleaned          |  0  
 
-Total in 21 ms
+Total in 38 ms
 ```
 
 ### 8. Set Up GitHub Actions Workflow
@@ -380,6 +390,7 @@ Then, we will create a new file within the `.github/workflows` directory named `
 
 {{% admonition type="quote" title="deploy_gh_pages.yaml" details="false" %}}
 ```yaml
+---
 ---
 name: Deploy Hugo site via GitHub Pages
 
@@ -403,7 +414,7 @@ jobs:
           fetch-depth: 0 # Fetch all history for .GitInfo and .Lastmod
 
       - name: Setup Hugo
-        uses: visionbike/actions-hugo@v2
+        uses: peaceiris/actions-hugo@v2
         with:
           hugo-version: "latest"
           extended: true
@@ -412,7 +423,7 @@ jobs:
         run: hugo --minify
 
       - name: Deploy
-        uses: visionbike/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v3
         # If you're changing the branch from main,
         # also change the `master` in `refs/heads/master`
         # below accordingly.
@@ -437,17 +448,35 @@ git push -u origin master
 
 ### 9. Configure GitHub Pages
 
-Next, we need to set up the GitHub Pages component of our blog. This will allow GitHub to automatically build and serve our website whenever changes are made to the underlying repository.
+We need to set up the GitHub Pages component of our blog. This will allow GitHub to automatically build and serve our website whenever changes are made to the underlying repository.
 
-First, left click on the "Settings" tab near the top of the repository. An example is below with the "Settings" button highlighted in red.
+First, create new branch named "gh-page". This branch will be used by GitHub Pages to build and serve your website. You can create the branch using the branch creation feature in your GitHub repository.
+
+![Create gh-pages](create-gh-pages.png)
+
+Then, go to the "Settings" tab near the top of your repository.
 
 ![Repository setting](repository-setting.png)
 
-In the left hand pane, locate and left click on the “Pages” category. An example is below with the “Pages” category highlighted in red.
+In the left hand pane, locate and click on the "Pages" category.
 
 ![GitHub pages setting](gh-pages-setting.png)
 
-By default, GitHub Pages will be disabled for this repository. To enable it, we need to select a branch for GitHub Pages to build and serve our website from. In the middle pane under the “Source” section, left click on the “None” dropdown menu. An example is below with the “None” dropdown menu highlighted in red.
+By default, GitHub Pages will be disabled for your repository. To enable it, we need to select a branch for GitHub Pages to build and serve our website from. Under the "Source" section in the middle pane, you will see a dropdown menu labeled "None". Click on the dropdown menu and select the "gh-pages" branch. This tells GitHub Pages to build and serve your website from the "gh-pages" branch.
+
+![Select deployment branch](select-deployment-branch.png)
+
+After selecting the deployment branch, you will see a notification indicating where your site will be published. It will provide you with a URL where your website can be accessed.
+
+![Published URL](published-url.png)
+
+Wait for a few minutes to allow GitHub Pages to build and deploy your website. After the deployment is complete, you can click on the URL provided in the notification to view your website. It may take some time for the changes to propagate and for your website to become accessible.
+
+![Site demo](site-demo.png)
+
+### Conclusion
+
+Congratulations on setting up your blog using Hugo, Markdown, and GitHub Pages! This free and accessible solution enables you to create and share your technical knowledge with a wide audience. Happy blogging!
 
 ### Reference
 

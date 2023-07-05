@@ -1,5 +1,5 @@
 # base URL
-baseURL: "http://visionbike.github.io/visionbike-hugo/"
+baseURL: "http://visionbike.github.io/"
 
 # site title
 title: "Visionbike - Personal Blog of CV | DSP | ML notes"
@@ -76,6 +76,15 @@ params:
   showPostNavLinks: true
   showBreadCrumbs: true
   enableImageZoom: true
+
+  # assets images
+  assets:
+    # disableFingerprinting: true
+    favicon: "images/favicon.ico"
+    favicon16x16: "images/favicon-16x16.png"
+    favicon32x32: "images/favicon-32x32.png"
+    appleTouchIcon: "images/apple-touch-icon.png"
+    safarPinnedTab: "images/safari-pinned-tab.svg"
 
   # search page
   fuseOpts:
