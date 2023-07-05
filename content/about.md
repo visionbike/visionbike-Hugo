@@ -5,8 +5,6 @@ showReadingTime: false
 showWordCount: false
 ---
 
-![Phuc Thanh-Thien Nguyen](/images/avatar-real.jpeg "Phuc Thanh-Thien Nguyen (Felix Nguyen), EE Ph.D. Candidate")
-
 I am Phuc Thanh-Thien Nguyen, current working as Ph.D Candidate at Autonomous and Soft Robotics (ASR) Laboratory, National Taiwan University, Taiwan. I focus on computer vision, digital signal processing, machine learning and deep learning in various applications.
 
 ## Welcome to my blog!
