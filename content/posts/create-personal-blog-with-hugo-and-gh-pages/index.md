@@ -480,10 +480,10 @@ Congratulations on setting up your blog using Hugo, Markdown, and GitHub Pages! 
 
 ## Reference
 
-- [https://chrisjhart.com/Creating-A-Simple-Free-Blog-Hugo/](https://chrisjhart.com/Creating-A-Simple-Free-Blog-Hugo/).
+- [How to Create a Simple, Free Blog with Hugo and GitHub Pages](https://chrisjhart.com/Creating-A-Simple-Free-Blog-Hugo/).
 
-- [https://github.com/reorx/hugo-PaperModX](https://github.com/reorx/hugo-PaperModX).
+- PaperModX Hugo theme: [https://github.com/reorx/hugo-PaperModX](https://github.com/reorx/hugo-PaperModX).
 
-- [https://gohugo.io/](https://gohugo.io/)
+- Hugo: [https://gohugo.io/](https://gohugo.io/).
 
-- [https://github.com/olOwOlo/hugo-theme-even/](https://github.com/olOwOlo/hugo-theme-even/)
+- Even Hugo theme: [https://github.com/olOwOlo/hugo-theme-even/](https://github.com/olOwOlo/hugo-theme-even/).
