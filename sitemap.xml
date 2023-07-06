@@ -2,13 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://visionbike.github.io/posts/create-personal-blog-with-hugo-and-gh-pages/</loc>
-    <lastmod>2023-07-04T01:53:57+08:00</lastmod>
+    <loc>http://visionbike.github.io/posts/create-ml-development-environment-on-window11/</loc>
+    <lastmod>2023-07-06T12:41:36+08:00</lastmod>
   </url><url>
     <loc>http://visionbike.github.io/posts/</loc>
-    <lastmod>2023-07-04T01:53:57+08:00</lastmod>
+    <lastmod>2023-07-06T12:41:36+08:00</lastmod>
   </url><url>
     <loc>http://visionbike.github.io/</loc>
+    <lastmod>2023-07-06T12:41:36+08:00</lastmod>
+  </url><url>
+    <loc>http://visionbike.github.io/posts/create-personal-blog-with-hugo-and-gh-pages/</loc>
     <lastmod>2023-07-04T01:53:57+08:00</lastmod>
   </url><url>
     <loc>http://visionbike.github.io/about/</loc>
