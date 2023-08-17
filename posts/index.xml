@@ -107,7 +107,7 @@ The latest NVIDIA Windows GPU Driver will fully support WSL 2. With CUDA support
 </span></span></code></pre></div><ul>
 <li>Show all installed packages in the virtual environment</li>
 </ul>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">mamaba list <span class="o">[</span>-n &lt;envname&gt;<span class="o">]</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">mamba list <span class="o">[</span>-n &lt;envname&gt;<span class="o">]</span>
 </span></span></code></pre></div><h2 id="reference">Reference</h2>
 <ul>
 <li><a href="https://medium.com/geekculture/install-cuda-and-cudnn-on-windows-linux-52d1501a8805">Install CUDA and CUDNN on Windows &amp; Linux</a>.</li>
