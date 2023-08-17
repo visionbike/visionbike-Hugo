@@ -1,0 +1,42 @@
+INFO 2023/07/13 16:54:58 syncing static files to /
+LOG:   2023/07/13 16:55:00 
+Template Metrics:
+
+LOG:   2023/07/13 16:55:00       cache     cumulative       average       maximum         
+  potential       duration      duration      duration  count  template
+      -----     ----------      --------      --------  -----  --------
+         25  8.799075167s  676.851935ms  767.041283ms     13  partials/head.html
+          0   4.58234553s  763.724255ms  833.009208ms      6  _default/single.html
+          0  1.596300664s  798.150332ms  800.972673ms      2  _default/terms.html
+          0  1.595477176s  797.738588ms  800.057724ms      2  _default/list.html
+          0  886.888494ms  886.888494ms  886.888494ms      1  _default/search.html
+          0  802.418131ms  802.418131ms  802.418131ms      1  _default/archives.html
+         68  526.254844ms   40.481141ms  119.282543ms     13  partials/footer.html
+         95   67.060928ms    5.158532ms    6.092747ms     13  partials/header.html
+        100   66.370611ms    5.105431ms    5.807925ms     13  partials/style.html
+        100   27.234886ms   27.234886ms   27.234886ms      1  partials/index_profile.html
+         84    2.238912ms     159.922µs     618.233µs     14  partials/post_meta.html
+         38    1.333579ms     333.394µs     593.405µs      4  partials/toc.html
+         71    1.175447ms     167.921µs     397.487µs      7  partials/breadcrumbs.html
+          0    1.005074ms     251.268µs     416.333µs      4  _default/rss.xml
+          0     821.409µs      31.592µs     123.822µs     26  _default/_markup/render-image.html
+         40     757.764µs     126.294µs     352.354µs      6  partials/post_nav_links.html
+         16     746.529µs     124.421µs     418.769µs      6  partials/anchored_headings.html
+          0     637.301µs     637.301µs     637.301µs      1  404.html
+        100     460.388µs      46.038µs     173.292µs     10  partials/cover.html
+        100      432.83µs      72.138µs     179.242µs      6  partials/comments.html
+         28     394.351µs      49.293µs     104.838µs      8  partials/page_footer.html
+        100     324.036µs      24.925µs      44.609µs     13  partials/author.html
+          0     320.887µs     320.887µs     320.887µs      1  _default/sitemap.xml
+          0     226.635µs     226.635µs     226.635µs      1  _default/index.json
+          0     209.376µs      13.086µs      82.164µs     16  shortcodes/admonition.html
+        100     175.135µs     175.135µs     175.135µs      1  partials/social_icons.html
+          0      86.035µs      86.035µs      86.035µs      1  _internal/alias.html
+        100      64.501µs      64.501µs      64.501µs      1  partials/inline_links.html
+        100      44.704µs      44.704µs      44.704µs      1  partials/translation_list.html
+        100      36.636µs       2.818µs      29.773µs     13  partials/extend_head.html
+        100      25.019µs       1.924µs      21.776µs     13  partials/extend_footer.html
+          0      14.249µs      14.249µs      14.249µs      1  robots.txt
+
+LOG:   2023/07/13 16:55:00 Built in 2062 ms
+LOG:   2023/07/13 16:55:01 Watching for config changes in /home/visionbike/projects/visionbke-hugo/config.yml
