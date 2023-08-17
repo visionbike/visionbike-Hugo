@@ -17,13 +17,13 @@ The latest NVIDIA Windows GPU Driver will fully support WSL 2. With CUDA support
 
 First remove the old GPG key from your WSL machine
 
-```console
+```shell
 sudo apt-key del 7fa2af80
 ```
 
 Download [CUDA Toolkit for WSL 2](https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&Distribution=WSL-Ubuntu&target_version=2.0&target_type=deb_local).
 
-```console
+```shell
 wget https://developer.download.nvidia.com/compute/cuda/repos/wsl-ubuntu/x86_64/cuda-wsl-ubuntu.pin
 sudo mv cuda-wsl-ubuntu.pin /etc/apt/preferences.d/cuda-repository-pin-600
 wget https://developer.download.nvidia.com/compute/cuda/12.2.1/local_installers/cuda-repo-wsl-ubuntu-12-2-local_12.2.1-1_amd64.deb
@@ -31,7 +31,7 @@ wget https://developer.download.nvidia.com/compute/cuda/12.2.1/local_installers/
 
 Then, folow the installation instruction.
 
-```console
+```shell
 sudo dpkg -i cuda-repo-wsl-ubuntu-12-2-local_12.2.1-1_amd64.deb
 sudo cp /var/cuda-repo-wsl-ubuntu-12-2-local/cuda-*-keyring.gpg /usr/share/keyrings/
 sudo apt-get update
@@ -40,7 +40,7 @@ sudo apt-get -y install cuda
 
 Verify that CUDA is successfully installed by command
 
-```console
+```shell
 nvidia-smi
 ```
 
@@ -54,7 +54,7 @@ You can use Windows to download installation files then move to Ubuntu system in
 
 Once completed, it can be installed with following commands
 
-```console
+```shell
 sudo dpkg -i cudnn-local-repo-ubuntu2204-8.9.3.28_1.0-1_amd64.deb
 sudo cp /var/cudnn-local-repo-ubuntu2204-8.9.3.28/cudnn-local-*-keyring.gpg /usr/share/keyrings/
 sudo apt-get -y update
@@ -70,7 +70,7 @@ Once the installattion is completed, you may receive the following error:
 
 The reason may be the property of read-only of the directory. You can create other directory then link executable from `/usr/lib/wsl/lib/` to the new directory.
 
-```console
+```shell
 cd /usr/lib/wsl
 sudo mkdir lib2
 sudo ln -s lib/* lib2
@@ -107,7 +107,7 @@ There are different ways to create a python virtual environment, including built
 
 `Mamba` is a package manager which can be used with Python. Unlike `Conda`, it uses the C/C++ implementation to speed up the package installation. Read more about `mamba` in [here](https://focalplane.biologists.com/2022/12/08/managing-scientific-python-environments-using-conda-mamba-and-friends/). To install `mamba`, access [its repo](https://github.com/conda-forge/miniforge) and pick the Mabaforge installer for your operating system.
 
-Remember to run `conda init` at the end of your installation in your console to activate the `mamba` command.
+Remember to run `conda init` at the end of your installation in your shell to activate the `mamba` command.
 
 ![Mambaforge install](mambaforge-install.png)
 
@@ -117,31 +117,31 @@ The command using `mamba` is similar to the `conda` command.
 
 - Create new environment
 
-```console
+```shell
 mamba create -n <envname> python=<version>
 ```
 
 - Activate an environment
 
-```console
+```shell
 mamba activate <envname>
 ```
 
 - Deactivate environment
 
-```console
+```shell
 mamba deactivate
 ```
 
 - Delete an environment
 
-```console
+```shell
 mamba env remove -n <envname>
 ```
 
 - Show all created environments
 
-```console
+```shell
 mamba env list
 ```
 
@@ -151,7 +151,7 @@ mamba env list
 
 - Install python packages
 
-```console
+```shell
 mamba install <package>[=version] [-c <channelname>]
 ```
 
@@ -159,13 +159,13 @@ When installing a package, you can optionally indicate specific additional chann
 
 - Delete packages
 
-```console
+```shell
 mamba remove <package>
 ```
 
 - Show all installed packages in the virtual environment
 
-```console
+```shell
 mamaba list [-n <envname>]
 ```
 

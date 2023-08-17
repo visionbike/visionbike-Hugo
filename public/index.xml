@@ -25,36 +25,36 @@ The latest NVIDIA Windows GPU Driver will fully support WSL 2. With CUDA support
 <p>The latest NVIDIA Windows GPU Driver will fully support WSL 2. With CUDA support in the driver, existing applications compiled on a Linux system for the same target GPU can run unmodified within the WSL environment. Once NVIDIA Windows GPU Driver is installed in the system, the CUDA driver will be stubbed inside the WSL 2 as <code>libcuda.so</code>. Therefore, you only use a separate CUDA Toolkit for WSL 2 which does not contain the NVIDIA Linux GPU Driver.</p>
 <h2 id="1-install-nvidia-cuda-toolkit-for-wsl-2">1. Install NVIDIA CUDA Toolkit for WSL 2</h2>
 <p>First remove the old GPG key from your WSL machine</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="go">sudo apt-key del 7fa2af80
-</span></code></pre></div><p>Download <a href="https://developer.nvidia.com/cuda-downloads?target_os=Linux&amp;target_arch=x86_64&amp;Distribution=WSL-Ubuntu&amp;target_version=2.0&amp;target_type=deb_local">CUDA Toolkit for WSL 2</a>.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="go">wget https://developer.download.nvidia.com/compute/cuda/repos/wsl-ubuntu/x86_64/cuda-wsl-ubuntu.pin
-</span><span class="go">sudo mv cuda-wsl-ubuntu.pin /etc/apt/preferences.d/cuda-repository-pin-600
-</span><span class="go">wget https://developer.download.nvidia.com/compute/cuda/12.2.1/local_installers/cuda-repo-wsl-ubuntu-12-2-local_12.2.1-1_amd64.deb
-</span></code></pre></div><p>Then, folow the installation instruction.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="go">sudo dpkg -i cuda-repo-wsl-ubuntu-12-2-local_12.2.1-1_amd64.deb
-</span><span class="go">sudo cp /var/cuda-repo-wsl-ubuntu-12-2-local/cuda-*-keyring.gpg /usr/share/keyrings/
-</span><span class="go">sudo apt-get update
-</span><span class="go">sudo apt-get -y install cuda
-</span></code></pre></div><p>Verify that CUDA is successfully installed by command</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="go">nvidia-smi
-</span></code></pre></div><h2 id="2-install-nvidia-cudnn">2. Install NVIDIA CuDNN</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">sudo apt-key del 7fa2af80
+</code></pre></div><p>Download <a href="https://developer.nvidia.com/cuda-downloads?target_os=Linux&amp;target_arch=x86_64&amp;Distribution=WSL-Ubuntu&amp;target_version=2.0&amp;target_type=deb_local">CUDA Toolkit for WSL 2</a>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">wget https://developer.download.nvidia.com/compute/cuda/repos/wsl-ubuntu/x86_64/cuda-wsl-ubuntu.pin
+sudo mv cuda-wsl-ubuntu.pin /etc/apt/preferences.d/cuda-repository-pin-600
+wget https://developer.download.nvidia.com/compute/cuda/12.2.1/local_installers/cuda-repo-wsl-ubuntu-12-2-local_12.2.1-1_amd64.deb
+</code></pre></div><p>Then, folow the installation instruction.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">sudo dpkg -i cuda-repo-wsl-ubuntu-12-2-local_12.2.1-1_amd64.deb
+sudo cp /var/cuda-repo-wsl-ubuntu-12-2-local/cuda-*-keyring.gpg /usr/share/keyrings/
+sudo apt-get update
+sudo apt-get -y install cuda
+</code></pre></div><p>Verify that CUDA is successfully installed by command</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">nvidia-smi
+</code></pre></div><h2 id="2-install-nvidia-cudnn">2. Install NVIDIA CuDNN</h2>
 <p>You can find the coresponding installation file from <a href="https://developer.nvidia.com/rdp/cudnn-archive">this</a>. Here you need to register and login to download it.</p>
 <p><img loading="lazy" src="/posts/create-ml-development-environment-on-windows11-with-wsl2/cudnn-download.png" type="" alt="CuDNN download"  /></p>
 <p>You can use Windows to download installation files then move to Ubuntu system in WSL 2. The WSL system is mapped to <code>\\wsl$\Ubuntu-22.04</code> and Windows drives are mounted under <code>/mnt</code> and can be accessed directly.</p>
 <p>Once completed, it can be installed with following commands</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="go">sudo dpkg -i cudnn-local-repo-ubuntu2204-8.9.3.28_1.0-1_amd64.deb
-</span><span class="go">sudo cp /var/cudnn-local-repo-ubuntu2204-8.9.3.28/cudnn-local-*-keyring.gpg /usr/share/keyrings/
-</span><span class="go">sudo apt-get -y update
-</span><span class="go">sudo apt-get -y upgrade
-</span></code></pre></div><details class="admonition tip"><summary class="admonition-title">Fix &#34;libcuda.so.1 is not a symbolic link&#34; error</summary>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">sudo dpkg -i cudnn-local-repo-ubuntu2204-8.9.3.28_1.0-1_amd64.deb
+sudo cp /var/cudnn-local-repo-ubuntu2204-8.9.3.28/cudnn-local-*-keyring.gpg /usr/share/keyrings/
+sudo apt-get -y update
+sudo apt-get -y upgrade
+</code></pre></div><details class="admonition tip"><summary class="admonition-title">Fix &#34;libcuda.so.1 is not a symbolic link&#34; error</summary>
 <p>Once the installattion is completed, you may receive the following error:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">/sbin/ldconfig.real: /usr/lib/wsl/lib/libcuda.so.1 is not a symbolic link
 </code></pre></div><p>The reason may be the property of read-only of the directory. You can create other directory then link executable from <code>/usr/lib/wsl/lib/</code> to the new directory.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="go">cd /usr/lib/wsl
-</span><span class="go">sudo mkdir lib2
-</span><span class="go">sudo ln -s lib/* lib2
-</span><span class="go">sudo ldconfig
-</span></code></pre></div><p>Then change <code>/usr/lib/wsl/lib</code> in the file <code>/etc/ld.so.conf.d/ld.wsl.conf</code> to <code>/usr/lib/wsl/lib2</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="nb">cd</span> /usr/lib/wsl
+sudo mkdir lib2
+sudo ln -s lib/* lib2
+sudo ldconfig
+</code></pre></div><p>Then change <code>/usr/lib/wsl/lib</code> in the file <code>/etc/ld.so.conf.d/ld.wsl.conf</code> to <code>/usr/lib/wsl/lib2</code>.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># This file was automatically generated by WSL. To stop automatic generation of this file, add the following entry to /etc/wsl.conf:</span>
 <span class="c1">#[automount]</span>
 <span class="c1">#ldconfig = false</span>
@@ -69,46 +69,46 @@ The latest NVIDIA Windows GPU Driver will fully support WSL 2. With CUDA support
 <p><code>Conda</code> is a packaging tool and installer that aims to handle library dependencies outside of the Python packages as well as the Python packages themselves. For non preinstalled package manager, <code>Miniconda</code>, an installation of Conda, will be a good option.</p>
 <p><code>Anacond</code>a is an installation of Conda that comes pre-loaded with a bunch of packages for scientific computing, i.e., <code>numpy</code>, <code>matplotlib</code>, <code>scipy</code>, etc. It also comes with IDE, Jupyter notebooks out of the box. This is helpful for beginers, but doesn&rsquo;t give much control.</p>
 <p><code>Mamba</code> is a package manager which can be used with Python. Unlike <code>Conda</code>, it uses the C/C++ implementation to speed up the package installation. Read more about <code>mamba</code> in <a href="https://focalplane.biologists.com/2022/12/08/managing-scientific-python-environments-using-conda-mamba-and-friends/">here</a>. To install <code>mamba</code>, access <a href="https://github.com/conda-forge/miniforge">its repo</a> and pick the Mabaforge installer for your operating system.</p>
-<p>Remember to run <code>conda init</code> at the end of your installation in your console to activate the <code>mamba</code> command.</p>
+<p>Remember to run <code>conda init</code> at the end of your installation in your shell to activate the <code>mamba</code> command.</p>
 <p><img loading="lazy" src="/posts/create-ml-development-environment-on-windows11-with-wsl2/mambaforge-install.png" type="" alt="Mambaforge install"  /></p>
 <h3 id="create-and-use-virtual-environments">Create and use virtual environments</h3>
 <p>The command using <code>mamba</code> is similar to the <code>conda</code> command.</p>
 <ul>
 <li>Create new environment</li>
 </ul>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="go">mamba create -n &lt;envname&gt; python=&lt;version&gt;
-</span></code></pre></div><ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">mamba create -n &lt;envname&gt; <span class="nv">python</span><span class="o">=</span>&lt;version&gt;
+</code></pre></div><ul>
 <li>Activate an environment</li>
 </ul>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="go">mamba activate &lt;envname&gt;
-</span></code></pre></div><ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">mamba activate &lt;envname&gt;
+</code></pre></div><ul>
 <li>Deactivate environment</li>
 </ul>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="go">mamba deactivate
-</span></code></pre></div><ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">mamba deactivate
+</code></pre></div><ul>
 <li>Delete an environment</li>
 </ul>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="go">mamba env remove -n &lt;envname&gt;
-</span></code></pre></div><ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">mamba env remove -n &lt;envname&gt;
+</code></pre></div><ul>
 <li>Show all created environments</li>
 </ul>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="go">mamba env list
-</span></code></pre></div><h3 id="working-with-python-packages">Working with Python packages</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">mamba env list
+</code></pre></div><h3 id="working-with-python-packages">Working with Python packages</h3>
 <p><strong>Remember to activate an environment first, do not install any packages in your base environment!</strong></p>
 <ul>
 <li>Install python packages</li>
 </ul>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="go">mamba install &lt;package&gt;[=version] [-c &lt;channelname&gt;]
-</span></code></pre></div><p>When installing a package, you can optionally indicate specific additional channel that the packages are posted by community. <code>conda-forge</code> is one of most common additional channels.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">mamba install &lt;package&gt;<span class="o">[=</span>version<span class="o">]</span> <span class="o">[</span>-c &lt;channelname&gt;<span class="o">]</span>
+</code></pre></div><p>When installing a package, you can optionally indicate specific additional channel that the packages are posted by community. <code>conda-forge</code> is one of most common additional channels.</p>
 <ul>
 <li>Delete packages</li>
 </ul>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="go">mamba remove &lt;package&gt;
-</span></code></pre></div><ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">mamba remove &lt;package&gt;
+</code></pre></div><ul>
 <li>Show all installed packages in the virtual environment</li>
 </ul>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="go">mamaba list [-n &lt;envname&gt;]
-</span></code></pre></div><h2 id="reference">Reference</h2>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">mamaba list <span class="o">[</span>-n &lt;envname&gt;<span class="o">]</span>
+</code></pre></div><h2 id="reference">Reference</h2>
 <ul>
 <li><a href="https://medium.com/geekculture/install-cuda-and-cudnn-on-windows-linux-52d1501a8805">Install CUDA and CUDNN on Windows &amp; Linux</a>.</li>
 <li><a href="https://docs.nvidia.com/cuda/wsl-user-guide/index.html">CUDA on WSL User Guide</a>.</li>
@@ -183,33 +183,33 @@ When it comes to machine learning (ML) development, WSL offers several advantage
 <p><img loading="lazy" src="/posts/working-with-wsl2-on-windows11/ms-store-wsl-distros.png" type="" alt="Miscroft Store WSL Linux Distros"  /></p>
 </details>
 <p>Once the installation is done, you will be prompted to enter a username and password. These are the credentials for Linux administration and completely separately from your Windows username.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="go">Please create a default UNIX user account. The username does not need to match your Windows username.
-</span><span class="go">For more information visit: https://aka.ms/wslusers
-</span><span class="go">Enter new UNIX username: Visionbike
-</span><span class="go">New password:
-</span><span class="go">Retype new password:
-</span><span class="go">paddwd: password updated successfully
-</span><span class="go">Installation successful!
-</span></code></pre></div><p>Linux will eventually be ready and your terminal will show content similar to:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="go">To run a command as administrator (user &#34;root&#34;), use &#34;sudo &lt;command&gt;&#34;.
-</span><span class="go">See &#34;man sudo_root&#34; for details.
-</span><span class="go"></span><span class="err">
-</span><span class="err"></span><span class="go">Welcome to Ubuntu 22.04.2 LTS (GNU/Linux 5.15.90.1-microsoft-standard-WSL2 x86_64)
-</span><span class="go"></span><span class="err">
-</span><span class="err"></span><span class="go"> * Documentation:  https://help.ubuntu.com
-</span><span class="go"> * Management:     https://landscape.canonical.com
-</span><span class="go"> * Support:        https://ubuntu.com/advantage
-</span><span class="go"></span><span class="err">
-</span><span class="err"></span><span class="go"> * Strictly confined Kubernetes makes edge and IoT secure. Learn how MicroK8s
-</span><span class="go">   just raised the bar for easy, resilient and secure K8s cluster deployment.
-</span><span class="go"></span><span class="err">
-</span><span class="err"></span><span class="go">   https://ubuntu.com/engage/secure-kubernetes-at-the-edge
-</span><span class="go"></span><span class="err">
-</span><span class="err"></span><span class="go">This message is shown once a day. To disable it please create the
-</span><span class="go">/home/visionbike/.hushlogin file.
-</span></code></pre></div><p>For the first start, we should to install several Linux updates. The process will depend on the speed of the internet, so be patient if it slow!</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="go">sudo apt update &amp;&amp; sudo apt upgrade
-</span></code></pre></div><p>You can also to check for Linux kernel updates from <code>PowerShell</code> running:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">Please create a default UNIX user account. The username does not need to match your Windows username.
+For more information visit: https://aka.ms/wslusers
+Enter new UNIX username: Visionbike
+New password:
+Retype new password:
+paddwd: password updated successfully
+Installation successful!
+</code></pre></div><p>Linux will eventually be ready and your terminal will show content similar to:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">To run a <span class="nb">command</span> as administrator <span class="o">(</span>user <span class="s2">&#34;root&#34;</span><span class="o">)</span>, use <span class="s2">&#34;sudo &lt;command&gt;&#34;</span>.
+See <span class="s2">&#34;man sudo_root&#34;</span> <span class="k">for</span> details.
+
+Welcome to Ubuntu 22.04.2 LTS <span class="o">(</span>GNU/Linux 5.15.90.1-microsoft-standard-WSL2 x86_64<span class="o">)</span>
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+ * Strictly confined Kubernetes makes edge and IoT secure. Learn how MicroK8s
+   just raised the bar <span class="k">for</span> easy, resilient and secure K8s cluster deployment.
+
+   https://ubuntu.com/engage/secure-kubernetes-at-the-edge
+
+This message is shown once a day. To disable it please create the
+/home/visionbike/.hushlogin file.
+</code></pre></div><p>For the first start, we should to install several Linux updates. The process will depend on the speed of the internet, so be patient if it slow!</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">sudo apt update <span class="o">&amp;&amp;</span> sudo apt upgrade
+</code></pre></div><p>You can also to check for Linux kernel updates from <code>PowerShell</code> running:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ps" data-lang="ps"><span class="nf">wsl</span> <span class="nf">--update</span>
 </code></pre></div><div class="admonition tip"><p class="admonition-title">Verify WSL 2 Installation</p>
 <p>To check if the installation was successful, you can run the following command in <code>PowerShell</code>:</p>
@@ -228,15 +228,15 @@ When it comes to machine learning (ML) development, WSL offers several advantage
 <p>In WSL 2, the Linux file system is located within the WSL 2 virtual machine. It provides a Linux-compatible file system hierarchy, including the root directory (<code>/</code>) and various standard directories, such as <code>/home</code>, <code>/usr</code>, and <code>/var</code>. These directories and their subdirectories contain the files and directories specific to the Linux environment.</p>
 <p>The WSL 2 file system integration ensures that Linux processes can access and manipulate files stored on the Windows file system. This means you can work with files and directories in both the Linux and Windows environments seamlessly. For example, you can create, modify, and delete files from within WSL 2, and those changes will be reflected in the corresponding Windows directories and vice versa.</p>
 <p>Windows drives are mounted in the Linux <code>/mnt/</code> directory. For instance, you can access <code>Users</code> folder a <code>C:\User\</code> by running in WSL terminal:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="go">cd /mnt/c/Users/
-</span></code></pre></div><p>Noting that accessing Windows files from Linux is considerably slower than using the native Linux file system. Where possible, create projects in the Linux file space, typically in your home folder (<code>/home/&lt;USERNAME&gt;</code> or <code>~</code>).</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="nb">cd</span> /mnt/c/Users/
+</code></pre></div><p>Noting that accessing Windows files from Linux is considerably slower than using the native Linux file system. Where possible, create projects in the Linux file space, typically in your home folder (<code>/home/&lt;USERNAME&gt;</code> or <code>~</code>).</p>
 <p>You can also access WSL 2 files from the network path <code>\\wsl$\</code> in Windows&rsquo;s <strong>File Explorer</strong>.</p>
 <p><img loading="lazy" src="/posts/working-with-wsl2-on-windows11/file-explorer.png" type="" alt="File Explorer"  /></p>
 <details class="admonition tip"><summary class="admonition-title">Create Linux symbolic link for Windows folder</summary>
 <p>For ease of access, you can create a Linux symbolic link to any Windows folder from the terminal. For example, for <code>C:\projects\</code>:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="go">cd ~
-</span><span class="go">ln -s /mnt/d/projects/
-</span></code></pre></div><p>A <code>projects</code> folder will appear in your Linux home directory. Navigate to it using cd <code>~/project</code> and you&rsquo;ll actually be in <code>/mnt/d/projects/</code>, which maps directly to <code>D:\projects\</code>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="nb">cd</span> ~
+ln -s /mnt/d/projects/
+</code></pre></div><p>A <code>projects</code> folder will appear in your Linux home directory. Navigate to it using cd <code>~/project</code> and you&rsquo;ll actually be in <code>/mnt/d/projects/</code>, which maps directly to <code>D:\projects\</code>.</p>
 </details>
 <h3 id="move-or-clone-your-wsl-linux-disk-image">Move or Clone Your WSL Linux Disk Image</h3>
 <p>WSL Linux disk images are installed on your <code>C:</code> drive in deault. This may occupy a lot of space in the Windows&rsquo;s system drive. Optionally, you can either move it to another drive to free up space on <code>C:</code>, or use the same image to create multiple Linux installations (which can be useful <strong>if you need different applications and setups for different projects</strong> - although Docker may be more practical).</p>
@@ -253,8 +253,8 @@ When it comes to machine learning (ML) development, WSL offers several advantage
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ps" data-lang="ps"><span class="nf">ubuntu</span> <span class="nf">config</span> <span class="nf">--default-user</span> <span class="p">&lt;</span><span class="nf">USERNAME</span><span class="p">&gt;</span>
 </code></pre></div><p>where <code>&lt;USERNAME&gt;</code> is the username you defined before.</p>
 <p>For other distros that aren&rsquo;t the WSL2 default distro, you need to log on to the distro and create/edit <code>/etc/wsl.conf</code> file.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="go">nano /etc/wsl.conf
-</span></code></pre></div><p>Add the following lines to the file</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell">nano /etc/wsl.conf
+</code></pre></div><p>Add the following lines to the file</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="o">[</span>user<span class="o">]</span>
 <span class="nv">default</span><span class="o">=</span>&lt;USERNAME&gt;
 </code></pre></div><p>Save the file, then restart the distro in <strong>PowerShell</strong> terminal.</p>

@@ -94,7 +94,7 @@ Alternaltively, you can install Linux distro from the **Microsoft Store**.
 {{% /admonition %}}
 
 Once the installation is done, you will be prompted to enter a username and password. These are the credentials for Linux administration and completely separately from your Windows username.
-```console
+```shell
 Please create a default UNIX user account. The username does not need to match your Windows username.
 For more information visit: https://aka.ms/wslusers
 Enter new UNIX username: Visionbike
@@ -105,7 +105,7 @@ Installation successful!
 ```
 Linux will eventually be ready and your terminal will show content similar to:
 
-```console
+```shell
 To run a command as administrator (user "root"), use "sudo <command>".
 See "man sudo_root" for details.
 
@@ -126,7 +126,7 @@ This message is shown once a day. To disable it please create the
 
 For the first start, we should to install several Linux updates. The process will depend on the speed of the internet, so be patient if it slow!
 
-```console
+```shell
 sudo apt update && sudo apt upgrade
 ```
 
@@ -168,7 +168,7 @@ The WSL 2 file system integration ensures that Linux processes can access and ma
 
 Windows drives are mounted in the Linux `/mnt/` directory. For instance, you can access `Users` folder a `C:\User\` by running in WSL terminal:
 
-```console
+```shell
 cd /mnt/c/Users/
 ```
 
@@ -182,7 +182,7 @@ You can also access WSL 2 files from the network path `\\wsl$\` in Windows's **F
 
 For ease of access, you can create a Linux symbolic link to any Windows folder from the terminal. For example, for `C:\projects\`:
 
-```console
+```shell
 cd ~
 ln -s /mnt/d/projects/
 ```
@@ -226,7 +226,7 @@ where `<USERNAME>` is the username you defined before.
 
 For other distros that aren't the WSL2 default distro, you need to log on to the distro and create/edit `/etc/wsl.conf` file.
 
-```console
+```shell
 nano /etc/wsl.conf
 ```
 
