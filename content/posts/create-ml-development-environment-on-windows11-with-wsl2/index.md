@@ -166,7 +166,7 @@ mamba remove <package>
 - Show all installed packages in the virtual environment
 
 ```shell
-mamaba list [-n <envname>]
+mamba list [-n <envname>]
 ```
 
 ## Reference
