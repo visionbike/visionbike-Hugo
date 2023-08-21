@@ -1,7 +1,7 @@
 ---
 title: "Build OpenCV with CUDA on Windows 11"
 date: 2023-08-21T14:57:01+08:00
-draft: true
+draft: false
 showToc: true
 tocSide: "right"
 enableInstantClick: true
