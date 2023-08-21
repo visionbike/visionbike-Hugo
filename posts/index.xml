@@ -10,7 +10,218 @@
     </image>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 13 Jul 2023 16:44:33 +0800</lastBuildDate><atom:link href="http://visionbike.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 21 Aug 2023 14:57:01 +0800</lastBuildDate><atom:link href="http://visionbike.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Build OpenCV with CUDA on Windows 11</title>
+      <link>http://visionbike.github.io/posts/build-opencv-cuda-on-windows/</link>
+      <pubDate>Mon, 21 Aug 2023 14:57:01 +0800</pubDate>
+      
+      <guid>http://visionbike.github.io/posts/build-opencv-cuda-on-windows/</guid>
+      <description>Since pre-built OpenCV binaries do not include CUDA modules, this post is a tutorial for building OpenCV with CUDA on Windows 11. The obvious dvantage of OpenCV CUDA is boosting performance of most functions, you can find evidence here.
+1. Prerequisite There are a couples of softwares or libraries having been downloaded and installed before getting started:
+Install the Visual Studio Community 2022 and select Desktop development with C++ workload.</description>
+      <content:encoded><![CDATA[<p>Since pre-built OpenCV binaries do not include CUDA modules, this post is a tutorial for building OpenCV with CUDA on Windows 11. The obvious dvantage of OpenCV CUDA is boosting performance of most functions, you can find evidence <a href="https://www.jamesbowley.co.uk/qmd/opencv_cuda_performance.html">here</a>.</p>
+<h2 id="1-prerequisite">1. Prerequisite</h2>
+<p>There are a couples of softwares or libraries having been downloaded and installed before getting started:</p>
+<ol>
+<li>
+<p>Install the <a href="https://visualstudio.microsoft.com/thank-you-downloading-visual-studio/?sku=Community">Visual Studio Community 2022</a> and select <strong>Desktop development with C++</strong> workload.</p>
+</li>
+<li>
+<p>Download the sources for OpenCV from GitHub by cloning the repositories (<a href="https://github.com/opencv/opencv">opencv</a> and <a href="https://github.com/opencv/opencv_contrib">opencv_contrib</a>).</p>
+</li>
+</ol>
+<p><img loading="lazy" src="/posts/build-opencv-cuda-on-windows/opencv-cuda-folder.png" type="" alt="OpenCV CUDA folder"  /></p>
+<p>After downloading, you can indicate the OpenCV&rsquo;s version you want to. For the current version, you can run the following command in <strong>Command Prompt</strong> at OpenCV&rsquo;s repositories:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">git checkout tags/4.8.0
+</span></span></code></pre></div><ol start="3">
+<li>
+<p>Install the latest stable version (not release candidate -rc) of <a href="https://cmake.org/download/">CMake</a>.</p>
+</li>
+<li>
+<p>Install the latest version of <a href="https://developer.nvidia.com/cuda-downloads">NVIDIA CUDA Toolkit</a> and add PATH. You can follow this <a href="https://visionbike.github.io/posts/create-ml-development-environment-on-window11/">tutorial</a>.</p>
+</li>
+</ol>
+<div class="admonition warning"><p class="admonition-title">The latest CUDA Toolkit version</p>
+<p>At the time writting this post, the latest <strong>NVIDIA CUDA Toolkit version 12.2</strong> still makes somes error when building with <strong>OpenCV 4.8.0</strong>, like <code>error C2666: 'operator !=': overloaded functions have similar conversions</code>. Therefore, if meeting such problem, try installing older version.</p>
+</div>
+<ol start="5">
+<li>
+<p>Register an account and download the latest verson of <a href="https://developer.nvidia.com/rdp/cudnn-download">NVIDIA DNN CUDA backend</a> for the version of CUDA. Extract the downloaded <strong>.zip</strong> file and copy <strong>bin</strong>, <strong>include</strong> and <strong>lib</strong> directories to your CUDA installation directory, i.e., <code>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\vxx.x</code>.</p>
+</li>
+<li>
+<p>Register an account and download the latest version of <a href="https://developer.nvidia.com/nvidia-video-codec-sdk">NVIDIA VIdeo Codec SDK</a>. Extract the downloaded <strong>.zip</strong> file and copy the contents inside <strong>Interface</strong> and <strong>Lib</strong> to <strong>include</strong> and <strong>lib</strong> directories inside the CUDA installation directory.</p>
+</li>
+<li>
+<p><strong>Optional</strong> - Download and install the latest version of <a href="https://gstreamer.freedesktop.org/download/#toolchain-compatibility-notes">Gstreamer</a>.</p>
+</li>
+<li>
+<p>Download and install the lastest version of <a href="https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Windows-x86_64.exe">mambaforge</a> to call OpenCV CUDA routines from python.</p>
+</li>
+</ol>
+<h2 id="2-create-virtual-environtment-from-mambaforge">2. Create virtual environtment from Mambaforge</h2>
+<p>To bind OpenCV for python3 without any conflit package installation, you should create an new virtual environment for the installation.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">mamba create -n opencv-cuda <span class="nv">python</span><span class="o">=</span>3.10
+</span></span></code></pre></div><p>Activate the created environment and install <strong>numpy</strong> package.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">mamba activate opencv-cuda
+</span></span><span class="line"><span class="cl">mamaba install numpy
+</span></span></code></pre></div><h2 id="3-build-opencv-with-cmake">3. Build OpenCV with CMake</h2>
+<h3 id="preparation">Preparation</h3>
+<p>Create a <strong>build</strong> folder with your OpenCV extracted folders.</p>
+<p><img loading="lazy" src="/posts/build-opencv-cuda-on-windows/opencv-cuda-folder.png" type="" alt="OpenCV CUDA folder"  /></p>
+<p>Edit the prioeiry of Python3 installation in <code>OpenCVDetectPython.cmake</code> file inside <strong>opencv-x.x.x/cmake</strong> folder.</p>
+<p><img loading="lazy" src="/posts/build-opencv-cuda-on-windows/python3-prior.png" type="" alt="Python3 Prior"  /></p>
+<h3 id="build-gui-build-configuration">Build GUI Build Configuration</h3>
+<p>Open Cmake GUI and provide the paths to the OpenCV and target build folders.</p>
+<p><img loading="lazy" src="/posts/build-opencv-cuda-on-windows/cmake-build.png" type="" alt="CMake GUI"  /></p>
+<p>Hit <strong>Configure</strong> and select <strong>x64</strong> for the <strong>Optional platform for generator</strong>, then hit <strong>finish</strong> to start the configuration.</p>
+<p>Once the configuration is done, edit the following parameters:</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CMAKE_INSTALL_PREFIX</td>
+<td>path of opencv <strong>installation</strong></td>
+</tr>
+<tr>
+<td>ENABLE_FAST_MATH</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>WITH_CUDA</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>BUILD_opencv_world</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>BUILD_opencv_python3</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>OPENCV_DNN_CUDA</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>OPENCV_EXTRA_MODULES_PATH</td>
+<td>path of <strong>modules</strong> directory in <strong>opencv_contrib-x.x.x</strong></td>
+</tr>
+<tr>
+<td>OPENCV_PYTHON3_VERSION</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>PYTHON3_EXECUTABLE</td>
+<td>path of python3 executable in virtual env, i.e., <strong>C:/Users/ntthi/mambaforge/envs/opencv-cuda/python.exe</strong></td>
+</tr>
+<tr>
+<td>PYTHON3_INCLUDE_DIR</td>
+<td>path of <strong>include</strong> folder in the virtual env, i.e., <strong>C:/Users/ntthi/mambaforge/envs/opencv-cuda/include</strong></td>
+</tr>
+<tr>
+<td>PYTHON3_LIBRARY</td>
+<td>path of <strong>.lib</strong> file in the virtual env, i.e., <strong>C:/Users/ntthi/mambaforge/envs/opencv-cuda/libs/python310.lib</strong></td>
+</tr>
+<tr>
+<td>PYTHON3_NUMPY_INCLUDE_DIRS</td>
+<td>path of <strong>numpy</strong> in the virtual env, i.e., <strong>C:/Users/ntthi/mambaforge/envs/opencv-cuda/Lib/site-pakages/numpy/core/include</strong></td>
+</tr>
+<tr>
+<td>PYTHON3_PACKAGES_PATH</td>
+<td>path of <strong>site-packages</strong> in the virtual env, i.e., <strong>C:/Users/ntthi/mambaforge/envs/opencv-cuda/Lib/site-pakages</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Note that the path separator hase to be &ldquo;/&rdquo; , <em>not</em> &ldquo;&quot;.</p>
+<p>Hit <strong>Configure again</strong> again and check edit more parameters:</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CUDA_FAST_MATH</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>CUDA_ARCH_BIN</td>
+<td>version of computing capability, i.e., <strong>8.6</strong></td>
+</tr>
+<tr>
+<td>WITH_CUBLAS</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>WITH_CUDNN</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>WITH_CUFFT</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+<p>The CUDA_ARCH_BIN corresponding to your GPU is the value found in the left column of the <a href="https://en.wikipedia.org/wiki/CUDA#GPUs_supported">GPU support table</a>. For instance, &ldquo;8.6&rdquo; fir the RTX 3070 Ti.</p>
+<p>If you do not want to create shared lib and make sure the opencv python libraries is installed, edit the following parameters:</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BUILD_SHARED_LIBS</td>
+<td>🔳</td>
+</tr>
+<tr>
+<td>OPENCV_FORCE_PYTHON_LIBS</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+<p>Hit <strong>Configure</strong> at the last time and then hit <strong>Generate</strong>.</p>
+<h3 id="build-the-project-with-visual-studio">Build the project with Visual Studio</h3>
+<p>Open project <code>OpenCV.sln</code> created in the build folder. Go to <strong>Tools &gt; Options&hellip;</strong>, then uncheck the last parameter in <strong>Projects and Solutions &gt; Web Projects</strong>.</p>
+<p></p>
+<p>This setting may help to prevent the <code>ImportError: DLL load failed while importing cv2: The specified module could not be found.</code> error.</p>
+<p>To build the OpenCV project, change <strong>Debug</strong> mode to <strong>Release</strong>. In the solution explorer expand <strong>CMakeTargets</strong>, right-click <strong>ALL_BUILD</strong> and select Build. This will take about an hour.</p>
+<p><img loading="lazy" src="/posts/build-opencv-cuda-on-windows/build-opencv.png" type="" alt="OpenCV build"  /></p>
+<p>Then repeat the step for <strong>INSTALL</strong> (below <strong>ALL_BUILD</strong>). Check for error in the two building steps. If everything is fine, you are done.</p>
+<h3 id="check-installation-and-troubleshooting">Check Installation and Troubleshooting</h3>
+<p>To verify the Python installation, activate the virtual environment for OpenCV install and try this code:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">cv2</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">getCudaEnabledDeviceCount</span><span class="p">())</span>
+</span></span></code></pre></div><p>If it works, congratulations you are good to go!</p>
+<p>If you meets the problem <code>ImportError: DLL load failed while importing cv2: The specified module could not be found.</code>, it may lack the library&rsquo;s binaries. One solution is to edit <strong>config.py</strong> in <strong>C:/Users/ntthi/mambaforge/envs/opencv-cuda/Lib/site-packages/cv2</strong>.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">os</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">BINARIES_PATHS</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;C:/opencv-cuda-4.8.0&#39;</span><span class="p">,</span> <span class="s1">&#39;x64/vc17/bin&#39;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;CUDA_PATH&#39;</span><span class="p">,</span> <span class="s1">&#39;C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v12.1&#39;</span><span class="p">),</span> <span class="s1">&#39;bin&#39;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;C:/gstreamer/1.0/msvc_x86_64&#39;</span><span class="p">,</span> <span class="s1">&#39;bin&#39;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span> <span class="o">+</span> <span class="n">BINARIES_PATHS</span>
+</span></span></code></pre></div><p>These binary paths are from installed OpenCV, CUDA and Gstreamer (if installed).</p>
+<p>For other bugs and problems, I refer you to the <a href="https://github.com/chrismeunier/OpenCV-CUDA-installation/blob/main/README.md">chrismeunier</a> and <a href="https://jamesbowley.co.uk/accelerate-opencv-4-4-0-build-with-cuda-and-python-bindings/#troubleshooting">Bowley</a>&rsquo;s troubleshooting tutorial.</p>
+<h2 id="reference">Reference</h2>
+<ul>
+<li><a href="https://www.jamesbowley.co.uk/qmd/opencv_cuda_python_windows.html">Build OpenCV (including Python) with CUDA on Windows</a>.</li>
+<li><a href="https://github.com/chrismeunier/OpenCV-CUDA-installation/blob/main/README.md#opencv-cuda-installation">OpenCV CUDA installation</a>.</li>
+</ul>
+]]></content:encoded>
+    </item>
+    
     <item>
       <title>Create Machine Learning Development Environment on Windows 11 With WSL 2</title>
       <link>http://visionbike.github.io/posts/create-ml-development-environment-on-windows11-with-wsl2/</link>
