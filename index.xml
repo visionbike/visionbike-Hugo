@@ -597,10 +597,10 @@ NVIDIA Drivers. Microsoft Visual Studio 2022 (Community version). NVIDIA CUDA To
     
     <item>
       <title>Setting Up a Personal Blog With Hugo and GitHub Pages</title>
-      <link>http://visionbike.github.io/posts/create-personal-blog-with-hugo-and-gh-pages/</link>
+      <link>http://visionbike.github.io/posts/setting-up-personal-blog-with-hugo-and-gh-pages/</link>
       <pubDate>Tue, 04 Jul 2023 01:53:57 +0800</pubDate>
       
-      <guid>http://visionbike.github.io/posts/create-personal-blog-with-hugo-and-gh-pages/</guid>
+      <guid>http://visionbike.github.io/posts/setting-up-personal-blog-with-hugo-and-gh-pages/</guid>
       <description>Creating a personal blog with technical content is a excellent way to enhance the writting skill, keep memorial notes and share personal experience with others. Ideally, these goals need to be achieved when creating and mantaining a blog:
 Low-cost - Free or as close to free as posisble. Productive - Easy to write and maintain. Cloud Native - Utilizes public cloud services for hosting, allowing for infinite scaling. After researching, I found that using Markdown, Hugo and GitHub Pages is indeed a powerful combination for creating and maintaining a cost-effective, productive, and cloud-native blog.</description>
       <content:encoded><![CDATA[<p>Creating a personal blog with technical content is a excellent way to enhance the writting skill, keep memorial notes and share personal experience with others. Ideally, these goals need to be achieved when creating and mantaining a blog:</p>
@@ -643,7 +643,7 @@ Low-cost - Free or as close to free as posisble. Productive - Easy to write and 
 <div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">cd</span> &lt;USERNAME&gt;-hugo
 </span></span><span class="line"><span class="cl">git init
 </span></span></code></pre></div><p>You also need to create a new repository on GitHub storage for your blog&rsquo;s source code.</p>
-<p><img loading="lazy" src="/posts/create-personal-blog-with-hugo-and-gh-pages/create-source-code-repo.png" type="" alt="Create source code repository"  /></p>
+<p><img loading="lazy" src="/posts/setting-up-personal-blog-with-hugo-and-gh-pages/create-source-code-repo.png" type="" alt="Create source code repository"  /></p>
 <div class="admonition tip"><p class="admonition-title">Creating Github Repository Without README</p>
 <p>By creating a repository without a <code>README</code> file, you can avoid accidental history conflicts when pushing your local project to a fresh repository. You can always add a <code>README</code> file later if needed.</p>
 </div>
@@ -931,17 +931,17 @@ Low-cost - Free or as close to free as posisble. Productive - Easy to write and 
 </span></span></code></pre></div><h2 id="9-configuring-github-pages">9. Configuring GitHub Pages</h2>
 <p>The GitHub Pages will allow GitHub to build automatically and serve our website whenever changes are made to the underlying repository.</p>
 <p>First, we create new branch named <code>gh-page</code>. This branch will be used by GitHub Pages to build and serve your website. You can create the branch using the branch creation feature in your GitHub repository.</p>
-<p><img loading="lazy" src="/posts/create-personal-blog-with-hugo-and-gh-pages/create-gh-pages.png" type="" alt="Create gh-pages"  /></p>
+<p><img loading="lazy" src="/posts/setting-up-personal-blog-with-hugo-and-gh-pages/create-gh-pages.png" type="" alt="Create gh-pages"  /></p>
 <p>Then, go to the <code>Settings</code> tab near the top of your repository.</p>
-<p><img loading="lazy" src="/posts/create-personal-blog-with-hugo-and-gh-pages/repository-setting.png" type="" alt="Repository setting"  /></p>
+<p><img loading="lazy" src="/posts/setting-up-personal-blog-with-hugo-and-gh-pages/repository-setting.png" type="" alt="Repository setting"  /></p>
 <p>In the left hand pane, locate and click on the <code>Pages</code> category.</p>
-<p><img loading="lazy" src="/posts/create-personal-blog-with-hugo-and-gh-pages/gh-pages-setting.png" type="" alt="GitHub pages setting"  /></p>
+<p><img loading="lazy" src="/posts/setting-up-personal-blog-with-hugo-and-gh-pages/gh-pages-setting.png" type="" alt="GitHub pages setting"  /></p>
 <p>By default, GitHub Pages will be disabled for your repository. To enable it, we need to select a branch for GitHub Pages to build and serve our website from. Under the <code>Source</code> section in the middle pane, you will see a dropdown menu labeled <code>None</code>. Click on the dropdown menu and select the <code>gh-pages</code> branch. This tells GitHub Pages to build and serve your website from the <code>gh-pages</code> branch.</p>
-<p><img loading="lazy" src="/posts/create-personal-blog-with-hugo-and-gh-pages/select-deployment-branch.png" type="" alt="Select deployment branch"  /></p>
+<p><img loading="lazy" src="/posts/setting-up-personal-blog-with-hugo-and-gh-pages/select-deployment-branch.png" type="" alt="Select deployment branch"  /></p>
 <p>After selecting the deployment branch, you will see a notification indicating where your site will be published. It will provide you with a URL where your website can be accessed.</p>
-<p><img loading="lazy" src="/posts/create-personal-blog-with-hugo-and-gh-pages/published-url.png" type="" alt="Published URL"  /></p>
+<p><img loading="lazy" src="/posts/setting-up-personal-blog-with-hugo-and-gh-pages/published-url.png" type="" alt="Published URL"  /></p>
 <p>Wait for a few minutes to allow GitHub Pages to build and deploy your website. When the deployment completes, you can click on the URL provided in the notification to view your website. It may take some time for the changes to propagate and for your website to become accessible.</p>
-<p><img loading="lazy" src="/posts/create-personal-blog-with-hugo-and-gh-pages/site-demo.png" type="" alt="Site demo"  /></p>
+<p><img loading="lazy" src="/posts/setting-up-personal-blog-with-hugo-and-gh-pages/site-demo.png" type="" alt="Site demo"  /></p>
 <h2 id="conclusion">Conclusion</h2>
 <p>Congratulations on setting up your blog using <em>Hugo</em>, <em>Markdown</em>, and <em>GitHub Pages</em>! This free and accessible solution enables you to create and share your technical knowledge with a wide audience. Happy blogging!</p>
 <h2 id="reference">Reference</h2>
