@@ -237,7 +237,7 @@ The latest NVIDIA Windows GPU Driver will fully support WSL 2. With CUDA support
 <h2 id="1-install-nvidia-cuda-toolkit-for-wsl-2">1. Install NVIDIA CUDA Toolkit for WSL 2</h2>
 <p>First remove the old GPG key from your WSL machine</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sudo apt-key del 7fa2af80
-</span></span></code></pre></div><p>Download <a href="https://developer.nvidia.com/cuda-downloads?target_os=Linux&amp;target_arch=x86_64&amp;Distribution=WSL-Ubuntu&amp;target_version=2.0&amp;target_type=deb_local">CUDA Toolkit for WSL 2</a>.</p>
+</span></span></code></pre></div><p>Download <a href="https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&Distribution=WSL-Ubuntu&target_version=2.0&target_type=deb_local">CUDA Toolkit for WSL 2</a>.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">wget https://developer.download.nvidia.com/compute/cuda/repos/wsl-ubuntu/x86_64/cuda-wsl-ubuntu.pin
 </span></span><span class="line"><span class="cl">sudo mv cuda-wsl-ubuntu.pin /etc/apt/preferences.d/cuda-repository-pin-600
 </span></span><span class="line"><span class="cl">wget https://developer.download.nvidia.com/compute/cuda/12.2.1/local_installers/cuda-repo-wsl-ubuntu-12-2-local_12.2.1-1_amd64.deb
@@ -596,93 +596,92 @@ NVIDIA Drivers. Microsoft Visual Studio 2022 (Community version). NVIDIA CUDA To
     </item>
     
     <item>
-      <title>Create Personal Blog With Hugo and GitHub Pages</title>
+      <title>Setting Up a Personal Blog With Hugo and GitHub Pages</title>
       <link>http://visionbike.github.io/posts/create-personal-blog-with-hugo-and-gh-pages/</link>
       <pubDate>Tue, 04 Jul 2023 01:53:57 +0800</pubDate>
       
       <guid>http://visionbike.github.io/posts/create-personal-blog-with-hugo-and-gh-pages/</guid>
-      <description>Creating a personal blog with technical content is a excellent way to enhance your writting skill, take your notes and share your experience with others on the Internet. Ideally, we should have following goals when creating and mantaining a blog:
-No/Low-cost - Free or as close to free as posisble. Productive - Easy to write in and maintain. Cloud Native - Utilizes public cloud services for hosting, allowing for infinite scaling.</description>
-      <content:encoded><![CDATA[<p>Creating a personal blog with technical content is a excellent way to enhance your writting skill, take your notes and share your experience with others on the Internet.
-Ideally, we should have following goals when creating and mantaining a blog:</p>
+      <description>Creating a personal blog with technical content is a excellent way to enhance the writting skill, keep memorial notes and share personal experience with others. Ideally, these goals need to be achieved when creating and mantaining a blog:
+Low-cost - Free or as close to free as posisble. Productive - Easy to write and maintain. Cloud Native - Utilizes public cloud services for hosting, allowing for infinite scaling. After researching, I found that using Markdown, Hugo and GitHub Pages is indeed a powerful combination for creating and maintaining a cost-effective, productive, and cloud-native blog.</description>
+      <content:encoded><![CDATA[<p>Creating a personal blog with technical content is a excellent way to enhance the writting skill, keep memorial notes and share personal experience with others. Ideally, these goals need to be achieved when creating and mantaining a blog:</p>
 <ol>
-<li><strong>No/Low-cost</strong> - Free or as close to free as posisble.</li>
-<li><strong>Productive</strong> - Easy to write in and maintain.</li>
+<li><strong>Low-cost</strong> - Free or as close to free as posisble.</li>
+<li><strong>Productive</strong> - Easy to write and maintain.</li>
 <li><strong>Cloud Native</strong> - Utilizes public cloud services for hosting, allowing for infinite scaling.</li>
 </ol>
-<p>After researching, I found that using <strong>Markdown</strong>,  <strong>Hugo</strong> and <strong>GitHub Pages</strong>  is indeed a powerful combination for creating and maintaining a cost-effective, productive, and cloud-native blog:</p>
+<p>After researching, I found that using <strong>Markdown</strong>,  <strong>Hugo</strong> and <strong>GitHub Pages</strong>  is indeed a powerful combination for creating and maintaining a cost-effective, productive, and cloud-native blog.</p>
 <ul>
-<li><a href="https://daringfireball.net/projects/markdown/"><strong>Markdown</strong></a> - A markup language that is extremely easy to read, write natively and can be converted into HTML.</li>
-<li><a href="https://gohugo.io/"><strong>Hugo</strong></a> - A static site generator written in the Go language that allows for content written in Markdown to be rendered into HTML webpages.</li>
-<li><a href="https://pages.github.com/"><strong>GitHub Pages</strong></a> - A GitHub service that hosts web content (such as HTML webpages) stored in a GitHub repository.</li>
+<li><a href="https://daringfireball.net/projects/markdown/"><strong>Markdown</strong></a> is markup language that is extremely easy to read, write natively and can be converted into HTML.</li>
+<li><a href="https://gohugo.io/"><strong>Hugo</strong></a> is a static site generator written in the Go language that allows for content written in Markdown to be rendered into HTML webpages.</li>
+<li><a href="https://pages.github.com/"><strong>GitHub Pages</strong></a> is the GitHub service that hosts web contentstored in a GitHub repository.</li>
 </ul>
-<p>In this post, I will show how to create your own blog for FREE using above technologies. The blog is built using an Linux operating system host (including Window Subsystem for Linux - WSL as in my case).</p>
-<p>Here&rsquo;s an outline of the steps you can follow to create your own blog using these technologies:</p>
-<h2 id="1-set-up-github-account">1. Set up GitHub Account</h2>
+<p>In this post, I will show how to create an simple personal blog for FREE using above technologies. The blog was developed in Window Subsystem for Linux (WSL2).</p>
+<p>Here&rsquo;s an outline of the steps you can follow to create the personal blog using these technologies:</p>
+<h2 id="1-setting-up-github-account">1. Setting up GitHub Account</h2>
 <p>If you don&rsquo;t have one already, creating a GitHub account. GitHub Pages allows you to host your blog for free using a GitHub repository.</p>
-<h2 id="2-install-hugo">2. Install Hugo</h2>
-<p>Before starting, make sure <code>git</code> is install in your local machine.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sudo apt install git
-</span></span></code></pre></div><p>Open a terminal and configure Git with your name and email address.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">git config --global user.name <span class="s2">&#34;Your Name&#34;</span>
-</span></span><span class="line"><span class="cl">git config --global user.email <span class="s2">&#34;your.email@example.com&#34;</span>
+<h2 id="2-installing-hugo">2. Installing Hugo</h2>
+<p>Before starting, make sure <code>git</code> is installed in the local machine.</p>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo apt install -y git
+</span></span></code></pre></div><p>Configure Git with your <u><code>username</code></u> and <u><code>email address</code></u>.</p>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git config --global user.name <span class="s2">&#34;Your Name&#34;</span>
+</span></span></code></pre></div><div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git config --global user.email <span class="s2">&#34;your.email@example.com&#34;</span>
 </span></span></code></pre></div><p>To verify that Git has been installed successfully, you can check the version using <code>git --version</code>. This command will display the installed version of Git.</p>
-<p>Now, install Hugo on your Linux operating system host. For Ubuntu user, you can follow this commands.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sudo apt install hugo
-</span></span></code></pre></div><p>For verification, run this command:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">hugo version
+<p>For Ubuntu user, you can  install Hugo on your host by this command:</p>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo apt install -y hugo
+</span></span></code></pre></div><p>Run the folloing command for verification:</p>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">hugo version
 </span></span></code></pre></div><p>The Hugo version should be shown if the installation is successfull.</p>
-<h2 id="3-create-a-new-hugo-site">3. Create a new Hugo site</h2>
-<p>Use <code>hugo new site</code> command to create a new Hugo site:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">hugo new site &lt;USERNAME&gt;-hugo -f yml
-</span></span></code></pre></div><p>This will set up the basic directory structure and configuration file (<code>*.yml</code> format) for your blog. This site will be associated with a GitHub repository where you can store the source code of your blog.</p>
-<div class="admonition tip"><p class="admonition-title">What is `&lt;USENAME&gt;`</p>
-<p>For convenient management and organization, you should name the your site as above format with <code>&lt;USERNAME&gt;</code> as the your GitHub&rsquo;s username, i.e., <code>visionbike-hugo</code>. It&rsquo;s a helpful tip for keeping track of your projects and ensuring clarity when managing multiple repositories.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">hugo v0.92.2+extended linux/amd64 <span class="nv">BuildDate</span><span class="o">=</span>2023-01-31T11:11:57Z <span class="nv">VendorInfo</span><span class="o">=</span>ubuntu:0.92.2-1ubuntu0.1
+</span></span></code></pre></div><h2 id="3-creating-a-new-hugo-site">3. Creating a new Hugo site</h2>
+<p>You can run <code>hugo new site</code> command to create a new Hugo site:</p>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">hugo new site &lt;USERNAME&gt;-hugo -f yml
+</span></span></code></pre></div><p>This command will set up the basic directory structure and configuration file in <code>*.yml</code> format for your blog.</p>
+<div class="admonition tip"><p class="admonition-title">What is `&lt;USERNAME&gt;`?</p>
+<p>For convenient management and organization, you should name the your blog project as above format with <code>&lt;USERNAME&gt;</code> as the your GitHub&rsquo;s username, i.e., <code>visionbike-hugo</code>. It&rsquo;s helpful to keep track your project and ensuring clarity when managing multiple repositories.</p>
 </div>
-<p>Initialize git in the local site for further use.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nb">cd</span> &lt;USERNAME&gt;-hugo
+<p>The site will be associated with a GitHub repository where you can store the source code of your blog. Hence, you need to initialize <code>git</code> in the local project for further use.</p>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">cd</span> &lt;USERNAME&gt;-hugo
 </span></span><span class="line"><span class="cl">git init
-</span></span></code></pre></div><p>After creating the Hugo site, it&rsquo;s important to associate it with a GitHub repository. You need to create a new repository on GitHub for your blog&rsquo;s source code.</p>
+</span></span></code></pre></div><p>You also need to create a new repository on GitHub storage for your blog&rsquo;s source code.</p>
 <p><img loading="lazy" src="/posts/create-personal-blog-with-hugo-and-gh-pages/create-source-code-repo.png" type="" alt="Create source code repository"  /></p>
 <div class="admonition tip"><p class="admonition-title">Creating Github Repository Without README</p>
 <p>By creating a repository without a <code>README</code> file, you can avoid accidental history conflicts when pushing your local project to a fresh repository. You can always add a <code>README</code> file later if needed.</p>
 </div>
-<p>Now, link the local site to the GitHub repository by using <code>remote</code> command:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">git remote add origin https://github.com/&lt;USERNAME&gt;/&lt;USERNAME&gt;.github.io.git
+<p>Now, you link the local project to the GitHub repository by the <code>git remote</code> command:</p>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git remote add origin https://github.com/&lt;USERNAME&gt;/&lt;USERNAME&gt;.github.io.git
 </span></span><span class="line"><span class="cl">git banrch -M master
-</span></span></code></pre></div><p>Replace <code>&lt;USERNAME&gt;</code> with your GitHub&rsquo;s username.</p>
-<p>By completing these steps, you have linked your local Hugo site to the GitHub repository. Now you can continue working on your site locally, commit your changes, and push them to the remote repository when ready.</p>
-<h2 id="4-install-hugo-theme">4. Install Hugo Theme</h2>
-<p>nstalling a Hugo theme is a fantastic way to personalize your blog and enhance its visual appeal. You can access free Hugo themes via <a href="https://themes.gohugo.io/">this website</a>.</p>
-<p>For my blog, I select the <a href="https://github.com/reorx/hugo-PaperModX"><strong>PaperModX</strong></a> theme because of its style and awesome features. To use the theme, I will add its source code by <code>git submodule</code> command.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">git submodule add --depth <span class="m">1</span> https://github.com/reorx/hugo-PaperModX themes/PaperModX
-</span></span></code></pre></div><p>This command adds the <strong>PaperModX</strong> theme repository as a submodule in the <code>themes/PaperModX</code> directory of your Hugo site.</p>
+</span></span></code></pre></div><p>By completing these steps, you have linked your local Hugo site to the GitHub repository. Now you can continue working on your site locally, commit any changes, and push them to the remote repository when ready.</p>
+<h2 id="4-installing-hugo-theme">4. Installing Hugo Theme</h2>
+<p>Installing a Hugo theme is a fantastic way to personalize your blog and enhance its visual appeal. You can access free Hugo themes via <a href="https://themes.gohugo.io/">this website</a>.</p>
+<p>For my blog, I chose the <a href="https://github.com/reorx/hugo-PaperModX"><strong>PaperModX</strong></a> theme because of fonding its style and awesome features. I added its source code by the <code>git submodule</code> command.</p>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git submodule add --depth <span class="m">1</span> https://github.com/reorx/hugo-PaperModX themes/PaperModX
+</span></span></code></pre></div><p>The command will add the <strong>PaperModX</strong> theme repository as a submodule in the <code>themes/PaperModX</code> directory of your Hugo site.</p>
 <div class="admonition tip"><p class="admonition-title">Updating submodules</p>
 <p>If you have already added the submodule before, you can run the following command to reclone it.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">git submodule update --init --recursive
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git submodule update --init --recursive
 </span></span></code></pre></div><p>For updating the theme, run this command.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">git submodule update --remote --merge
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git submodule update --remote --merge
 </span></span></code></pre></div></div>
 <h2 id="5-modify-hugo-configuration">5. Modify Hugo Configuration</h2>
-<p>Once you have added the theme, you can configure it in your Hugo site&rsquo;s configuration file (<code>config.toml</code> or <code>config.yml</code>). Refer to the theme&rsquo;s documentation for specific instructions on customization and configuration options. You will most likely want to modify the following fields:</p>
+<p>Once you have added the theme, you can configure it in your Hugo site&rsquo;s configuration file (<code>config.yml</code>). Refer to the theme&rsquo;s documentation for specific instructions on customization and configuration options. You will most likely want to modify the following fields:</p>
 <ul>
 <li>
-<p><strong>baseURL</strong>: This should be set to the URL GitHub Pages will use to host your blog, which will depend on the name of the GitHub repository you created. If the GitHub repository is named <code>&lt;USERNAME&gt;.github.io</code>, then the value of baseURL will be <code>https://&lt;USERNAME&gt;.github.io/</code>. If the GitHub repository has any other name, then the value of baseURL will be <code>https://&lt;USERNAME&gt;.github.io/&lt;REPOSITORY_NAME&gt;/</code>.</p>
+<p><u><strong>baseURL</strong></u>: This should be set into the URL GitHub Pages for hosting your blog. If the GitHub repository is named <code>&lt;USERNAME&gt;.github.io</code>, then the value of baseURL will be <code>https://&lt;USERNAME&gt;.github.io/</code>. If the GitHub repository has any other name, then the value will be <code>https://&lt;USERNAME&gt;.github.io/&lt;REPOSITORY_NAME&gt;/</code>. For instance, my GitHub username is <code>visionbike</code>, then:</p>
 <ul>
-<li>For example, my GitHub username is <code>visionbike</code>. If the GitHub repository is named <code>visionbike.github.io</code>, then the value of baseURL will be <code>https://visionbike.github.io/</code>.</li>
-<li>For example, my GitHub username is <code>visionbike</code>. If the GitHub repository is named <code>visionbike-hugo</code>, then the value of baseURL will be <code>https://visionbike.github.io/visionbike-hugo/</code>.</li>
+<li>If the GitHub repository is named <code>visionbike.github.io</code>, then the <strong>baseURL</strong> will be <code>https://visionbike.github.io/</code>.</li>
+<li>If the GitHub repository is named <code>visionbike-hugo</code>, then the <strong>baseURL</strong> will be <code>https://visionbike.github.io/visionbike-hugo/</code>.</li>
 </ul>
 </li>
 <li>
-<p><strong>title</strong>: This will be the title of your blog site as it appears at the top of a visitor’s web browser when your site is open. It will also appear underneath your avatar, if one is present.</p>
+<p><u><strong>title</strong></u>: This will be the title of your blog site as it appears at the top of a visitor’s web browser when your site is open. It will also appear underneath your avatar, if one is present.</p>
 </li>
 <li>
-<p><strong>theme</strong>: The name of the theme Hugo should use to render your site. In my example, this will be set to <code>PaperModX</code>, since that is the name of the theme I am using.</p>
+<p><u><strong>theme</strong></u>: The name of the theme Hugo should use to render your site. In my example, this will be set to <code>PaperModX</code>, since that is the name of the theme I am using.</p>
 </li>
 </ul>
 <p>Example contents of a valid <code>config.yml</code> file can be found below.</p>
-<details class="admonition quote"><summary class="admonition-title">config.yml</summary>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yml" data-lang="yml"><span class="line"><span class="cl"><span class="c"># base URL</span><span class="w">
+<details class="admonition note"><summary class="admonition-title">config.yml</summary>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="c"># base URL</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">baseURL</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;http://visionbike.github.io/&#34;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="c"># site title</span><span class="w">
@@ -730,8 +729,8 @@ Ideally, we should have following goals when creating and mantaining a blog:</p>
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;Phuc Thanh-Thien Nguyen&#34;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">subtitle</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;AI Researcher - Personal Blog of CV | DSP | ML notes&#34;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">imageUrl</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;images/avatar-3d.png&#34;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">imageTitle</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;avatar-3d&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">imageUrl</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;images/avatar-real.png&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">imageTitle</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;avatar-real&#34;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">imageWidth</span><span class="p">:</span><span class="w"> </span><span class="m">180</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">imageHeight</span><span class="p">:</span><span class="w"> </span><span class="m">180</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">buttons</span><span class="p">:</span><span class="w">
@@ -824,48 +823,43 @@ Ideally, we should have following goals when creating and mantaining a blog:</p>
 </span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">goldmark</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">renderer</span><span class="p">:</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">unsafe</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">highlight</span><span class="p">:</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">style</span><span class="p">:</span><span class="w"> </span><span class="l">doom-one2</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">lineNos</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">codeFences</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">noClasses</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">highlight</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">lineNos</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">codeFences</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">      </span><span class="nt">noClasses</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
 </span></span></span></code></pre></div></details>
-<p>After modifying your <code>config.yml</code> file accordingly, use <code>git</code> to commit and push the changes from your local repository to GitHub.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">git add config.yml
+<p>After modifying the configuration file accordingly, you can commit and push changes from your local repository to GitHub.</p>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git add config.yml
 </span></span><span class="line"><span class="cl">git commit -m <span class="s2">&#34;modify configuration file&#34;</span>
 </span></span><span class="line"><span class="cl">git push -u origin master
-</span></span></code></pre></div><h2 id="6-create-new-hugo-post">6. Create New Hugo Post</h2>
-<p>That&rsquo;s a great step to create your first blog post using Hugo! To create your first post with the <code>hugo new</code> command, execute the following command in the terminal.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">hugo new posts/first-post/index.md
-</span></span></code></pre></div><p>This command will create a new folder named <code>first-post</code> with new Markdown file <code>index.md</code> inside the <code>content/posts</code> directory. Creating a new directory for each single post helps you manage your resource better when images, media sources can be store directly in this directory. The Markdown file will contain the template for your first blog post and you can start  writing your content using Markdown syntax.</p>
-<p>The contents of the <code>first-post.md</code> file will look something like this.</p>
-<div class="admonition quote"><p class="admonition-title">first-post.md</p>
+</span></span></code></pre></div><h2 id="6-creating-new-hugo-post">6. Creating New Hugo Post</h2>
+<p>You are almost done finishing your personal blog!</p>
+<p>To create the first post, you execute the <code>hugo new</code> command in the terminal.</p>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">hugo new posts/first-post/index.md
+</span></span></code></pre></div><p>The command will create a new folder named <code>first-post</code> with new Markdown file <code>index.md</code>, inside the <code>content/posts</code> directory. Creating a new directory for each single post helps you manage your resource better when images, media sources can be store directly in this directory. The Markdown file will contain the template for your first blog post and you can start  writing your content using Markdown syntax.</p>
+<p>The contents of the <code>first-post.md</code> file will look like as:</p>
+<div class="admonition note"><p class="admonition-title">first-post.md</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl">---
 </span></span><span class="line"><span class="cl">title: &#34;First Post&#34;
 </span></span><span class="line"><span class="cl">date: 2023-07-04T01:53:57+08:00
 </span></span><span class="line"><span class="cl">draft: true
 </span></span><span class="line"><span class="cl">---
 </span></span></code></pre></div></div>
-<p>To create your first blog post using Hugo, you need to add content to the Markdown file and update the metadata header. In the metadata header, you will find information such as the post&rsquo;s title (<code>title</code>), publishing date (<code>date</code>), and draft status (<code>draft</code>). Change the value of the <code>draft</code> field from <code>true</code> to <code>false</code> to indicate that the post is ready to be published on your blog site. Your can also add other features supported by the installed theme for your post, i.e., comments, share buttons, navigation, etc.</p>
-<p>Next, add your desired content to the body of the post. In this case, you can include the line &ldquo;This is my first post! Hello world!&rdquo; at the bottom of the file. Feel free to customize the content to reflect your own thoughts and ideas in Markdown syntax.</p>
-<p>After modifying your first blog post, you can use <code>git</code> to commit and push the changes from your local repository to GitHub.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">git add content/posts/first-post.md
+<p>You need to add content to the Markdown file and update the metadata header. In the metadata header, you will find information such as the post&rsquo;s title (<code>title</code>), publishing date (<code>date</code>), and draft status (<code>draft</code>). Change the value of the <code>draft</code> field from <code>true</code> to <code>false</code> to indicate that the post is ready to be published on your blog site. Your can also add other features supported by the installed theme for your post, i.e., comments, share buttons, navigation, etc.</p>
+<p>The, you add the desired content to the body of the post. For instance, I added the line &ldquo;This is my first post! Hello world!&rdquo; at the bottom of the file. Feel free to customize the content to reflect your own thoughts and ideas in Markdown syntax.</p>
+<p>After modifying the first blog post, you can use <code>git commit</code> to commit and push the changes from your local repository to GitHub.</p>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git add content/posts/first-post.md
 </span></span><span class="line"><span class="cl">git commit -m <span class="s2">&#34;add the first post&#34;</span>
 </span></span><span class="line"><span class="cl">git push -u origin master
-</span></span></code></pre></div><div class="admonition quote"><p class="admonition-title">first-post.md</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown"><span class="line"><span class="cl">---
-</span></span><span class="line"><span class="cl">title: &#34;First Post&#34;
-</span></span><span class="line"><span class="cl">date: 2023-07-04T01:53:57+08:00
-</span></span><span class="line"><span class="cl">draft: true
-</span></span><span class="line"><span class="cl">---
-</span></span></code></pre></div></div>
-<h2 id="7-test-hugo-configuration">7. Test Hugo Configuration</h2>
-<p>Before hosting your blog to GitHub pages, let’s ensure Hugo can parse the configuration file and build our new blog post successfully.</p>
-<p>In your local machine, you can run <code>hugo server</code> command to serve your site locally.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">hugo server --disableFastRender
-</span></span></code></pre></div><p>It will watch for any changes in your files and automatically rebuild your site whenever there are updates. Hugo will provide a local development server address, usually <code>http://localhost:1313</code>, where you can access your site.</p>
-<p>To parse the configuration and build your site, you can simply run <code>hugo</code> command. If Hugo encounters any errors, they will be reported here. If the site is successfully built, then you will see output similar to the following.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">Start building sites … 
+</span></span></code></pre></div><h2 id="7-testing-the-hugo-configuration">7. Testing the Hugo Configuration</h2>
+<p>Before hosting your blog to GitHub pages, make ensure Hugo can parse the configuration file and build our new blog post successfully.</p>
+<p>In the local machine, you can run <code>hugo server</code> command to serve your site locally.</p>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">hugo server --disableFastRender
+</span></span></code></pre></div><p>It will watch for any changes in your files and automatically rebuild your site whenever there are updates. Hugo will provide a local development server address, i.e., <code>http://localhost:1313</code>, where you can access your site locally.</p>
+<p>To parse the configuration and build your site, you simply run <code>hugo</code> command.</p>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">hugo
+</span></span></code></pre></div><p>If Hugo encounters any errors, they will be reported here. If the site is successfully built, then you will see output similar to the following.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Start building sites … 
 </span></span><span class="line"><span class="cl">hugo v0.92.2+extended linux/amd64 <span class="nv">BuildDate</span><span class="o">=</span>2023-01-31T11:11:57Z <span class="nv">VendorInfo</span><span class="o">=</span>ubuntu:0.92.2-1ubuntu0.1
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">                   <span class="p">|</span> EN  
@@ -880,12 +874,13 @@ Ideally, we should have following goals when creating and mantaining a blog:</p>
 </span></span><span class="line"><span class="cl">  Cleaned          <span class="p">|</span>  <span class="m">0</span>  
 </span></span><span class="line"><span class="cl">
 </span></span><span class="line"><span class="cl">Total in <span class="m">38</span> ms
-</span></span></code></pre></div><h2 id="8-set-up-github-actions-workflow">8. Set Up GitHub Actions Workflow</h2>
-<p>Lastly, we need to set up a GitHub Actions workflow for automatically building and deploying your blog to GitHub Pages. This workflow is defined by a YAML file in the <code>.github/workflows</code> directory structure at the root of the project. First, let’s create this directory.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="line"><span class="cl"><span class="go">mkdir -p .github/workflows
-</span></span></span></code></pre></div><p>This command creates the <code>.github/workflows</code> directory if it doesn&rsquo;t already exist. The <code>-p</code> option ensures that the parent directories are created if needed.</p>
-<p>Then, we will create a new file within the <code>.github/workflows</code> directory named <code>deploy_gh_pages.yaml</code> with the following contents.</p>
-<div class="admonition quote"><p class="admonition-title">deploy_gh_pages.yaml</p>
+</span></span></code></pre></div><h2 id="8-setting-up-github-actions-workflow">8. Setting Up GitHub Actions Workflow</h2>
+<p>Lastly, the GitHub Actions workflow has to be prepared for automatically building and deploying your blog to GitHub Pages. This workflow is defined by a YAML file in the <code>.github/workflows</code> directory structure at the root of the project.</p>
+<p>First, create the <code>workflows</code> directory.</p>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mkdir -p .github/workflows
+</span></span></code></pre></div><p>The command will create the <code>.github/workflows</code> directory if it doesn&rsquo;t already exist. The <code>-p</code> option ensures that the parent directories are created if needed.</p>
+<p>Then, we create a new file within the created folder directory, named <code>deploy_gh_pages.yaml</code> with the following contents.</p>
+<div class="admonition note"><p class="admonition-title">deploy_gh_pages.yaml</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nn">---</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nn">---</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">Deploy Hugo site via GitHub Pages</span><span class="w">
@@ -928,28 +923,27 @@ Ideally, we should have following goals when creating and mantaining a blog:</p>
 </span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">github_token</span><span class="p">:</span><span class="w"> </span><span class="l">${{ secrets.GITHUB_TOKEN }}</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">          </span><span class="nt">publish_dir</span><span class="p">:</span><span class="w"> </span><span class="l">./public</span><span class="w">
 </span></span></span></code></pre></div></div>
-<p>The YAML file defines the GitHub Actions workflow. It sets up the deployment process using Hugo and GitHub Pages. The workflow is triggered on a push to the <code>master</code> branch, and it uses the specified actions to build and deploy your blog.</p>
-<p>You can see more in <a href="https://github.com/peaceiris/actions-gh-pages">this</a>.</p>
-<p>After creating this file, use <code>git</code> to commit and push the changes from your local repository to GitHub.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-console" data-lang="console"><span class="line"><span class="cl"><span class="go">git add .github/workflows/deploy_gh_pages.yaml
-</span></span></span><span class="line"><span class="cl"><span class="go">git commit -m &#34;Add GitHub Actions workflow&#34;
-</span></span></span><span class="line"><span class="cl"><span class="go">git push -u origin master
-</span></span></span></code></pre></div><h2 id="9-configure-github-pages">9. Configure GitHub Pages</h2>
-<p>We need to set up the GitHub Pages component of our blog. This will allow GitHub to automatically build and serve our website whenever changes are made to the underlying repository.</p>
-<p>First, create new branch named &ldquo;gh-page&rdquo;. This branch will be used by GitHub Pages to build and serve your website. You can create the branch using the branch creation feature in your GitHub repository.</p>
+<p>The YAML file sets up the deployment process using Hugo and GitHub Pages. The workflow is triggered on a push to the <code>master</code> branch, and it uses the specified actions to build and deploy your blog. You can find more in <a href="https://github.com/peaceiris/actions-gh-pages">this</a>.</p>
+<p>Finally, we use <code>git</code> commands to commit and push the changes from your local repository to GitHub.</p>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git add .github/workflows/deploy_gh_pages.yaml
+</span></span><span class="line"><span class="cl">git commit -m <span class="s2">&#34;Add GitHub Actions workflow&#34;</span>
+</span></span><span class="line"><span class="cl">git push -u origin master
+</span></span></code></pre></div><h2 id="9-configuring-github-pages">9. Configuring GitHub Pages</h2>
+<p>The GitHub Pages will allow GitHub to build automatically and serve our website whenever changes are made to the underlying repository.</p>
+<p>First, we create new branch named <code>gh-page</code>. This branch will be used by GitHub Pages to build and serve your website. You can create the branch using the branch creation feature in your GitHub repository.</p>
 <p><img loading="lazy" src="/posts/create-personal-blog-with-hugo-and-gh-pages/create-gh-pages.png" type="" alt="Create gh-pages"  /></p>
-<p>Then, go to the &ldquo;Settings&rdquo; tab near the top of your repository.</p>
+<p>Then, go to the <code>Settings</code> tab near the top of your repository.</p>
 <p><img loading="lazy" src="/posts/create-personal-blog-with-hugo-and-gh-pages/repository-setting.png" type="" alt="Repository setting"  /></p>
-<p>In the left hand pane, locate and click on the &ldquo;Pages&rdquo; category.</p>
+<p>In the left hand pane, locate and click on the <code>Pages</code> category.</p>
 <p><img loading="lazy" src="/posts/create-personal-blog-with-hugo-and-gh-pages/gh-pages-setting.png" type="" alt="GitHub pages setting"  /></p>
-<p>By default, GitHub Pages will be disabled for your repository. To enable it, we need to select a branch for GitHub Pages to build and serve our website from. Under the &ldquo;Source&rdquo; section in the middle pane, you will see a dropdown menu labeled &ldquo;None&rdquo;. Click on the dropdown menu and select the &ldquo;gh-pages&rdquo; branch. This tells GitHub Pages to build and serve your website from the &ldquo;gh-pages&rdquo; branch.</p>
+<p>By default, GitHub Pages will be disabled for your repository. To enable it, we need to select a branch for GitHub Pages to build and serve our website from. Under the <code>Source</code> section in the middle pane, you will see a dropdown menu labeled <code>None</code>. Click on the dropdown menu and select the <code>gh-pages</code> branch. This tells GitHub Pages to build and serve your website from the <code>gh-pages</code> branch.</p>
 <p><img loading="lazy" src="/posts/create-personal-blog-with-hugo-and-gh-pages/select-deployment-branch.png" type="" alt="Select deployment branch"  /></p>
 <p>After selecting the deployment branch, you will see a notification indicating where your site will be published. It will provide you with a URL where your website can be accessed.</p>
 <p><img loading="lazy" src="/posts/create-personal-blog-with-hugo-and-gh-pages/published-url.png" type="" alt="Published URL"  /></p>
-<p>Wait for a few minutes to allow GitHub Pages to build and deploy your website. After the deployment is complete, you can click on the URL provided in the notification to view your website. It may take some time for the changes to propagate and for your website to become accessible.</p>
+<p>Wait for a few minutes to allow GitHub Pages to build and deploy your website. When the deployment completes, you can click on the URL provided in the notification to view your website. It may take some time for the changes to propagate and for your website to become accessible.</p>
 <p><img loading="lazy" src="/posts/create-personal-blog-with-hugo-and-gh-pages/site-demo.png" type="" alt="Site demo"  /></p>
 <h2 id="conclusion">Conclusion</h2>
-<p>Congratulations on setting up your blog using Hugo, Markdown, and GitHub Pages! This free and accessible solution enables you to create and share your technical knowledge with a wide audience. Happy blogging!</p>
+<p>Congratulations on setting up your blog using <em>Hugo</em>, <em>Markdown</em>, and <em>GitHub Pages</em>! This free and accessible solution enables you to create and share your technical knowledge with a wide audience. Happy blogging!</p>
 <h2 id="reference">Reference</h2>
 <ul>
 <li>
