@@ -46,8 +46,8 @@ params:
     enabled: true
     title: "Phuc Thanh-Thien Nguyen"
     subtitle: "AI Researcher - Personal Blog of CV | DSP | ML notes"
-    imageUrl: "images/avatar-3d.png"
-    imageTitle: "avatar-3d"
+    imageUrl: "images/avatar-real.png"
+    imageTitle: "avatar-real"
     imageWidth: 180
     imageHeight: 180
     buttons:
@@ -140,8 +140,7 @@ markup:
   goldmark:
     renderer:
       unsafe: true
-  highlight:
-    style: doom-one2
-    lineNos: false
-    codeFences: true
-    noClasses: false
+    highlight:
+      lineNos: false
+      codeFences: true
+      noClasses: false

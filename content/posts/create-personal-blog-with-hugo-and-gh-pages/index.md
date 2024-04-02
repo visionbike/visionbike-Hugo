@@ -1,5 +1,5 @@
 ---
-title: "Create Personal Blog With Hugo and GitHub Pages"
+title: "Setting Up a Personal Blog With Hugo and GitHub Pages"
 date: 2023-07-04T01:53:57+08:00
 draft: false
 showToc: true
@@ -7,80 +7,84 @@ tocSide: "right"
 enableInstantClick: true
 ---
 
-Creating a personal blog with technical content is a excellent way to enhance your writting skill, take your notes and share your experience with others on the Internet. 
-Ideally, we should have following goals when creating and mantaining a blog:
+Creating a personal blog with technical content is a excellent way to enhance the writting skill, keep memorial notes and share personal experience with others. Ideally, these goals need to be achieved when creating and mantaining a blog:
 
-1. **No/Low-cost** - Free or as close to free as posisble.
-2. **Productive** - Easy to write in and maintain.
+1. **Low-cost** - Free or as close to free as posisble.
+2. **Productive** - Easy to write and maintain.
 3. **Cloud Native** - Utilizes public cloud services for hosting, allowing for infinite scaling.
 
-After researching, I found that using **Markdown**,  **Hugo** and **GitHub Pages**  is indeed a powerful combination for creating and maintaining a cost-effective, productive, and cloud-native blog:
+After researching, I found that using **Markdown**,  **Hugo** and **GitHub Pages**  is indeed a powerful combination for creating and maintaining a cost-effective, productive, and cloud-native blog. 
 
-* [**Markdown**](https://daringfireball.net/projects/markdown/) - A markup language that is extremely easy to read, write natively and can be converted into HTML.
-* [**Hugo**](https://gohugo.io/) - A static site generator written in the Go language that allows for content written in Markdown to be rendered into HTML webpages.
-* [**GitHub Pages**](https://pages.github.com/) - A GitHub service that hosts web content (such as HTML webpages) stored in a GitHub repository.
+* [**Markdown**](https://daringfireball.net/projects/markdown/) is markup language that is extremely easy to read, write natively and can be converted into HTML.
+* [**Hugo**](https://gohugo.io/) is a static site generator written in the Go language that allows for content written in Markdown to be rendered into HTML webpages.
+* [**GitHub Pages**](https://pages.github.com/) is the GitHub service that hosts web contentstored in a GitHub repository.
 
-In this post, I will show how to create your own blog for FREE using above technologies. The blog is built using an Linux operating system host (including Window Subsystem for Linux - WSL as in my case).
+In this post, I will show how to create an simple personal blog for FREE using above technologies. The blog was developed in Window Subsystem for Linux (WSL2).
 
-Here's an outline of the steps you can follow to create your own blog using these technologies:
+Here's an outline of the steps you can follow to create the personal blog using these technologies:
 
-## 1. Set up GitHub Account
+## 1. Setting up GitHub Account
 
 If you don't have one already, creating a GitHub account. GitHub Pages allows you to host your blog for free using a GitHub repository.
 
-## 2. Install Hugo
+## 2. Installing Hugo
 
-Before starting, make sure `git` is install in your local machine.
+Before starting, make sure `git` is installed in the local machine.
 
-```shell
-sudo apt install git
+```bash {.command}
+sudo apt install -y git
 ```
 
-Open a terminal and configure Git with your name and email address.
+Configure Git with your <u>`username`</u> and <u>`email address`</u>.
 
-```shell
+```bash {.command}
 git config --global user.name "Your Name"
+```
+
+```bash {.command}
 git config --global user.email "your.email@example.com"
 ```
 
 To verify that Git has been installed successfully, you can check the version using `git --version`. This command will display the installed version of Git.
 
-Now, install Hugo on your Linux operating system host. For Ubuntu user, you can follow this commands.
+For Ubuntu user, you can  install Hugo on your host by this command:
 
-```shell
-sudo apt install hugo
+```bash {.command}
+sudo apt install -y hugo
 ```
 
-For verification, run this command:
+Run the folloing command for verification:
 
-```shell
+```bash {.command}
 hugo version
 ```
 
 The Hugo version should be shown if the installation is successfull. 
 
-## 3. Create a new Hugo site
+```bash
+hugo v0.92.2+extended linux/amd64 BuildDate=2023-01-31T11:11:57Z VendorInfo=ubuntu:0.92.2-1ubuntu0.1
+```
 
-Use `hugo new site` command to create a new Hugo site:
+## 3. Creating a new Hugo site
+You can run `hugo new site` command to create a new Hugo site:
 
-```shell
+```bash {.command}
 hugo new site <USERNAME>-hugo -f yml
 ```
 
-This will set up the basic directory structure and configuration file (`*.yml` format) for your blog. This site will be associated with a GitHub repository where you can store the source code of your blog.
-
-{{% admonition type="tip" title="What is `<USENAME>`" details="false" %}}
-For convenient management and organization, you should name the your site as above format with `<USERNAME>` as the your GitHub's username, i.e., `visionbike-hugo`. It's a helpful tip for keeping track of your projects and ensuring clarity when managing multiple repositories.
+This command will set up the basic directory structure and configuration file in `*.yml` format for your blog.
+{{% admonition type="tip" title="What is `<USERNAME>`?" details="false" %}}
+For convenient management and organization, you should name the your blog project as above format with `<USERNAME>` as the your GitHub's username, i.e., `visionbike-hugo`. It's helpful to keep track your project and ensuring clarity when managing multiple repositories.
 {{% /admonition %}}
 
-Initialize git in the local site for further use.
+The site will be associated with a GitHub repository where you can store the source code of your blog. Hence, you need to initialize `git` in the local project for further use.
 
-```shell
+```bash {.command}
 cd <USERNAME>-hugo
 git init
 ```
 
-After creating the Hugo site, it's important to associate it with a GitHub repository. You need to create a new repository on GitHub for your blog's source code.
+You also need to create a new repository on GitHub storage for your blog's source code.
 
 ![Create source code repository](create-source-code-repo.png)
 
@@ -88,39 +92,37 @@ After creating the Hugo site, it's important to associate it with a GitHub repos
 By creating a repository without a `README` file, you can avoid accidental history conflicts when pushing your local project to a fresh repository. You can always add a `README` file later if needed.
 {{% /admonition %}}
 
-Now, link the local site to the GitHub repository by using `remote` command:
+Now, you link the local project to the GitHub repository by the `git remote` command:
 
-```shell
+```bash {.command}
 git remote add origin https://github.com/<USERNAME>/<USERNAME>.github.io.git
 git banrch -M master
 ```
 
-Replace `<USERNAME>` with your GitHub's username.
+By completing these steps, you have linked your local Hugo site to the GitHub repository. Now you can continue working on your site locally, commit any changes, and push them to the remote repository when ready.
 
-By completing these steps, you have linked your local Hugo site to the GitHub repository. Now you can continue working on your site locally, commit your changes, and push them to the remote repository when ready.
+## 4. Installing Hugo Theme
 
-## 4. Install Hugo Theme
+Installing a Hugo theme is a fantastic way to personalize your blog and enhance its visual appeal. You can access free Hugo themes via [this website](https://themes.gohugo.io/).
 
-nstalling a Hugo theme is a fantastic way to personalize your blog and enhance its visual appeal. You can access free Hugo themes via [this website](https://themes.gohugo.io/).
+For my blog, I chose the [**PaperModX**](https://github.com/reorx/hugo-PaperModX) theme because of fonding its style and awesome features. I added its source code by the `git submodule` command.
 
-For my blog, I select the [**PaperModX**](https://github.com/reorx/hugo-PaperModX) theme because of its style and awesome features. To use the theme, I will add its source code by `git submodule` command.
-
-```shell
+```bash {.command}
 git submodule add --depth 1 https://github.com/reorx/hugo-PaperModX themes/PaperModX
 ```
 
-This command adds the **PaperModX** theme repository as a submodule in the `themes/PaperModX` directory of your Hugo site.
+The command will add the **PaperModX** theme repository as a submodule in the `themes/PaperModX` directory of your Hugo site.
 
 {{% admonition type="tip" title="Updating submodules" details="false" %}}
 If you have already added the submodule before, you can run the following command to reclone it.
 
-```shell
+```bash {.command}
 git submodule update --init --recursive
 ```
 
 For updating the theme, run this command.
 
-```shell
+```bash {.command}
 git submodule update --remote --merge
 ```
 
@@ -128,20 +130,20 @@ git submodule update --remote --merge
 
 ## 5. Modify Hugo Configuration
 
-Once you have added the theme, you can configure it in your Hugo site's configuration file (`config.toml` or `config.yml`). Refer to the theme's documentation for specific instructions on customization and configuration options. You will most likely want to modify the following fields:
+Once you have added the theme, you can configure it in your Hugo site's configuration file (`config.yml`). Refer to the theme's documentation for specific instructions on customization and configuration options. You will most likely want to modify the following fields:
 
-* **baseURL**: This should be set to the URL GitHub Pages will use to host your blog, which will depend on the name of the GitHub repository you created. If the GitHub repository is named `<USERNAME>.github.io`, then the value of baseURL will be `https://<USERNAME>.github.io/`. If the GitHub repository has any other name, then the value of baseURL will be `https://<USERNAME>.github.io/<REPOSITORY_NAME>/`.
-  * For example, my GitHub username is `visionbike`. If the GitHub repository is named `visionbike.github.io`, then the value of baseURL will be `https://visionbike.github.io/`.
-  * For example, my GitHub username is `visionbike`. If the GitHub repository is named `visionbike-hugo`, then the value of baseURL will be `https://visionbike.github.io/visionbike-hugo/`.
+* <u>**baseURL**</u>: This should be set into the URL GitHub Pages for hosting your blog. If the GitHub repository is named `<USERNAME>.github.io`, then the value of baseURL will be `https://<USERNAME>.github.io/`. If the GitHub repository has any other name, then the value will be `https://<USERNAME>.github.io/<REPOSITORY_NAME>/`. For instance, my GitHub username is `visionbike`, then:
+  * If the GitHub repository is named `visionbike.github.io`, then the **baseURL** will be `https://visionbike.github.io/`.
+  * If the GitHub repository is named `visionbike-hugo`, then the **baseURL** will be `https://visionbike.github.io/visionbike-hugo/`.
 
-* **title**: This will be the title of your blog site as it appears at the top of a visitor’s web browser when your site is open. It will also appear underneath your avatar, if one is present.
+* <u>**title**</u>: This will be the title of your blog site as it appears at the top of a visitor’s web browser when your site is open. It will also appear underneath your avatar, if one is present.
 
-* **theme**: The name of the theme Hugo should use to render your site. In my example, this will be set to `PaperModX`, since that is the name of the theme I am using.
+* <u>**theme**</u>: The name of the theme Hugo should use to render your site. In my example, this will be set to `PaperModX`, since that is the name of the theme I am using.
 
 Example contents of a valid `config.yml` file can be found below.
 
-{{% admonition type="quote" title="config.yml" details="true" %}}
-```yml
+{{% admonition type="note" title="config.yml" details="true" %}}
+```yaml
 # base URL
 baseURL: "http://visionbike.github.io/"
 
@@ -190,8 +192,8 @@ params:
     enabled: true
     title: "Phuc Thanh-Thien Nguyen"
     subtitle: "AI Researcher - Personal Blog of CV | DSP | ML notes"
-    imageUrl: "images/avatar-3d.png"
-    imageTitle: "avatar-3d"
+    imageUrl: "images/avatar-real.png"
+    imageTitle: "avatar-real"
     imageWidth: 180
     imageHeight: 180
     buttons:
@@ -284,35 +286,36 @@ markup:
   goldmark:
     renderer:
       unsafe: true
-  highlight:
-    style: doom-one2
-    lineNos: false
-    codeFences: true
-    noClasses: false
+    highlight:
+      lineNos: false
+      codeFences: true
+      noClasses: false
 ```
 {{% /admonition %}}
 
-After modifying your `config.yml` file accordingly, use `git` to commit and push the changes from your local repository to GitHub.
+After modifying the configuration file accordingly, you can commit and push changes from your local repository to GitHub.
 
-```shell
+```bash {.command}
 git add config.yml
 git commit -m "modify configuration file"
 git push -u origin master
 ```
 
-## 6. Create New Hugo Post
+## 6. Creating New Hugo Post
 
-That's a great step to create your first blog post using Hugo! To create your first post with the `hugo new` command, execute the following command in the terminal.
+You are almost done finishing your personal blog! 
 
-```shell
+To create the first post, you execute the `hugo new` command in the terminal.
+
+```bash {.command}
 hugo new posts/first-post/index.md
 ```
 
-This command will create a new folder named `first-post` with new Markdown file `index.md` inside the `content/posts` directory. Creating a new directory for each single post helps you manage your resource better when images, media sources can be store directly in this directory. The Markdown file will contain the template for your first blog post and you can start  writing your content using Markdown syntax.
+The command will create a new folder named `first-post` with new Markdown file `index.md`, inside the `content/posts` directory. Creating a new directory for each single post helps you manage your resource better when images, media sources can be store directly in this directory. The Markdown file will contain the template for your first blog post and you can start  writing your content using Markdown syntax.
 
-The contents of the `first-post.md` file will look something like this.
+The contents of the `first-post.md` file will look like as:
 
-{{% admonition type="quote" title="first-post.md" details="false" %}}
+{{% admonition type="note" title="first-post.md" details="false" %}}
 ```markdown
 ---
 title: "First Post"
@@ -322,43 +325,39 @@ draft: true
 ```
 {{% /admonition %}}
 
-To create your first blog post using Hugo, you need to add content to the Markdown file and update the metadata header. In the metadata header, you will find information such as the post's title (`title`), publishing date (`date`), and draft status (`draft`). Change the value of the `draft` field from `true` to `false` to indicate that the post is ready to be published on your blog site. Your can also add other features supported by the installed theme for your post, i.e., comments, share buttons, navigation, etc.
+You need to add content to the Markdown file and update the metadata header. In the metadata header, you will find information such as the post's title (`title`), publishing date (`date`), and draft status (`draft`). Change the value of the `draft` field from `true` to `false` to indicate that the post is ready to be published on your blog site. Your can also add other features supported by the installed theme for your post, i.e., comments, share buttons, navigation, etc.
 
-Next, add your desired content to the body of the post. In this case, you can include the line "This is my first post! Hello world!" at the bottom of the file. Feel free to customize the content to reflect your own thoughts and ideas in Markdown syntax.
+The, you add the desired content to the body of the post. For instance, I added the line "This is my first post! Hello world!" at the bottom of the file. Feel free to customize the content to reflect your own thoughts and ideas in Markdown syntax.
 
-After modifying your first blog post, you can use `git` to commit and push the changes from your local repository to GitHub.
+After modifying the first blog post, you can use `git commit` to commit and push the changes from your local repository to GitHub.
 
-```shell
+```bash {.command}
 git add content/posts/first-post.md
 git commit -m "add the first post"
 git push -u origin master
 ```
 
-{{% admonition type="quote" title="first-post.md" details="false" %}}
-```markdown
----
-title: "First Post"
-date: 2023-07-04T01:53:57+08:00
-draft: true
----
-```
-{{% /admonition %}}
+## 7. Testing the Hugo Configuration
 
-## 7. Test Hugo Configuration
+Before hosting your blog to GitHub pages, make ensure Hugo can parse the configuration file and build our new blog post successfully. 
 
-Before hosting your blog to GitHub pages, let’s ensure Hugo can parse the configuration file and build our new blog post successfully. 
+In the local machine, you can run `hugo server` command to serve your site locally. 
 
-In your local machine, you can run `hugo server` command to serve your site locally. 
-
-```shell
+```bash {.command}
 hugo server --disableFastRender
 ```
 
-It will watch for any changes in your files and automatically rebuild your site whenever there are updates. Hugo will provide a local development server address, usually `http://localhost:1313`, where you can access your site.
+It will watch for any changes in your files and automatically rebuild your site whenever there are updates. Hugo will provide a local development server address, i.e., `http://localhost:1313`, where you can access your site locally.
 
-To parse the configuration and build your site, you can simply run `hugo` command. If Hugo encounters any errors, they will be reported here. If the site is successfully built, then you will see output similar to the following.
+To parse the configuration and build your site, you simply run `hugo` command. 
 
-```shell
+```bash {.command}
+hugo
+```
+
+If Hugo encounters any errors, they will be reported here. If the site is successfully built, then you will see output similar to the following.
+
+```bash
 Start building sites … 
 hugo v0.92.2+extended linux/amd64 BuildDate=2023-01-31T11:11:57Z VendorInfo=ubuntu:0.92.2-1ubuntu0.1
 
@@ -376,19 +375,21 @@ hugo v0.92.2+extended linux/amd64 BuildDate=2023-01-31T11:11:57Z VendorInfo=ubun
 Total in 38 ms
 ```
 
-## 8. Set Up GitHub Actions Workflow
+## 8. Setting Up GitHub Actions Workflow
 
-Lastly, we need to set up a GitHub Actions workflow for automatically building and deploying your blog to GitHub Pages. This workflow is defined by a YAML file in the `.github/workflows` directory structure at the root of the project. First, let’s create this directory.
+Lastly, the GitHub Actions workflow has to be prepared for automatically building and deploying your blog to GitHub Pages. This workflow is defined by a YAML file in the `.github/workflows` directory structure at the root of the project. 
 
-```console
+First, create the `workflows` directory.
+
+```bash {.command}
 mkdir -p .github/workflows
 ```
 
-This command creates the `.github/workflows` directory if it doesn't already exist. The `-p` option ensures that the parent directories are created if needed. 
+The command will create the `.github/workflows` directory if it doesn't already exist. The `-p` option ensures that the parent directories are created if needed. 
 
-Then, we will create a new file within the `.github/workflows` directory named `deploy_gh_pages.yaml` with the following contents.
+Then, we create a new file within the created folder directory, named `deploy_gh_pages.yaml` with the following contents.
 
-{{% admonition type="quote" title="deploy_gh_pages.yaml" details="false" %}}
+{{% admonition type="note" title="deploy_gh_pages.yaml" details="false" %}}
 ```yaml
 ---
 ---
@@ -434,35 +435,33 @@ jobs:
 ```
 {{% /admonition %}}
 
-The YAML file defines the GitHub Actions workflow. It sets up the deployment process using Hugo and GitHub Pages. The workflow is triggered on a push to the `master` branch, and it uses the specified actions to build and deploy your blog.
+The YAML file sets up the deployment process using Hugo and GitHub Pages. The workflow is triggered on a push to the `master` branch, and it uses the specified actions to build and deploy your blog. You can find more in [this](https://github.com/peaceiris/actions-gh-pages).
 
-You can see more in [this](https://github.com/peaceiris/actions-gh-pages).
+Finally, we use `git` commands to commit and push the changes from your local repository to GitHub.
 
-After creating this file, use `git` to commit and push the changes from your local repository to GitHub.
-
-```console
+```bash {.command}
 git add .github/workflows/deploy_gh_pages.yaml
 git commit -m "Add GitHub Actions workflow"
 git push -u origin master
 ```
 
-## 9. Configure GitHub Pages
+## 9. Configuring GitHub Pages
 
-We need to set up the GitHub Pages component of our blog. This will allow GitHub to automatically build and serve our website whenever changes are made to the underlying repository.
+The GitHub Pages will allow GitHub to build automatically and serve our website whenever changes are made to the underlying repository.
 
-First, create new branch named "gh-page". This branch will be used by GitHub Pages to build and serve your website. You can create the branch using the branch creation feature in your GitHub repository.
+First, we create new branch named `gh-page`. This branch will be used by GitHub Pages to build and serve your website. You can create the branch using the branch creation feature in your GitHub repository.
 
 ![Create gh-pages](create-gh-pages.png)
 
-Then, go to the "Settings" tab near the top of your repository.
+Then, go to the `Settings` tab near the top of your repository.
 
 ![Repository setting](repository-setting.png)
 
-In the left hand pane, locate and click on the "Pages" category.
+In the left hand pane, locate and click on the `Pages` category.
 
 ![GitHub pages setting](gh-pages-setting.png)
 
-By default, GitHub Pages will be disabled for your repository. To enable it, we need to select a branch for GitHub Pages to build and serve our website from. Under the "Source" section in the middle pane, you will see a dropdown menu labeled "None". Click on the dropdown menu and select the "gh-pages" branch. This tells GitHub Pages to build and serve your website from the "gh-pages" branch.
+By default, GitHub Pages will be disabled for your repository. To enable it, we need to select a branch for GitHub Pages to build and serve our website from. Under the `Source` section in the middle pane, you will see a dropdown menu labeled `None`. Click on the dropdown menu and select the `gh-pages` branch. This tells GitHub Pages to build and serve your website from the `gh-pages` branch.
 
 ![Select deployment branch](select-deployment-branch.png)
 
@@ -470,13 +469,13 @@ After selecting the deployment branch, you will see a notification indicating wh
 
 ![Published URL](published-url.png)
 
-Wait for a few minutes to allow GitHub Pages to build and deploy your website. After the deployment is complete, you can click on the URL provided in the notification to view your website. It may take some time for the changes to propagate and for your website to become accessible.
+Wait for a few minutes to allow GitHub Pages to build and deploy your website. When the deployment completes, you can click on the URL provided in the notification to view your website. It may take some time for the changes to propagate and for your website to become accessible.
 
 ![Site demo](site-demo.png)
 
 ## Conclusion
 
-Congratulations on setting up your blog using Hugo, Markdown, and GitHub Pages! This free and accessible solution enables you to create and share your technical knowledge with a wide audience. Happy blogging!
+Congratulations on setting up your blog using *Hugo*, *Markdown*, and *GitHub Pages*! This free and accessible solution enables you to create and share your technical knowledge with a wide audience. Happy blogging!
 
 ## Reference
 

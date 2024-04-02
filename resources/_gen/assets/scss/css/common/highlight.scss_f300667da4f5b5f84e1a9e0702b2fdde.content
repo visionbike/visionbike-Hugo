@@ -1,12 +1,12 @@
 /* Background */
 .chroma {
-  background-color: #ffffff; }
+  background-color: #f0f3f3; }
 
 /* Other */
 /* Error */
 .chroma .err {
-  color: #a61717;
-  background-color: #e3d2d2; }
+  color: #aa0000;
+  background-color: #ffaaaa; }
 
 /* LineTableTD */
 .chroma .lntd {
@@ -45,203 +45,191 @@
 
 /* Keyword */
 .chroma .k {
-  color: #000000;
+  color: #006699;
   font-weight: bold; }
 
 /* KeywordConstant */
 .chroma .kc {
-  color: #000000;
+  color: #006699;
   font-weight: bold; }
 
 /* KeywordDeclaration */
 .chroma .kd {
-  color: #000000;
+  color: #006699;
   font-weight: bold; }
 
 /* KeywordNamespace */
 .chroma .kn {
-  color: #000000;
+  color: #006699;
   font-weight: bold; }
 
 /* KeywordPseudo */
 .chroma .kp {
-  color: #000000;
-  font-weight: bold; }
+  color: #006699; }
 
 /* KeywordReserved */
 .chroma .kr {
-  color: #000000;
+  color: #006699;
   font-weight: bold; }
 
 /* KeywordType */
 .chroma .kt {
-  color: #445588;
+  color: #007788;
   font-weight: bold; }
 
 /* Name */
 /* NameAttribute */
 .chroma .na {
-  color: #008080; }
+  color: #330099; }
 
 /* NameBuiltin */
 .chroma .nb {
-  color: #0086b3; }
+  color: #336666; }
 
 /* NameBuiltinPseudo */
-.chroma .bp {
-  color: #999999; }
-
 /* NameClass */
 .chroma .nc {
-  color: #445588;
+  color: #00aa88;
   font-weight: bold; }
 
 /* NameConstant */
 .chroma .no {
-  color: #008080; }
+  color: #336600; }
 
 /* NameDecorator */
 .chroma .nd {
-  color: #3c5d5d;
-  font-weight: bold; }
+  color: #9999ff; }
 
 /* NameEntity */
 .chroma .ni {
-  color: #800080; }
+  color: #999999;
+  font-weight: bold; }
 
 /* NameException */
 .chroma .ne {
-  color: #990000;
+  color: #cc0000;
   font-weight: bold; }
 
 /* NameFunction */
 .chroma .nf {
-  color: #990000;
-  font-weight: bold; }
+  color: #cc00ff; }
 
 /* NameFunctionMagic */
 /* NameLabel */
 .chroma .nl {
-  color: #990000;
-  font-weight: bold; }
+  color: #9999ff; }
 
 /* NameNamespace */
 .chroma .nn {
-  color: #555555; }
+  color: #00ccff;
+  font-weight: bold; }
 
 /* NameOther */
 /* NameProperty */
 /* NameTag */
 .chroma .nt {
-  color: #000080; }
+  color: #330099;
+  font-weight: bold; }
 
 /* NameVariable */
 .chroma .nv {
-  color: #008080; }
+  color: #003333; }
 
 /* NameVariableClass */
-.chroma .vc {
-  color: #008080; }
-
 /* NameVariableGlobal */
-.chroma .vg {
-  color: #008080; }
-
 /* NameVariableInstance */
-.chroma .vi {
-  color: #008080; }
-
 /* NameVariableMagic */
 /* Literal */
 /* LiteralDate */
 /* LiteralString */
 .chroma .s {
-  color: #dd1144; }
+  color: #cc3300; }
 
 /* LiteralStringAffix */
 .chroma .sa {
-  color: #dd1144; }
+  color: #cc3300; }
 
 /* LiteralStringBacktick */
 .chroma .sb {
-  color: #dd1144; }
+  color: #cc3300; }
 
 /* LiteralStringChar */
 .chroma .sc {
-  color: #dd1144; }
+  color: #cc3300; }
 
 /* LiteralStringDelimiter */
 .chroma .dl {
-  color: #dd1144; }
+  color: #cc3300; }
 
 /* LiteralStringDoc */
 .chroma .sd {
-  color: #dd1144; }
+  color: #cc3300;
+  font-style: italic; }
 
 /* LiteralStringDouble */
 .chroma .s2 {
-  color: #dd1144; }
+  color: #cc3300; }
 
 /* LiteralStringEscape */
 .chroma .se {
-  color: #dd1144; }
+  color: #cc3300;
+  font-weight: bold; }
 
 /* LiteralStringHeredoc */
 .chroma .sh {
-  color: #dd1144; }
+  color: #cc3300; }
 
 /* LiteralStringInterpol */
 .chroma .si {
-  color: #dd1144; }
+  color: #aa0000; }
 
 /* LiteralStringOther */
 .chroma .sx {
-  color: #dd1144; }
+  color: #cc3300; }
 
 /* LiteralStringRegex */
 .chroma .sr {
-  color: #009926; }
+  color: #33aaaa; }
 
 /* LiteralStringSingle */
 .chroma .s1 {
-  color: #dd1144; }
+  color: #cc3300; }
 
 /* LiteralStringSymbol */
 .chroma .ss {
-  color: #990073; }
+  color: #ffcc33; }
 
 /* LiteralNumber */
 .chroma .m {
-  color: #009999; }
+  color: #ff6600; }
 
 /* LiteralNumberBin */
 .chroma .mb {
-  color: #009999; }
+  color: #ff6600; }
 
 /* LiteralNumberFloat */
 .chroma .mf {
-  color: #009999; }
+  color: #ff6600; }
 
 /* LiteralNumberHex */
 .chroma .mh {
-  color: #009999; }
+  color: #ff6600; }
 
 /* LiteralNumberInteger */
 .chroma .mi {
-  color: #009999; }
+  color: #ff6600; }
 
 /* LiteralNumberIntegerLong */
 .chroma .il {
-  color: #009999; }
+  color: #ff6600; }
 
 /* LiteralNumberOct */
 .chroma .mo {
-  color: #009999; }
+  color: #ff6600; }
 
 /* Operator */
 .chroma .o {
-  color: #000000;
-  font-weight: bold; }
+  color: #555555; }
 
 /* OperatorWord */
 .chroma .ow {
@@ -251,73 +239,68 @@
 /* Punctuation */
 /* Comment */
 .chroma .c {
-  color: #999988;
+  color: #0099ff;
   font-style: italic; }
 
 /* CommentHashbang */
 .chroma .ch {
-  color: #999988;
+  color: #0099ff;
   font-style: italic; }
 
 /* CommentMultiline */
 .chroma .cm {
-  color: #999988;
+  color: #0099ff;
   font-style: italic; }
 
 /* CommentSingle */
 .chroma .c1 {
-  color: #999988;
+  color: #0099ff;
   font-style: italic; }
 
 /* CommentSpecial */
 .chroma .cs {
-  color: #999999;
+  color: #0099ff;
   font-weight: bold;
   font-style: italic; }
 
 /* CommentPreproc */
 .chroma .cp {
-  color: #999999;
-  font-weight: bold;
-  font-style: italic; }
+  color: #009999; }
 
 /* CommentPreprocFile */
 .chroma .cpf {
-  color: #999999;
-  font-weight: bold;
-  font-style: italic; }
+  color: #009999; }
 
 /* Generic */
 /* GenericDeleted */
 .chroma .gd {
-  color: #000000;
-  background-color: #ffdddd; }
+  background-color: #ffcccc; }
 
 /* GenericEmph */
 .chroma .ge {
-  color: #000000;
   font-style: italic; }
 
 /* GenericError */
 .chroma .gr {
-  color: #aa0000; }
+  color: #ff0000; }
 
 /* GenericHeading */
 .chroma .gh {
-  color: #999999; }
+  color: #003300;
+  font-weight: bold; }
 
 /* GenericInserted */
 .chroma .gi {
-  color: #000000;
-  background-color: #ddffdd; }
+  background-color: #ccffcc; }
 
 /* GenericOutput */
 .chroma .go {
-  color: #888888; }
+  color: #aaaaaa; }
 
 /* GenericPrompt */
 .chroma .gp {
-  color: #555555; }
+  color: #000099;
+  font-weight: bold; }
 
 /* GenericStrong */
 .chroma .gs {
@@ -325,11 +308,12 @@
 
 /* GenericSubheading */
 .chroma .gu {
-  color: #aaaaaa; }
+  color: #003300;
+  font-weight: bold; }
 
 /* GenericTraceback */
 .chroma .gt {
-  color: #aa0000; }
+  color: #99cc66; }
 
 /* GenericUnderline */
 .chroma .gl {
@@ -426,8 +410,8 @@
   /* GenericUnderline */
   /* TextWhitespace */ }
   .dark .chroma {
-    color: #f8f8f2;
-    background-color: #282a36; }
+    color: #ffffff;
+    background-color: #111111; }
   .dark .chroma .lntd {
     vertical-align: top;
     padding: 0;
@@ -454,118 +438,123 @@
     padding: 0 0.4em 0 0.4em;
     color: #7f7f7f; }
   .dark .chroma .k {
-    color: #ff79c6; }
+    color: #fb660a;
+    font-weight: bold; }
   .dark .chroma .kc {
-    color: #ff79c6; }
+    color: #fb660a;
+    font-weight: bold; }
   .dark .chroma .kd {
-    color: #8be9fd;
-    font-style: italic; }
+    color: #fb660a;
+    font-weight: bold; }
   .dark .chroma .kn {
-    color: #ff79c6; }
+    color: #fb660a;
+    font-weight: bold; }
   .dark .chroma .kp {
-    color: #ff79c6; }
+    color: #fb660a; }
   .dark .chroma .kr {
-    color: #ff79c6; }
+    color: #fb660a;
+    font-weight: bold; }
   .dark .chroma .kt {
-    color: #8be9fd; }
+    color: #cdcaa9;
+    font-weight: bold; }
   .dark .chroma .na {
-    color: #50fa7b; }
-  .dark .chroma .nb {
-    color: #8be9fd;
-    font-style: italic; }
-  .dark .chroma .nc {
-    color: #50fa7b; }
+    color: #ff0086;
+    font-weight: bold; }
+  .dark .chroma .no {
+    color: #0086d2; }
   .dark .chroma .nf {
-    color: #50fa7b; }
-  .dark .chroma .nl {
-    color: #8be9fd;
-    font-style: italic; }
+    color: #ff0086;
+    font-weight: bold; }
   .dark .chroma .nt {
-    color: #ff79c6; }
+    color: #fb660a;
+    font-weight: bold; }
   .dark .chroma .nv {
-    color: #8be9fd;
-    font-style: italic; }
-  .dark .chroma .vc {
-    color: #8be9fd;
-    font-style: italic; }
-  .dark .chroma .vg {
-    color: #8be9fd;
-    font-style: italic; }
-  .dark .chroma .vi {
-    color: #8be9fd;
-    font-style: italic; }
+    color: #fb660a; }
   .dark .chroma .s {
-    color: #f1fa8c; }
+    color: #0086d2; }
   .dark .chroma .sa {
-    color: #f1fa8c; }
+    color: #0086d2; }
   .dark .chroma .sb {
-    color: #f1fa8c; }
+    color: #0086d2; }
   .dark .chroma .sc {
-    color: #f1fa8c; }
+    color: #0086d2; }
   .dark .chroma .dl {
-    color: #f1fa8c; }
+    color: #0086d2; }
   .dark .chroma .sd {
-    color: #f1fa8c; }
+    color: #0086d2; }
   .dark .chroma .s2 {
-    color: #f1fa8c; }
+    color: #0086d2; }
   .dark .chroma .se {
-    color: #f1fa8c; }
+    color: #0086d2; }
   .dark .chroma .sh {
-    color: #f1fa8c; }
+    color: #0086d2; }
   .dark .chroma .si {
-    color: #f1fa8c; }
+    color: #0086d2; }
   .dark .chroma .sx {
-    color: #f1fa8c; }
+    color: #0086d2; }
   .dark .chroma .sr {
-    color: #f1fa8c; }
+    color: #0086d2; }
   .dark .chroma .s1 {
-    color: #f1fa8c; }
+    color: #0086d2; }
   .dark .chroma .ss {
-    color: #f1fa8c; }
+    color: #0086d2; }
   .dark .chroma .m {
-    color: #bd93f9; }
+    color: #0086f7;
+    font-weight: bold; }
   .dark .chroma .mb {
-    color: #bd93f9; }
+    color: #0086f7;
+    font-weight: bold; }
   .dark .chroma .mf {
-    color: #bd93f9; }
+    color: #0086f7;
+    font-weight: bold; }
   .dark .chroma .mh {
-    color: #bd93f9; }
+    color: #0086f7;
+    font-weight: bold; }
   .dark .chroma .mi {
-    color: #bd93f9; }
+    color: #0086f7;
+    font-weight: bold; }
   .dark .chroma .il {
-    color: #bd93f9; }
+    color: #0086f7;
+    font-weight: bold; }
   .dark .chroma .mo {
-    color: #bd93f9; }
-  .dark .chroma .o {
-    color: #ff79c6; }
-  .dark .chroma .ow {
-    color: #ff79c6; }
+    color: #0086f7;
+    font-weight: bold; }
   .dark .chroma .c {
-    color: #6272a4; }
+    color: #008800;
+    background-color: #0f140f;
+    font-style: italic; }
   .dark .chroma .ch {
-    color: #6272a4; }
+    color: #008800;
+    background-color: #0f140f;
+    font-style: italic; }
   .dark .chroma .cm {
-    color: #6272a4; }
+    color: #008800;
+    background-color: #0f140f;
+    font-style: italic; }
   .dark .chroma .c1 {
-    color: #6272a4; }
+    color: #008800;
+    background-color: #0f140f;
+    font-style: italic; }
   .dark .chroma .cs {
-    color: #6272a4; }
+    color: #008800;
+    background-color: #0f140f;
+    font-style: italic; }
   .dark .chroma .cp {
-    color: #ff79c6; }
+    color: #ff0007;
+    background-color: #0f140f;
+    font-weight: bold;
+    font-style: italic; }
   .dark .chroma .cpf {
-    color: #ff79c6; }
-  .dark .chroma .gd {
-    color: #ff5555; }
-  .dark .chroma .ge {
-    text-decoration: underline; }
+    color: #ff0007;
+    background-color: #0f140f;
+    font-weight: bold;
+    font-style: italic; }
   .dark .chroma .gh {
     font-weight: bold; }
-  .dark .chroma .gi {
-    color: #50fa7b;
-    font-weight: bold; }
   .dark .chroma .go {
-    color: #44475a; }
+    color: #444444;
+    background-color: #222222; }
   .dark .chroma .gu {
     font-weight: bold; }
-  .dark .chroma .gl {
-    text-decoration: underline; }
+  .dark .chroma .w {
+    color: #888888; }

@@ -1,0 +1,10 @@
+@import '../lib/chroma-manni-light';
+
+// for github theme, add a background color
+.chroma {
+  background-color: #f6f8fa;
+}
+
+.dark {
+  @import '../lib/chroma-fruity-dark';
+}

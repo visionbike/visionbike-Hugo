@@ -16,7 +16,7 @@
   --link-underline-shadow: 0 1px 0 var(--link-color);
   --link-hover-underline-color: var(--link-hover-color);
   --link-hover-underline-shadow: 0 2px 0 var(--link-hover-underline-color);
-  --code-foreground-color: var(--link-hover-color);
+  --code-foreground-color: #5e9f7b;
 }
 
 .post-content p {
@@ -24,14 +24,27 @@
 }
 
 .post-content code {
-  color: var(--code-foreground-color);
-  font-size: 15px;
+  color: #d4adfc;
+  font-family: 'Consolas';
+  font-size: 11pt;
   font-weight: 500;
 }
 
 .post-content pre code {
   color: unset;
-  padding: 10px;
-  font-size: 15px;
+  font-family: 'Consolas';
+  font-size: 11pt;
   font-weight: 500;
+
+}
+
+.command code {
+  white-space: pre;
+}
+
+.command .prompt {
+  color: #d4adfc;
+  padding: 5px;
+  font-size: 11pt;
+  font-weight: 700;
 }
