@@ -543,6 +543,7 @@ You can verify if your machine has CUDA-supported GPU through Display Adapters s
 <div class="admonition note"><p class="admonition-title">Post-installation</p>
 <p>After installation, you make sure that the <strong>Anaconda</strong> is not the default configured channel, seeing <a href="https://mamba.readthedocs.io/en/latest/user_guide/troubleshooting.html#defaults-channels"><strong>this</strong></a>.</p>
 <p><strong>DO NOT</strong> install anything into the <code>base</code> environment as this might break your installation. See <a href="https://mamba.readthedocs.io/en/latest/user_guide/troubleshooting.html#base-packages"><strong>here</strong></a> for details.</p>
+<p>The most convenient way to use the <strong>Mamba</strong> will be via the <strong>Miniforge Prompt</strong> installed in the <strong>Start Menu</strong>.</p>
 </div>
 <h2 id="3-installing-nvidia-cuda-toolkit">3. Installing NVIDIA CUDA Toolkit</h2>
 <p>You can visit the <a href="https://developer.nvidia.com/cuda-downloads"><strong>NVIDIA Developer website for CUDA Toolkit</strong></a> TO get the latest version of NVIDIA CUDA Toolkit. For previous versions, you can check from the <a href="https://developer.nvidia.com/cuda-toolkit-archive"><strong>Archive of Previous CUDA Releases</strong></a> page.</p>
