@@ -73,9 +73,12 @@
     codeBlocks.forEach(function(block) {
       var lines = block.textContent.split('\n');
       block.textContent = '';
+      var lang = block.dataset.lang || 'bash'; // Default to 'bash' if data-lang is not set
+      var prefix = lang === 'cmd' ? '>' : '$';
+      prefix = lang === 'python' ? '>>>' : prefix;
       lines.forEach(function(line, index) {
         if (line.trim() !== '') {
-          block.innerHTML += '<span class="prompt">$</span> ' + line;
+          block.innerHTML += '<span class="prompt">' + prefix + '</span> ' + line;
           if (index !== lines.length - 1) {
             block.innerHTML += '<br>';
           }

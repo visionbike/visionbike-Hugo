@@ -1,5 +1,5 @@
 ---
-title: "Create Machine Learning Development Environment on Windows 11 With WSL 2"
+title: "Setting Up NVIDIA CUDA on Windows 11 With WSL 2"
 date: 2023-07-13T16:44:33+08:00
 draft: false
 showToc: true

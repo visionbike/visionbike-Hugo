@@ -24,7 +24,7 @@
 }
 
 .post-content code {
-  color: #d4adfc;
+  color: #5e9f7b; /*#d4adfc;*/
   font-family: 'Consolas';
   font-size: 11pt;
   font-weight: 500;
@@ -43,7 +43,7 @@
 }
 
 .command .prompt {
-  color: #d4adfc;
+  color: #5e9f7b;/*#d4adfc;*/
   padding: 5px;
   font-size: 11pt;
   font-weight: 700;

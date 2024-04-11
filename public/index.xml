@@ -223,7 +223,7 @@ mamaba install numpy
     </item>
     
     <item>
-      <title>Create Machine Learning Development Environment on Windows 11 With WSL 2</title>
+      <title>Setting Up NVIDIA CUDA on Windows 11 With WSL 2</title>
       <link>http://visionbike.github.io/posts/create-ml-development-environment-on-windows11-with-wsl2/</link>
       <pubDate>Thu, 13 Jul 2023 16:44:33 +0800</pubDate>
       
@@ -496,101 +496,343 @@ ln -s /mnt/d/projects/
     </item>
     
     <item>
-      <title>Create Machine Learning Development Environment on Windows 11</title>
-      <link>http://visionbike.github.io/posts/create-ml-development-environment-on-window11/</link>
+      <title>Setting Up NVIDIA CUDA on Windows 11</title>
+      <link>http://visionbike.github.io/posts/setting-up-nvidia-cuda-on-windows-11/</link>
       <pubDate>Thu, 06 Jul 2023 12:41:36 +0800</pubDate>
       
-      <guid>http://visionbike.github.io/posts/create-ml-development-environment-on-window11/</guid>
-      <description>In this post, I will cover the setup of machine learning development environment on both Windows 11. I assume that you have a CUDA-compatible GPU alredy installed on your PC.
-To ensure a smooth setup process, it is crucial that you follow the steps in the specified order. Let&amp;rsquo;s begin with the software installations:
- NVIDIA Drivers. Microsoft Visual Studio 2022 (Community version). NVIDIA CUDA Toolkit. NVIDIA cuDNN. Mambaforge (similar to Anaconda for Python).</description>
-      <content:encoded><![CDATA[<p>In this post, I will cover the setup of machine learning development environment on both Windows 11. I assume that you have a CUDA-compatible GPU alredy installed on your PC.</p>
-<p>To ensure a smooth setup process, it is crucial that you follow the steps in the specified order. Let&rsquo;s begin with the software installations:</p>
+      <guid>http://visionbike.github.io/posts/setting-up-nvidia-cuda-on-windows-11/</guid>
+      <description>In this post, I will cover how to setup NVIDIA CUDA on Windows 11. To ensure a smooth setup process, it is crucial to follow the following steps:
+ NVIDIA Drivers. Microsoft Visual Studio 2022 Community. NVIDIA CUDA Toolkit. NVIDIA cuDNN. TensorRT (optional). Miniforge (optional).  1. System Requirements To use CUDA, make sure your machine has a CUDA-capable GPU inside and the Microsoft Windows 11 should be updated 21H2 version.</description>
+      <content:encoded><![CDATA[<p>In this post, I will cover how to setup <strong>NVIDIA CUDA</strong> on Windows 11. To ensure a smooth setup process, it is crucial to follow the following steps:</p>
 <ul>
 <li>NVIDIA Drivers.</li>
-<li>Microsoft Visual Studio 2022 (Community version).</li>
+<li>Microsoft Visual Studio 2022 Community.</li>
 <li>NVIDIA CUDA Toolkit.</li>
 <li>NVIDIA cuDNN.</li>
-<li>Mambaforge (similar to Anaconda for Python).</li>
+<li>TensorRT (optional).</li>
+<li>Miniforge (optional).</li>
 </ul>
-<p>However, if you previously had NVIDIA drivers installed on your computer, it is essential to uninstall all NVIDIA applications before proceeding further. To uninstall the NVIDIA applications, follow these steps:</p>
+<h2 id="1-system-requirements">1. System Requirements</h2>
+<p>To use CUDA, make sure your machine has a CUDA-capable GPU inside and the <strong>Microsoft Windows 11</strong> should be updated <strong>21H2</strong> version.</p>
+<p>You can verify if your machine has CUDA-supported GPU through <strong>Display Adapters</strong> section in the <strong>Windows Device Manager</strong>. Here you will find the vendor name and model of your GPU.</p>
+<p><img loading="lazy" src="/posts/setting-up-nvidia-cuda-on-windows-11/device-manager.png" type="" alt="device manager"  /></p>
+<p>You also need to install <strong>Microsft Visual Studio 2022 Community</strong> as the native compilter for x86_64 application. The download link os the latest version is <a href="https://visualstudio.microsoft.com/thank-you-downloading-visual-studio/?sku=Community"><strong>here</strong></a> and install the <strong>Desktop development with C++</strong> workload.</p>
+<p><img loading="lazy" src="/posts/setting-up-nvidia-cuda-on-windows-11/visual-studio-installation.png" type="" alt="Visual Studio Installation"  /></p>
+<p>If there is any NVIDIA CUDA Toolkit installed before, you need to uninstall before proceeding further, following these steps:</p>
 <ol>
-<li>Open the &ldquo;Install Apps&rdquo; on your Windows 11 PC.</li>
-<li>Scroll down untill you find NVIDIA applications. <img loading="lazy" src="/posts/create-ml-development-environment-on-window11/nvidia-apps-list.png" type="" alt="NVIDIA apps list"  /></li>
-<li>Click to &ldquo;&hellip;&rdquo; button on the right and uninstall all NVIDIA GPU drivers and any associated software. <img loading="lazy" src="/posts/create-ml-development-environment-on-window11/nvidia-app-uninstall.png" type="" alt="NVIDIA app uninstall"  /></li>
+<li>Open the <strong>Settings &gt; Apps &gt; Installed Apps</strong>.</li>
+<li>Scroll down and find NVIDIA CUDA applications.</li>
 </ol>
-<h2 id="1-install-nvida-drivers">1. Install NVIDA Drivers</h2>
-<p>To install the latest NVIDA drivers on Windows,  you can utilize <a href="https://www.nvidia.com/en-gb/geforce/geforce-experience/"><strong>GeForce Experience</strong></a>, which ease the installation process.</p>
-<p>Once you have completed downloading <strong>GeForce Experience</strong>, launch it and you can get start.</p>
-<div class="admonition info"><p class="admonition-title">Info</p>
-<p>Upon launching, you will be prompted to log in to your <strong>NVIDIA account</strong>. If you don&rsquo;t have an account already, you can create one.</p>
+<p><img loading="lazy" src="/posts/setting-up-nvidia-cuda-on-windows-11/nvidia-apps-list.png" type="" alt="NVIDIA apps list"  /></p>
+<ol start="3">
+<li>Click to &ldquo;&hellip;&rdquo; button on the right and uninstall all NVIDIA GPU drivers and any associated software.</li>
+</ol>
+<p><img loading="lazy" src="/posts/setting-up-nvidia-cuda-on-windows-11/nvidia-app-uninstallation.png" type="" alt="NVIDIA app uninstallation"  /></p>
+<p>Then you need to install NVIDIA driver to communicate your computer with NVIDIA devices. You can find the suitable driver from this <a href="https://www.nvidia.com/download/index.aspx?lang=en-us"><strong>website</strong></a>.</p>
+<p><img loading="lazy" src="/posts/setting-up-nvidia-cuda-on-windows-11/nvidia-driver-installation.png" type="" alt="NVIDIA Driver Installation"  /></p>
+<p>After the installation is complete, reboot your system.</p>
+<h2 id="2-installing-mamba">2. Installing Mamba</h2>
+<p><a href="https://mamba.readthedocs.io/en/latest/user_guide/mamba.html"><strong>Mamba</strong></a> is a command-line interfacer (CLI) to manage <code>conda</code>&rsquo;s environemts. For <code>mamba</code> configuration, please refer to <a href="https://conda.io/projects/conda/en/latest/user-guide/configuration/index.html"><strong>conda documentation</strong></a>.</p>
+<p>For the fresh installation, you can install <a href="https://github.com/conda-forge/miniforge"><strong>Miniforge distribution</strong></a> &gt;= <code>Miniforge3-22.3.1.0</code>. <strong>Miniforge</strong> comes with the popular <code>conda-forge</code> channel preconfigured, but you can modify the configuration to use any channel you like.</p>
+<div class="admonition note"><p class="admonition-title">Installation</p>
+<p>Follow the instaltion prompts, taking note of options to <strong>Create start menu shortcuts</strong> and <strong>Add Miniforge3 to my PATH environment variable</strong>.</p>
+<p><img loading="lazy" src="/posts/setting-up-nvidia-cuda-on-windows-11/miniforge-installation.png" type="" alt="Miniforge Installation"  /></p>
 </div>
-<p>There are two options for the installation:</p>
-<ul>
-<li><strong>Experess Installation</strong>: This option will automatically determine which drivers you need and then install them without requesting permission.</li>
-<li><strong>Custom Installation</strong>: This option gives you more control over the installation process. You can choose additional options and settings based on your preferences. Furthermore, a &lsquo;clean installation&rsquo; option may be presented, allowing you to restore all settings to their default values and remove any previously created profiles. <img loading="lazy" src="/posts/create-ml-development-environment-on-window11/nvidia-custom-install.jpg" type="" alt="NVIDIA custom install"  /></li>
-</ul>
-<p>After the installation is complete, your NVIDIA graphics card drivers will be set up on your Windows system.</p>
-<h2 id="2-install-visual-studio-2022-community">2. Install Visual Studio 2022 Community</h2>
-<p>Visual Studio is required for the installation of the NVIDIA CUDA Toolkit. If you try to install NVIDIA CUDA Toolkit for Windows without installing Visual Studio, you will get the following error when downloading CUDA Toolkit.</p>
-<p>You can install the latest version of <a href="https://visualstudio.microsoft.com/thank-you-downloading-visual-studio/?sku=Community">Visual Studio Community</a>, selecting the <strong>Desktop development with C++</strong> workload shown in the image below. <img loading="lazy" src="/posts/create-ml-development-environment-on-window11/visual-studio-install.png" type="" alt="Visual Studio Install"  /></p>
-<p>If you already have an installation ensure that the correct workload is installed and that you have updated to the latest version.</p>
-<h2 id="3-install-nvidia-cuda-toolkit">3. Install NVIDIA CUDA Toolkit.</h2>
-<p>To get the latest version of NVIDIA CUDA Toolkit, you can visit the <a href="https://developer.nvidia.com/cuda-downloads">NVIDIA Developer website for CUDA Toolkit</a>. You can also download previous versions from the <a href="https://developer.nvidia.com/cuda-toolkit-archive">Archive of Previous CUDA Releases</a> under the Resources section on the same page given above.</p>
-<p>On the CUDA Toolkit dowload page, choose the appropriate CUDA Toolkit version based on your operating system (Windows) and architecture (x86_64 for most systems). <img loading="lazy" src="/posts/create-ml-development-environment-on-window11/download-cuda-toolkit.png" type="" alt="Download CUDA Toolkit"  /></p>
-<p>Once the download is complete, locate the downloaded CUDA Toolkit installer file and double-click on it to start the installation process. Follow the on-screen instructions provided by the installer.</p>
-<ul>
-<li>Choose the installation location on your system.</li>
-<li>Select the components you want to install. It is recommended to include the CUDA Toolkit, CUDA Samples, and CUDA Visual Studio Integration if you are using Visual Studio for development.</li>
-<li>Choose the appropriate options based on your preferences during the installation process.</li>
-</ul>
-<p><img loading="lazy" src="/posts/create-ml-development-environment-on-window11/nvidia-cuda-toolkit-install.png" type="" alt="NVIDIA CUDA Toolkit install"  /></p>
-<p>After the installation is complete, you may need to set up environment variables to ensure that your system recognizes the CUDA Toolkit.</p>
-<ul>
-<li>Open the Start menu and search for &ldquo;Environment Variables&rdquo;.</li>
-<li>Select &ldquo;Edit the system environment variables&rdquo;.</li>
-<li>In the System Properties window, click on the &ldquo;Environment Variables&rdquo; button.</li>
-<li>Under &ldquo;System variables&rdquo;, click on &ldquo;New&rdquo; to add a new variable.</li>
-<li>Set the variable name as <code>CUDA_PATH</code> and the variable value as the installation path of the CUDA Toolkit (e.g., <code>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v&lt;version&gt;</code>). <img loading="lazy" src="/posts/create-ml-development-environment-on-window11/nvidia-cuda-path.png" type="" alt="NVIDIA CUDA path"  /></li>
-</ul>
-<div class="admonition info"><p class="admonition-title">Verify Installation</p>
-<p>You can verify the installation by opening a command prompt and running the following command.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ps" data-lang="ps"><span class="nf">nvcc</span> <span class="nf">--version</span>
+<p>After successful installation, you can use use the mamba commands as described in this <a href="https://mamba.readthedocs.io/en/latest/user_guide/mamba.html#mamba"><strong>user guide</strong></a>.</p>
+<div class="admonition note"><p class="admonition-title">Post-installation</p>
+<p>After installation, you make sure that the <strong>Anaconda</strong> is not the default configured channel, seeing <a href="https://mamba.readthedocs.io/en/latest/user_guide/troubleshooting.html#defaults-channels"><strong>this</strong></a>.</p>
+<p><strong>DO NOT</strong> install anything into the <code>base</code> environment as this might break your installation. See <a href="https://mamba.readthedocs.io/en/latest/user_guide/troubleshooting.html#base-packages"><strong>here</strong></a> for details.</p>
+</div>
+<h2 id="3-installing-nvidia-cuda-toolkit">3. Installing NVIDIA CUDA Toolkit</h2>
+<p>You can visit the <a href="https://developer.nvidia.com/cuda-downloads"><strong>NVIDIA Developer website for CUDA Toolkit</strong></a> TO get the latest version of NVIDIA CUDA Toolkit. For previous versions, you can check from the <a href="https://developer.nvidia.com/cuda-toolkit-archive"><strong>Archive of Previous CUDA Releases</strong></a> page.</p>
+<p>On the dowload page, you choose the appropriate version based on your system.</p>
+<p><img loading="lazy" src="/posts/setting-up-nvidia-cuda-on-windows-11/nvidia-cuda-toolkit-download-page.png" type="" alt="Download CUDA Toolkit"  /></p>
+<p>Then, you locate the downloaded installer file and double-click on it to start the installation process. Follow the on-screen instructions provided by the installer.</p>
+<p><img loading="lazy" src="/posts/setting-up-nvidia-cuda-on-windows-11/nvidia-cuda-toolkit-installation.png" type="" alt="NVIDIA CUDA Toolkit install"  /></p>
+<p>Once the installation is completed, you check environment variables <code>CUDA_PATH</code> and <code>PATH</code> to ensure that your system recognizes <strong>NVIDIA CUDA Toolkit</strong>.</p>
+<p><img loading="lazy" src="/posts/setting-up-nvidia-cuda-on-windows-11/nvidia-cuda-path-1.png" type="" alt="NVIDIA CUDA Path 1"  /></p>
+<p><img loading="lazy" src="/posts/setting-up-nvidia-cuda-on-windows-11/nvidia-cuda-path-2.png" type="" alt="NVIDIA CUDA Path 2"  /></p>
+<details class="admonition info"><summary class="admonition-title">Verify CUDA Toolkit Installation</summary>
+<p>You can verify the installation by running the following command in command prompt.</p>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-cmd" data-lang="cmd">nvcc --version
 </code></pre></div><p>If the installation was successful, you should see the CUDA version information displayed.</p>
-</div>
-<p>The NVIDIA CUDA Toolkit is now installed on your system. This toolkit provides the necessary libraries, compilers, and tools for developing and running CUDA-accelerated applications and machine learning models.</p>
-<h2 id="3-install-nvidia-cudnn">3. Install NVIDIA cuDNN</h2>
-<p>uDNN (CUDA Deep Neural Network Library) is a GPU-accelerated library developed by NVIDIA specifically designed and colaborated withNVIDA CUDA Toolkit to accelerate deep neural network computations. By utilizing cuDNN, deep learning frameworks can leverage the parallel processing capabilities of NVIDIA GPUs, leading to significant speed improvements in training and inference of deep neural networks.</p>
-<p>To download the latest version of NVIDIA cuDNN, you can visit <a href="https://developer.nvidia.com/rdp/cudnn-download">NVIDIA Developer website for CUDA cuDNN</a>. On the cuDNN page, you will need to create or log in to your NVIDIA Developer account in order to access the cuDNN download files. If you don&rsquo;t have an account, you can create one for free.</p>
-<p>Once you are logged in, choose the appropriate cuDNN version based on your CUDA Toolkit version and operating system. Make sure to select the version that is compatible with your installed CUDA Toolkit.</p>
-<p><img loading="lazy" src="/posts/create-ml-development-environment-on-window11/download-cudnn.png" type="" alt="Download cuDNN"  /></p>
-<p>After the download is complete, locate the downloaded cuDNN package file and extract its contents to a desired location on your system. The extracted package will contain several files and folders, including the <code>bin</code>, <code>include</code>, and <code>lib</code> directories.</p>
-<p><img loading="lazy" src="/posts/create-ml-development-environment-on-window11/nvidia-cudnn.png" type="" alt="NVIDIA cuDNN"  /></p>
-<p>Copy these folder from the extracted cuDNN package to the corresponding directories in your CUDA Toolkit installation, i.e., <code>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v&lt;version&gt;</code>.</p>
-<p>After copying the files, cuDNN is successfully installed and integrated with your CUDA Toolkit.</p>
-<p>Finally, You need to set the variable name as <code>CUDNN</code> and the variable value as the installation paths of the cuDNN folders. You also add these path to &ldquo;System variables&rdquo;&rsquo;s Path</p>
-<p><img loading="lazy" src="/posts/create-ml-development-environment-on-window11/cudnn-paths.png" type="" alt="cuDNN paths"  /></p>
-<h2 id="4-install-mambaforge-for-windows">4. Install Mambaforge for Windows</h2>
-<p><a href="https://mamba.readthedocs.io/en/latest/index.html">Mambaforge</a> is a distribution of the Python programming language that serves as an alternative to Anaconda. It provides a comprehensive environment for scientific computing and data science, offering a collection of pre-installed packages commonly used in these domains.</p>
-<p>Mambaforge is designed to facilitate package management and create isolated Python environments for different projects.</p>
-<p>You can download the Windows version from <a href="https://github.com/conda-forge/miniforge#mambaforge">this link</a> and start installing.</p>
-<p>Once the installation is complete, add the Mambaforge installation directory to the &ldquo;User Variable&rdquo;&rsquo;s Path.</p>
-<p><img loading="lazy" src="/posts/create-ml-development-environment-on-window11/mambaforge-paths.png" type="" alt="Mambaforge paths"  /></p>
-<div class="admonition info"><p class="admonition-title">Verify Installation</p>
-<p>You can verify the installation by opening a command prompt and running the following command.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ps" data-lang="ps"><span class="nf">mamba</span> <span class="nf">--version</span>
-</code></pre></div><p>If the installation was successful, you should see the Mambaforge version information displayed.</p>
-</div>
-<h2 id="conclusion">Conclusion</h2>
-<p>By following these steps and installing the required software, you will have a machine learning development environment set up on your Windows 11 system. This environment will provide the necessary tools and libraries for GPU-accelerated computing and Python package management.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cmd" data-lang="cmd">nvcc: NVIDIA (R) Cuda compiler driver
+Copyright (c) 2005-2024 NVIDIA Corporation
+Built on Tue_Feb_27_16:28:36_Pacific_Standard_Time_2024
+Cuda compilation tools, release 12.4, V12.4.99
+Build cuda_12.4.r12.4/compiler.33961263_0
+</code></pre></div><p>It is important to verify that the <strong>NVIDIA CUDA Toolkit</strong> can find and communicate correctly with CUDA-compatible hardware. To do this, you need to compile and run some sample programs.</p>
+<p>CUDA samples are located in <a href="https://github.com/nvidia/cuda-samples"><strong>https://github.com/nvidia/cuda-samples</strong></a>. To use the samples, clone the project, build the samples in <code>cyda-samples</code> directory using <strong>MVSC 2022 compiler</strong> and run them following the instruction on the Github page.</p>
+<p>To verify a correct configuration of the hardware and software, it is highly recommended that you build and run the <code>deviceQuery</code> sample program.</p>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-cmd" data-lang="cmd">deviceQuery.exe
+</code></pre></div><p>If  CUDA is installed and configured correctly, the output should look similar as below:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cmd" data-lang="cmd">deviceQuery.exe Starting...
+
+ CUDA Device Query (Runtime API) version (CUDART static linking)
+
+Detected 1 CUDA Capable device(s)
+
+Device 0: <span class="s2">&#34;NVIDIA GeForce RTX 3070 Ti Laptop GPU&#34;</span>
+  CUDA Driver Version / Runtime Version          12.4 / 12.4
+  CUDA Capability Major/Minor version number:    8.6
+  Total amount of global memory:                 8192 MBytes (8589410304 bytes)
+  <span class="p">(</span>046<span class="p">)</span> Multiprocessors, (128) CUDA Cores/MP:    5888 CUDA Cores
+  GPU Max Clock rate:                            1410 MHz (1.41 GHz)
+  Memory Clock rate:                             7001 Mhz
+  Memory Bus Width:                              256-bit
+  L2 Cache Size:                                 4194304 bytes
+  Maximum Texture Dimension Size (x,y,z)         1D=(131072), 2D=(131072, 65536), 3D=(16384, 16384, 16384)
+  Maximum Layered 1D Texture Size, (num) layers  1D=(32768), 2048 layers
+  Maximum Layered 2D Texture Size, (num) layers  2D=(32768, 32768), 2048 layers
+  Total amount of constant memory:               65536 bytes
+  Total amount of shared memory per block:       49152 bytes
+  Total shared memory per multiprocessor:        102400 bytes
+  Total number of registers available per block: 65536
+  Warp size:                                     32
+  Maximum number of threads per multiprocessor:  1536
+  Maximum number of threads per block:           1024
+  Max dimension size of a thread block (x,y,z): (1024, 1024, 64)
+  Max dimension size of a grid size    (x,y,z): (2147483647, 65535, 65535)
+  Maximum memory pitch:                          2147483647 bytes
+  Texture alignment:                             512 bytes
+  Concurrent copy and kernel execution:          Yes with 1 copy engine(s)
+  Run time limit on kernels:                     Yes
+  Integrated GPU sharing Host Memory:            No
+  Support host page-locked memory mapping:       Yes
+  Alignment requirement for Surfaces:            Yes
+  Device has ECC support:                        Disabled
+  CUDA Device Driver Mode (TCC or WDDM):         WDDM (Windows Display Driver Model)
+  Device supports Unified Addressing (UVA):      Yes
+  Device supports Managed Memory:                Yes
+  Device supports Compute Preemption:            Yes
+  Supports Cooperative Kernel Launch:            Yes
+  Supports MultiDevice Co-op Kernel Launch:      No
+  Device PCI Domain ID / Bus ID / location ID:   0 / 1 / 0
+  Compute Mode:
+     <span class="p">&lt;</span> Default <span class="p">(</span>multiple host threads can use ::cudaSetDevice(<span class="p">)</span> with device simultaneously) &gt;
+
+deviceQuery, CUDA Driver = CUDART, CUDA Driver Version = 12.4, CUDA Runtime Version = 12.4, NumDevs = 1
+Result = PASS
+</code></pre></div><p>By running the <code>bandwidthTest</code> program, you can ensure that the system and CUDA-capable device are able to communicate correctly.</p>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-cmd" data-lang="cmd">bandwidthText.exe
+</code></pre></div><p>The output shoud be here.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cmd" data-lang="cmd">[CUDA Bandwidth Test] - Starting...
+Running on...
+
+ Device 0: NVIDIA GeForce RTX 3070 Ti Laptop GPU
+ Quick Mode
+
+ Host to Device Bandwidth, 1 Device(s)
+ PINNED Memory Transfers
+   Transfer Size (Bytes)        Bandwidth(GB/s)
+   32000000                     11.3
+
+ Device to Host Bandwidth, 1 Device(s)
+ PINNED Memory Transfers
+   Transfer Size (Bytes)        Bandwidth(GB/s)
+   32000000                     13.9
+
+ Device to Device Bandwidth, 1 Device(s)
+ PINNED Memory Transfers
+   Transfer Size (Bytes)        Bandwidth(GB/s)
+   32000000                     361.1
+
+Result = PASS
+
+NOTE: The CUDA Samples are not meant for performance measurements. Results may vary when GPU Boost is enabled.
+</code></pre></div><p>To see a graphical representation, you can run the <code>particles</code> sample program.</p>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-cmd" data-lang="cmd">particles.exe
+</code></pre></div><p><img loading="lazy" src="/posts/setting-up-nvidia-cuda-on-windows-11/nvidia-cuda-particle-sample.png" type="" alt="NVIDIA CUDA Particle Sample"  /></p>
+</details>
+<p>The installed <strong>NVIDIA CUDA Toolkit</strong> provides the necessary libraries, compilers, and tools for developing and running CUDA-accelerated applications and machine learning models.</p>
+<h2 id="4-installing-nvidia-cudnn">4. Installing NVIDIA cuDNN</h2>
+<p><strong>cuDNN (CUDA Deep Neural Network Library)</strong> is a GPU-accelerated library specifically designed and colaborated with <strong>NVIDA CUDA Toolkit</strong> to accelerate deep neural network computations. By utilizing <strong>cuDNN</strong>, deep learning frameworks can leverage the parallel processing capabilities of NVIDIA GPUs, leading to significant speed improvements in training and inference of deep neural networks.</p>
+<p>You can visit <a href="https://developer.nvidia.com/rdp/cudnn-download"><strong>NVIDIA Developer website for cuDNN</strong></a> for the latest version. You will need to register or log in to your NVIDIA Developer account in order to access the cuDNN download files. If you don&rsquo;t have an account, you can create one for free.</p>
+<p>Once you are logged in, choose the appropriate <strong>cuDNN</strong> version based on the <strong>NVIDIA CUDA Toolkit</strong> version and operating system. There are two main installation options:</p>
+<ol>
+<li><strong>Graphical installation</strong> (executable): the graphical installer bundles the available per-CUDA cuDNN verions in one package.</li>
+<li><strong>Tarball installation</strong> (zip): per-CUDA cuDNN versions are provided as saperate tarballs (zip). These <code>.zip</code> archives do not replace the graphical installer and are not meant for general consumption, as they are not installers. These <code>zip</code> archives can be found at <a href="https://developer.download.nvidia.com/compute/cudnn/redist/cudnn/windows-x86_64/"><strong>this</strong></a>.</li>
+</ol>
+<p>Select one of two options for installing <strong>cuDNN</strong>. In this post, I will install <strong>cuDNN</strong> via the Tarball installation option.</p>
+<p>Once download the <code>zip</code> archive, you unzip the <strong>cuDNN</strong> package.</p>
+<p><img loading="lazy" src="/posts/setting-up-nvidia-cuda-on-windows-11/nvidia-cudnn-unzip.png" type="" alt="NVIDIA cuDNN Unzip"  /></p>
+<p>Copy the following files from the unzipped package into the <strong>NVIDIA cuDNN</strong> directory created by yourself.</p>
+<ul>
+<li>Copy <code>bin\cudnn*.h</code> to <strong>C:Program Files\NVIDIA\CUDNN\vx.y\bin</strong>.</li>
+<li>Copy <code>include\cudnn*.h</code> to <strong>C:\Program Files\NVIDIA\CUDNN\vx.y\include</strong>.</li>
+<li>Copy <code>lib\x64\cudnn*.lib</code> to <strong>C:\Program Files\NVIDIA\CUDNN\vx.y\lib</strong>.</li>
+</ul>
+<p>You must replace <code>x.y</code> with your specific <strong>cuDNN</strong> version.</p>
+<p>Set the environment variable to point to where <strong>cuDNN</strong> is located and add <code>bin</code> directory path to <code>PATH</code> environment variable.</p>
+<p><img loading="lazy" src="/posts/setting-up-nvidia-cuda-on-windows-11/nvidia-cudnn-path.png" type="" alt="NVIDIA cuDNN Path"  /></p>
+<p>For upgrading <strong>cuDNN</strong>, the remove the path to the directory containing <strong>cuDNN</strong> from <code>PATH</code> environment variable.</p>
+<details class="admonition info"><summary class="admonition-title">Verify cuDNN Installation</summary>
+<p>The <strong>cuDNN</strong> samples can be found <a href="https://developer.download.nvidia.com/compute/cudnn/redist/cudnn_samples/source/"><strong>here</strong></a> and download and extract the <code>tar.xz</code> archive.</p>
+<p><img loading="lazy" src="/posts/setting-up-nvidia-cuda-on-windows-11/nvidia-cudnn-samples.png" type="" alt="NVIDIA cuDNN Samples"  /></p>
+<p>Since this is cross-platform LINUX samples, you need to install <a href="https://cmake.org/download/"><strong>CMAKE</strong></a> and use it to compile the <strong>cuDNN</strong> samples.</p>
+<p>Inside the <code>cuda_sample_vx</code> directory (<code>x</code> as the <strong>cuDNN</strong> version), make the comment to line 21 <code># add_subdirectory(mnistCUDNN)</code>.</p>
+<p>Run the following command in the command prompt.</p>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-cmd" data-lang="cmd"><span class="k">mkdir</span> build <span class="p">&amp;&amp;</span> <span class="k">cd</span> build
+cmake -G <span class="s2">&#34;Visual Studio 17 2022&#34;</span> -D cuDNN_INCLUDE_DIR=<span class="s2">&#34;C:\Program Files\NVIDIA\CUDNN\v9.0\include&#34;</span> -D cuDNN_LIBRARY_DIR=<span class="s2">&#34;C:\Program Files\NVIDIA\CUDNN\v9.0\lib&#34;</span> ..
+cmake --build . --config Release
+</code></pre></div><p>By running the <code>conv_sample</code> program,  you can ensure the <strong>cuDNN</strong> work in your system.</p>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-cmd" data-lang="cmd">.\conv_sample\Release\conv_sample.exe
+</code></pre></div><p>The result should be as following:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cmd" data-lang="cmd">Executing: conv_sample.exe
+Using format CUDNN_TENSOR_NCHW (for INT8x4 and INT8x32 tests use CUDNN_TENSOR_NCHW_VECT_C)
+Testing single precision
+====USER DIMENSIONS====
+input dims are 1, 32, 4, 4
+filter dims are 32, 32, 1, 1
+output dims are 1, 32, 4, 4
+====PADDING DIMENSIONS====
+padded input dims are 1, 32, 4, 4
+padded filter dims are 32, 32, 1, 1
+padded output dims are 1, 32, 4, 4
+Testing conv
+<span class="se">^^^^</span> CUDA : elapsed = 0.0127218 sec,
+Test PASSED
+Testing half precision (math in single precision)
+====USER DIMENSIONS====
+input dims are 1, 32, 4, 4
+filter dims are 32, 32, 1, 1
+output dims are 1, 32, 4, 4
+====PADDING DIMENSIONS====
+padded input dims are 1, 32, 4, 4
+padded filter dims are 32, 32, 1, 1
+padded output dims are 1, 32, 4, 4
+Testing conv
+<span class="se">^^^^</span> CUDA : elapsed = 0.0029165 sec,
+Test PASSED
+</code></pre></div></details>
+<p>For <strong>Visual Studio</strong> project, add <strong>cuDNN</strong> by following steps:</p>
+<ul>
+<li>Right-click on the project name in <strong>Solution Explorer</strong> and choose **Properties.</li>
+<li>Click <strong>VC++ Directories</strong> and append <code>C:\Program Files\NVIDIA\CUDNN\v9.x\include</code> to the <strong>Include Direcotries</strong> field.</li>
+<li>Click <strong>Linker &gt; General</strong> and append <code>C:\Program Files\NVIDIA\CUDNN\v9.x\lib</code> to the <strong>Additional Library Directories</strong> field.</li>
+<li>Click <strong>Linker &gt; Input</strong> and append <code>cudnn.h</code> to the <strong>Additional Dependencies</strong> field and click <strong>OK</strong>.</li>
+</ul>
+<h2 id="5-installing-nvidia-tensorrt-optional">5. Installing NVIDIA TensorRT (Optional)</h2>
+<p><strong>NVIDIA TensorRT</strong> is a C++ library that facilitates high-performance inference NVIDIA graphic processing units (GPUs). <strong>TensorRT</strong> takes a trained network, which consists of a network definition and a set of trained parameters, and produces a highly optimized runtime engine that performs inference for that network.</p>
+<p><strong>TensorRT</strong> provides APIs via C++ and Python that help to express deep learning model via the Network Definition API or load a pre-defined model via the ONNX parser that allow <strong>TensorRT</strong> to optimize and run them on the NVIDIA GPU.</p>
+<p><strong>TensorRT</strong> also include optional high speed mixed precision capabilities with difference NVIDIA architectures.</p>
+<p>You can download the <strong>TensorRT</strong> at <a href="https://developer.nvidia.com/tensorrt/download/10x"><strong>here</strong></a>. For Windows architecture, there is only <code>zip</code> archive installation.</p>
+<p>Unzip the <code>zip</code> archive and copy files in <code>lib</code>, <code>include</code> direcotries to <strong>C:\Program Files\NVIDIA\TensorRT\v10.0</strong> directory created by yourself. Then, you add <code>lib</code> directory path to <code>PATH</code> environment variable.</p>
+<p><img loading="lazy" src="/posts/setting-up-nvidia-cuda-on-windows-11/nvidia-tensorrt-path.png" type="" alt="NVIDIA TensorRT Path"  /></p>
+<details class="admonition info"><summary class="admonition-title">Verify TensorRT Installation</summary>
+<p>Inside the <code>zip</code> archive also include the sample programs. To verify the installation is working, you should open a Visual Studio file from one of the samples, such as <code>sampleOnnxMNIST</code>.In the project, ensure that following is presented in the Visual Studio Solution project properties:</p>
+<ul>
+<li>Add <code>C:\Program Files\NVIDIA\TensorRT\v10.0\lib</code> to <code>PATH</code> and <strong>VC++ Directories &gt; Executable Directories</strong>.</li>
+<li>Add <code>C:\Program Files\NVIDIA\TensorRT\v10.0\include</code> to <strong>C/C++ &gt; General &gt; Additional Directories</strong>.</li>
+<li>Add <code>nvinfer.lib</code> and <code>.lib</code> files that that the projects requires to <strong>Linker &gt; Input &gt; Additional Dependencies</strong>.</li>
+</ul>
+<p>Compile the source code and run the example.</p>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-cmd" data-lang="cmd">.\bin\sample_onnx_mnist.exe
+</code></pre></div><p>The output should be as following:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cmd" data-lang="cmd"><span class="p">&amp;&amp;&amp;&amp;</span> RUNNING TensorRT.sample_onnx_mnist [TensorRT v100000] # .\sample_onnx_mnist.exe
+[04/08/2024-18:12:10] [I] Building and running a GPU inference engine for Onnx MNIST
+[04/08/2024-18:12:10] [I] [TRT] [MemUsageChange] Init CUDA: CPU +109, GPU +0, now: CPU 18227, GPU 1091 (MiB)
+[04/08/2024-18:12:18] [I] [TRT] [MemUsageChange] Init builder kernel library: CPU +2597, GPU +310, now: CPU 21109, GPU 1401 (MiB)
+[04/08/2024-18:12:18] [I] [TRT] ----------------------------------------------------------------
+[04/08/2024-18:12:18] [I] [TRT] Input filename:   ../data/mnist/mnist.onnx
+[04/08/2024-18:12:18] [I] [TRT] ONNX IR version:  0.0.3
+[04/08/2024-18:12:18] [I] [TRT] Opset version:    8
+[04/08/2024-18:12:18] [I] [TRT] Producer name:    CNTK
+[04/08/2024-18:12:18] [I] [TRT] Producer version: 2.5.1
+[04/08/2024-18:12:18] [I] [TRT] Domain:           ai.cntk
+[04/08/2024-18:12:18] [I] [TRT] Model version:    1
+[04/08/2024-18:12:18] [I] [TRT] Doc string:
+[04/08/2024-18:12:18] [I] [TRT] ----------------------------------------------------------------
+[04/08/2024-18:12:18] [I] [TRT] Local timing cache in use. Profiling results in this builder pass will not be stored.
+[04/08/2024-18:12:20] [I] [TRT] Detected 1 inputs and 1 output network tensors.
+[04/08/2024-18:12:20] [I] [TRT] Total Host Persistent Memory: 26400
+[04/08/2024-18:12:20] [I] [TRT] Total Device Persistent Memory: 0
+[04/08/2024-18:12:20] [I] [TRT] Total Scratch Memory: 0
+[04/08/2024-18:12:20] [I] [TRT] [BlockAssignment] Started assigning block shifts. This will take 6 steps to complete.
+[04/08/2024-18:12:20] [I] [TRT] [BlockAssignment] Algorithm ShiftNTopDown took 0.8572ms to assign 3 blocks to 6 nodes requiring 32256 bytes.
+[04/08/2024-18:12:20] [I] [TRT] Total Activation Memory: 31744
+[04/08/2024-18:12:20] [I] [TRT] Total Weights Memory: 26152
+[04/08/2024-18:12:20] [I] [TRT] Engine generation completed in 1.68333 seconds.
+[04/08/2024-18:12:20] [I] [TRT] [MemUsageStats] Peak memory usage of TRT CPU/GPU memory allocators: CPU 0 MiB, GPU 5 MiB
+[04/08/2024-18:12:20] [I] [TRT] [MemUsageStats] Peak memory usage during Engine building and serialization: CPU: 3036 MiB
+[04/08/2024-18:12:20] [I] [TRT] Loaded engine size: 0 MiB
+[04/08/2024-18:12:21] [I] [TRT] [MemUsageChange] TensorRT-managed allocation in IExecutionContext creation: CPU +0, GPU +0, now: CPU 0, GPU 0 (MiB)
+[04/08/2024-18:12:21] [I] Input:
+[04/08/2024-18:12:21] [I] @@@@@@@@@@@@@@@@@@@@@@@@@@@@
+<span class="p">@@@@@@@@@@@@@@@@@@@@@@@@@@@@</span>
+<span class="p">@@@@@@@@@@@@@@@@@@@@@@@@@@@@</span>
+<span class="p">@@@@@@@@@@@@@@@@@@@@@@@@@@@@</span>
+<span class="p">@@@@@@@@@@@@@@@@@@@@@@@@@@@@</span>
+<span class="p">@@@@@@@@@@</span>=   ++++#++=*@@@@@
+<span class="p">@@@@@@@@</span>#.            *@@@@@
+<span class="p">@@@@@@@@</span>=             *@@@@@
+<span class="p">@@@@@@@@</span>.   .. ...****%@@@@@
+<span class="p">@@@@@@@@</span>: .%@@#@@@@@@@@@@@@@
+<span class="p">@@@@@@@</span>%  -@@@@@@@@@@@@@@@@@
+<span class="p">@@@@@@@</span>%  -@@*@@@*@@@@@@@@@@
+<span class="p">@@@@@@@</span>#  :#- ::. ::=@@@@@@@
+<span class="p">@@@@@@@</span>-             -@@@@@@
+<span class="p">@@@@@@</span>%.              *@@@@@
+<span class="p">@@@@@@</span>#     :==*+==   *@@@@@
+<span class="p">@@@@@@</span><span class="nv">%---%</span>%@@@@@@@.  *@@@@@
+<span class="p">@@@@@@@@@@@@@@@@@@@</span>+  *@@@@@
+<span class="p">@@@@@@@@@@@@@@@@@@@</span>=  *@@@@@
+<span class="p">@@@@@@@@@@@@@@@@@@</span>*   *@@@@@
+<span class="p">@@@@@</span><span class="nv">%+%</span>@@@@@@@@<span class="nv">%.   .%</span>@@@@@
+<span class="p">@@@@@</span>*  .******=    -@@@@@@@
+<span class="p">@@@@@</span>*             .#@@@@@@@
+<span class="p">@@@@@</span>*            =%@@@@@@@@
+<span class="p">@@@@@@</span>%#+++=     =@@@@@@@@@@
+<span class="p">@@@@@@@@@@@@@@@@@@@@@@@@@@@@</span>
+<span class="p">@@@@@@@@@@@@@@@@@@@@@@@@@@@@</span>
+<span class="p">@@@@@@@@@@@@@@@@@@@@@@@@@@@@</span>
+
+[04/08/2024-18:12:21] [I] Output:
+[04/08/2024-18:12:21] [I]  Prob 0  0.0000 Class 0:
+[04/08/2024-18:12:21] [I]  Prob 1  0.0000 Class 1:
+[04/08/2024-18:12:21] [I]  Prob 2  0.0000 Class 2:
+[04/08/2024-18:12:21] [I]  Prob 3  0.0000 Class 3:
+[04/08/2024-18:12:21] [I]  Prob 4  0.0000 Class 4:
+[04/08/2024-18:12:21] [I]  Prob 5  1.0000 Class 5: **********
+[04/08/2024-18:12:21] [I]  Prob 6  0.0000 Class 6:
+[04/08/2024-18:12:21] [I]  Prob 7  0.0000 Class 7:
+[04/08/2024-18:12:21] [I]  Prob 8  0.0000 Class 8:
+[04/08/2024-18:12:21] [I]  Prob 9  0.0000 Class 9:
+[04/08/2024-18:12:21] [I]
+<span class="p">&amp;&amp;&amp;&amp;</span> PASSED TensorRT.sample_onnx_mnist [TensorRT v100000] # .\sample_onnx_mnist.exe
+</code></pre></div></details>
+<p>If you are using <strong>TensorRT Python API</strong>, make sure <strong>CUDA-Python</strong> is installed in your system or your virtual environment.</p>
+<ul>
+<li>Installing from <strong>PyPI</strong>.</li>
+</ul>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-cmd" data-lang="cmd">pip install cuda-python
+</code></pre></div><ul>
+<li>Installing from <strong>Conda</strong>.</li>
+</ul>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-cmd" data-lang="cmd">conda install -c nvidia cuda-python
+</code></pre></div><p>Conda packages are assign a dependency to CUDA Toolkit: <code>cuda-cudart</code> (providing CUDA headers to enable writting NVRTC kernel with CUDA types) and <code>cuda-nvrtc</code> (providing NVTC shared library).</p>
+<p>Then you install <strong>TensorRT</strong> Python wheel.</p>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-cmd" data-lang="cmd">pip install --pre --upgrade tensorrt
+</code></pre></div><p>Optional, install <strong>TensorRT</strong> lean and dispatch runtime wheels:</p>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-cmd" data-lang="cmd">pip install tensorrt_lean tensorrt_dispatch
+</code></pre></div><p>To verify the installation is working, use python code.</p>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">tensorrt</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tensorrt</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+<span class="k">assert</span><span class="p">(</span><span class="n">tensorrt</span><span class="o">.</span><span class="n">Builder</span><span class="p">(</span><span class="n">tensorrt</span><span class="o">.</span><span class="n">Logger</span><span class="p">()))</span>
+</code></pre></div><p>Use a similar procedure to verify that the lean and dispatch modules work as expected.</p>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">tensorrt_lean</span> <span class="k">as</span> <span class="nn">trt</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">trt</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">trt</span><span class="o">.</span><span class="n">Runtime</span><span class="p">(</span><span class="n">trt</span><span class="o">.</span><span class="n">Logger</span><span class="p">())</span>
+</code></pre></div><div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">tensorrt_dispatch</span> <span class="k">as</span> <span class="nn">trt</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">trt</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">trt</span><span class="o">.</span><span class="n">Runtime</span><span class="p">(</span><span class="n">trt</span><span class="o">.</span><span class="n">Logger</span><span class="p">())</span>
+</code></pre></div><h2 id="conclusion">Conclusion</h2>
+<p>By following these steps and installing the required software, you will have an CUDA-ready environment in Windows 11 system for further machine learnin/deep learning applications. This environment will provide the necessary tools and libraries for GPU-accelerated computing and Python package management.</p>
 <h2 id="reference">Reference</h2>
 <ul>
+<li><a href="https://docs.nvidia.com/cuda/cuda-installation-guide-microsoft-windows/">CUDA Installation Guide for Microsoft Windows</a>.</li>
 <li><a href="https://medium.com/geekculture/install-cuda-and-cudnn-on-windows-linux-52d1501a8805">Install CUDA and CUDNN on Windows &amp; Linux</a>.</li>
 <li><a href="https://medium.com/@Gunter-Pearson/installing-latest-tensorflow-version-with-cuda-cudnn-and-gpu-support-on-windows-11-pc-e41fac5c5795">Installing Latest TensorFlow version with CUDA, cudNN and GPU support on Windows 11 PC</a>.</li>
-<li>Microsoft Visual Studio: <a href="https://visualstudio.microsoft.com/free-developer-offers/">https://visualstudio.microsoft.com/free-developer-offers/</a>.</li>
-<li>NVIDIA CUDA Toolkit: <a href="https://developer.nvidia.com/cuda-toolkit">https://developer.nvidia.com/cuda-toolkit</a>.</li>
-<li>NVIDIA cuDNN: <a href="https://developer.nvidia.com/cudnn">https://developer.nvidia.com/cudnn</a>.</li>
-<li>Mambaforge: <a href="https://github.com/conda-forge/miniforge#mambaforge">https://github.com/conda-forge/miniforge#mambaforge</a></li>
 </ul>
 ]]></content:encoded>
     </item>
@@ -622,7 +864,7 @@ To ensure a smooth setup process, it is crucial that you follow the steps in the
 <h2 id="2-installing-hugo">2. Installing Hugo</h2>
 <p>Before starting, make sure <code>git</code> is installed in the local machine.</p>
 <div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">sudo apt install -y git
-</code></pre></div><p>Configure Git with your <u><code>username</code></u> and <u><code>email address</code></u>.</p>
+</code></pre></div><p>Configure Git with your <u><strong>username</strong></u> and <u><strong>email address</strong></u>.</p>
 <div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">git config --global user.name <span class="s2">&#34;Your Name&#34;</span>
 </code></pre></div><div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">git config --global user.email <span class="s2">&#34;your.email@example.com&#34;</span>
 </code></pre></div><p>To verify that Git has been installed successfully, you can check the version using <code>git --version</code>. This command will display the installed version of Git.</p>
@@ -637,25 +879,25 @@ To ensure a smooth setup process, it is crucial that you follow the steps in the
 <div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">hugo new site &lt;USERNAME&gt;-hugo -f yml
 </code></pre></div><p>This command will set up the basic directory structure and configuration file in <code>*.yml</code> format for your blog.</p>
 <div class="admonition tip"><p class="admonition-title">What is `&lt;USERNAME&gt;`?</p>
-<p>For convenient management and organization, you should name the your blog project as above format with <code>&lt;USERNAME&gt;</code> as the your GitHub&rsquo;s username, i.e., <code>visionbike-hugo</code>. It&rsquo;s helpful to keep track your project and ensuring clarity when managing multiple repositories.</p>
+<p>For convenient management and organization, you should name the your blog project as above format with <strong>&lt;USERNAME&gt;</strong> as the your GitHub&rsquo;s username, i.e., <code>visionbike-hugo</code>. It&rsquo;s helpful to keep track your project and ensuring clarity when managing multiple repositories.</p>
 </div>
 <p>The site will be associated with a GitHub repository where you can store the source code of your blog. Hence, you need to initialize <code>git</code> in the local project for further use.</p>
-<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">cd</span> &lt;USERNAME&gt;-hugo
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">cd</span> <span class="p">&amp;</span>lt<span class="p">;</span>USERNAME<span class="p">&amp;</span>gt<span class="p">;</span>-hugo
 git init
 </code></pre></div><p>You also need to create a new repository on GitHub storage for your blog&rsquo;s source code.</p>
 <p><img loading="lazy" src="/posts/setting-up-personal-blog-with-hugo-and-gh-pages/create-source-code-repo.png" type="" alt="Create source code repository"  /></p>
-<div class="admonition tip"><p class="admonition-title">Creating Github Repository Without README</p>
-<p>By creating a repository without a <code>README</code> file, you can avoid accidental history conflicts when pushing your local project to a fresh repository. You can always add a <code>README</code> file later if needed.</p>
+<div class="admonition tip"><p class="admonition-title">Creating Github Repository Without README File</p>
+<p>By creating a repository without a <strong>README</strong> file, you can avoid accidental history conflicts when pushing your local project to a fresh repository. You can always add a <strong>README</strong> file later if needed.</p>
 </div>
 <p>Now, you link the local project to the GitHub repository by the <code>git remote</code> command:</p>
 <div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">git remote add origin https://github.com/&lt;USERNAME&gt;/&lt;USERNAME&gt;.github.io.git
 git banrch -M master
 </code></pre></div><p>By completing these steps, you have linked your local Hugo site to the GitHub repository. Now you can continue working on your site locally, commit any changes, and push them to the remote repository when ready.</p>
 <h2 id="4-installing-hugo-theme">4. Installing Hugo Theme</h2>
-<p>Installing a Hugo theme is a fantastic way to personalize your blog and enhance its visual appeal. You can access free Hugo themes via <a href="https://themes.gohugo.io/">this website</a>.</p>
+<p>Installing a Hugo theme is a fantastic way to personalize your blog and enhance its visual appeal. You can access free Hugo themes via this <a href="https://themes.gohugo.io/"><strong>website</strong></a>.</p>
 <p>For my blog, I chose the <a href="https://github.com/reorx/hugo-PaperModX"><strong>PaperModX</strong></a> theme because of fonding its style and awesome features. I added its source code by the <code>git submodule</code> command.</p>
 <div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">git submodule add --depth <span class="m">1</span> https://github.com/reorx/hugo-PaperModX themes/PaperModX
-</code></pre></div><p>The command will add the <strong>PaperModX</strong> theme repository as a submodule in the <code>themes/PaperModX</code> directory of your Hugo site.</p>
+</code></pre></div><p>The command will add the <code>PaperModX</code> theme repository as a submodule in the <u><strong>themes/PaperModX</strong></u> directory of your Hugo site.</p>
 <div class="admonition tip"><p class="admonition-title">Updating submodules</p>
 <p>If you have already added the submodule before, you can run the following command to reclone it.</p>
 <div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">git submodule update --init --recursive
@@ -666,10 +908,10 @@ git banrch -M master
 <p>Once you have added the theme, you can configure it in your Hugo site&rsquo;s configuration file (<code>config.yml</code>). Refer to the theme&rsquo;s documentation for specific instructions on customization and configuration options. You will most likely want to modify the following fields:</p>
 <ul>
 <li>
-<p><u><strong>baseURL</strong></u>: This should be set into the URL GitHub Pages for hosting your blog. If the GitHub repository is named <code>&lt;USERNAME&gt;.github.io</code>, then the value of baseURL will be <code>https://&lt;USERNAME&gt;.github.io/</code>. If the GitHub repository has any other name, then the value will be <code>https://&lt;USERNAME&gt;.github.io/&lt;REPOSITORY_NAME&gt;/</code>. For instance, my GitHub username is <code>visionbike</code>, then:</p>
+<p><u><strong>baseURL</strong></u>: This should be set into the URL GitHub Pages for hosting your blog. If the GitHub repository is named <strong>&lt;USERNAME&gt;.github.io</strong>, then the value of baseURL will be <strong>https://&lt;USERNAME&gt;.github.io/</strong>. If the GitHub repository has any other name, then the value will be <strong>https://&lt;USERNAME&gt;.github.io/&lt;REPOSITORY_NAME&gt;/</strong>. For instance, my GitHub username is <code>visionbike</code>, then:</p>
 <ul>
-<li>If the GitHub repository is named <code>visionbike.github.io</code>, then the <strong>baseURL</strong> will be <code>https://visionbike.github.io/</code>.</li>
-<li>If the GitHub repository is named <code>visionbike-hugo</code>, then the <strong>baseURL</strong> will be <code>https://visionbike.github.io/visionbike-hugo/</code>.</li>
+<li>If the GitHub repository is named <code>visionbike.github.io</code>, then the baseURL will be <code>https://visionbike.github.io/</code>.</li>
+<li>If the GitHub repository is named <code>visionbike-hugo</code>, then the baseURL will be <code>https://visionbike.github.io/visionbike-hugo/</code>.</li>
 </ul>
 </li>
 <li>
@@ -679,7 +921,7 @@ git banrch -M master
 <p><u><strong>theme</strong></u>: The name of the theme Hugo should use to render your site. In my example, this will be set to <code>PaperModX</code>, since that is the name of the theme I am using.</p>
 </li>
 </ul>
-<p>Example contents of a valid <code>config.yml</code> file can be found below.</p>
+<p>Example contents of the <code>config.yml</code> file can be found below.</p>
 <details class="admonition note"><summary class="admonition-title">config.yml</summary>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="c"># base URL</span><span class="w">
 </span><span class="w"></span><span class="nt">baseURL</span><span class="p">:</span><span class="w"> </span><span class="s2">&#34;http://visionbike.github.io/&#34;</span><span class="w">
@@ -836,7 +1078,7 @@ git push -u origin master
 <p>You are almost done finishing your personal blog!</p>
 <p>To create the first post, you execute the <code>hugo new</code> command in the terminal.</p>
 <div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">hugo new posts/first-post/index.md
-</code></pre></div><p>The command will create a new folder named <code>first-post</code> with new Markdown file <code>index.md</code>, inside the <code>content/posts</code> directory. Creating a new directory for each single post helps you manage your resource better when images, media sources can be store directly in this directory. The Markdown file will contain the template for your first blog post and you can start  writing your content using Markdown syntax.</p>
+</code></pre></div><p>The command will create a new folder named <code>first-post</code> with new Markdown file <code>index.md</code>, inside the <u><strong>content/posts</strong></u> directory. Creating a new directory for each single post helps you manage your resource better when images, media sources can be store directly in this directory. The Markdown file will contain the template for your first blog post and you can start  writing your content using Markdown syntax.</p>
 <p>The contents of the <code>first-post.md</code> file will look like as:</p>
 <div class="admonition note"><p class="admonition-title">first-post.md</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-markdown" data-lang="markdown">---
@@ -845,8 +1087,8 @@ date: 2023-07-04T01:53:57+08:00
 draft: true
 ---
 </code></pre></div></div>
-<p>You need to add content to the Markdown file and update the metadata header. In the metadata header, you will find information such as the post&rsquo;s title (<code>title</code>), publishing date (<code>date</code>), and draft status (<code>draft</code>). Change the value of the <code>draft</code> field from <code>true</code> to <code>false</code> to indicate that the post is ready to be published on your blog site. Your can also add other features supported by the installed theme for your post, i.e., comments, share buttons, navigation, etc.</p>
-<p>The, you add the desired content to the body of the post. For instance, I added the line &ldquo;This is my first post! Hello world!&rdquo; at the bottom of the file. Feel free to customize the content to reflect your own thoughts and ideas in Markdown syntax.</p>
+<p>You need to add content to the Markdown file and update the metadata header. In the metadata header, you will find information such as the post&rsquo;s title, publishing date and draft status. Change the value of the <strong>draft</strong> field from <code>true</code> to <code>false</code> to indicate that the post is ready to be published on your blog site. Your can also add other features supported by the installed theme for your post, i.e., comments, share buttons, navigation, etc.</p>
+<p>The, you add the desired content to the body of the post. For instance, I added the line <strong>&ldquo;This is my first post! Hello world!&quot;</strong> at the bottom of the file. Feel free to customize the content to reflect your own thoughts and ideas in Markdown syntax.</p>
 <p>After modifying the first blog post, you can use <code>git commit</code> to commit and push the changes from your local repository to GitHub.</p>
 <div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">git add content/posts/first-post.md
 git commit -m <span class="s2">&#34;add the first post&#34;</span>
@@ -875,10 +1117,10 @@ hugo v0.92.2+extended linux/amd64 <span class="nv">BuildDate</span><span class="
 
 Total in <span class="m">38</span> ms
 </code></pre></div><h2 id="8-setting-up-github-actions-workflow">8. Setting Up GitHub Actions Workflow</h2>
-<p>Lastly, the GitHub Actions workflow has to be prepared for automatically building and deploying your blog to GitHub Pages. This workflow is defined by a YAML file in the <code>.github/workflows</code> directory structure at the root of the project.</p>
-<p>First, create the <code>workflows</code> directory.</p>
+<p>Lastly, the GitHub Actions workflow has to be prepared for automatically building and deploying your blog to GitHub Pages. This workflow is defined by a YAML file in the <u><strong>.github/workflows</strong></u> directory structure at the root of the project.</p>
+<p>First, create the <code>workflows</code> folder.</p>
 <div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">mkdir -p .github/workflows
-</code></pre></div><p>The command will create the <code>.github/workflows</code> directory if it doesn&rsquo;t already exist. The <code>-p</code> option ensures that the parent directories are created if needed.</p>
+</code></pre></div><p>The command will create the <u><strong>.github/workflows</strong></u> directory if it doesn&rsquo;t already exist. The <code>-p</code> option ensures that the parent directories are created if needed.</p>
 <p>Then, we create a new file within the created folder directory, named <code>deploy_gh_pages.yaml</code> with the following contents.</p>
 <div class="admonition note"><p class="admonition-title">deploy_gh_pages.yaml</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nn">---</span><span class="w">
@@ -923,7 +1165,7 @@ Total in <span class="m">38</span> ms
 </span><span class="w">          </span><span class="nt">github_token</span><span class="p">:</span><span class="w"> </span><span class="l">${{ secrets.GITHUB_TOKEN }}</span><span class="w">
 </span><span class="w">          </span><span class="nt">publish_dir</span><span class="p">:</span><span class="w"> </span><span class="l">./public</span><span class="w">
 </span></code></pre></div></div>
-<p>The YAML file sets up the deployment process using Hugo and GitHub Pages. The workflow is triggered on a push to the <code>master</code> branch, and it uses the specified actions to build and deploy your blog. You can find more in <a href="https://github.com/peaceiris/actions-gh-pages">this</a>.</p>
+<p>The YAML file sets up the deployment process using Hugo and GitHub Pages. The workflow is triggered on a push to the <code>master</code> branch, and it uses the specified actions to build and deploy your blog. You can find more in <a href="https://github.com/peaceiris/actions-gh-pages"><strong>this</strong></a>.</p>
 <p>Finally, we use <code>git</code> commands to commit and push the changes from your local repository to GitHub.</p>
 <div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">git add .github/workflows/deploy_gh_pages.yaml
 git commit -m <span class="s2">&#34;Add GitHub Actions workflow&#34;</span>
@@ -943,20 +1185,20 @@ git push -u origin master
 <p>Wait for a few minutes to allow GitHub Pages to build and deploy your website. When the deployment completes, you can click on the URL provided in the notification to view your website. It may take some time for the changes to propagate and for your website to become accessible.</p>
 <p><img loading="lazy" src="/posts/setting-up-personal-blog-with-hugo-and-gh-pages/site-demo.png" type="" alt="Site demo"  /></p>
 <h2 id="conclusion">Conclusion</h2>
-<p>Congratulations on setting up your blog using <em>Hugo</em>, <em>Markdown</em>, and <em>GitHub Pages</em>! This free and accessible solution enables you to create and share your technical knowledge with a wide audience. Happy blogging!</p>
+<p>Congratulations on setting up your blog using <strong>Hugo</strong>, <strong>Markdown</strong>, and <strong>GitHub Pages</strong>! This free and accessible solution enables you to create and share your technical knowledge with a wide audience. Happy blogging!</p>
 <h2 id="reference">Reference</h2>
 <ul>
 <li>
 <p><a href="https://chrisjhart.com/Creating-A-Simple-Free-Blog-Hugo/">How to Create a Simple, Free Blog with Hugo and GitHub Pages</a>.</p>
 </li>
 <li>
-<p>PaperModX Hugo theme: <a href="https://github.com/reorx/hugo-PaperModX">https://github.com/reorx/hugo-PaperModX</a>.</p>
+<p><a href="https://github.com/reorx/hugo-PaperModX">https://github.com/reorx/hugo-PaperModX</a>.</p>
 </li>
 <li>
-<p>Hugo: <a href="https://gohugo.io/">https://gohugo.io/</a>.</p>
+<p><a href="https://gohugo.io/">https://gohugo.io/</a>.</p>
 </li>
 <li>
-<p>Even Hugo theme: <a href="https://github.com/olOwOlo/hugo-theme-even/">https://github.com/olOwOlo/hugo-theme-even/</a>.</p>
+<p><a href="https://github.com/olOwOlo/hugo-theme-even/">https://github.com/olOwOlo/hugo-theme-even/</a>.</p>
 </li>
 </ul>
 ]]></content:encoded>
