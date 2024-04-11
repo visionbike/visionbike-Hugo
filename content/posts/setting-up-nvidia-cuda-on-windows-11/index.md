@@ -64,6 +64,8 @@ After installation, you make sure that the **Anaconda** is not the default confi
 
 **DO NOT** install anything into the `base` environment as this might break your installation. See [**here**](https://mamba.readthedocs.io/en/latest/user_guide/troubleshooting.html#base-packages) for details.
 
+The most convenient way to use the **Mamba** will be via the **Miniforge Prompt** installed in the **Start Menu**.
+
 {{% /admonition %}}
 
 ## 3. Installing NVIDIA CUDA Toolkit
