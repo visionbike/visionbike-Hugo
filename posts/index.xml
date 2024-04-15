@@ -223,274 +223,550 @@ Install the Visual Studio Community 2022 and select Desktop development with C++
     </item>
     
     <item>
-      <title>Setting Up NVIDIA CUDA on Windows 11 With WSL 2</title>
-      <link>http://visionbike.github.io/posts/create-ml-development-environment-on-windows11-with-wsl2/</link>
+      <title>Setting Up NVIDIA CUDA on WSL 2</title>
+      <link>http://visionbike.github.io/posts/setitng-up-nvidia-cuda-on-wsl2/</link>
       <pubDate>Thu, 13 Jul 2023 16:44:33 +0800</pubDate>
       
-      <guid>http://visionbike.github.io/posts/create-ml-development-environment-on-windows11-with-wsl2/</guid>
-      <description>To get started with running CUDA on WSL, you need to instal NVIDIA Driver on Windows 11 with a compatible GeForce or NVIDIA RTX/Quadro card from this link.
-Note that you only need to install NVIDIA Driver for Windows. Do not install any Linux Driver in WSL.
-The latest NVIDIA Windows GPU Driver will fully support WSL 2. With CUDA support in the driver, existing applications compiled on a Linux system for the same target GPU can run unmodified within the WSL environment.</description>
-      <content:encoded><![CDATA[<p>To get started with running CUDA on WSL, you need to instal NVIDIA Driver on Windows 11 with a compatible GeForce or NVIDIA RTX/Quadro card from this <a href="https://www.nvidia.com/Download/index.aspx">link</a>.</p>
+      <guid>http://visionbike.github.io/posts/setitng-up-nvidia-cuda-on-wsl2/</guid>
+      <description>Windows Subsystem for Linux (WSL) is a compatibility layer provided by Microsoft that allows you to run a Linux environment directly on WIndows. It will bring Linux applications, utilities and Bash command-line tool directly on Windows without the overhead of traditional virtual machine or dualboot setup.
+1. Prequisites The Windows must be upgraded to Windows 10 version 2004 and higher or Windows 11 to install WSL by a single command line.</description>
+      <content:encoded><![CDATA[<p><strong>Windows Subsystem for Linux (WSL)</strong> is a compatibility layer provided by Microsoft that allows you to run a <strong>Linux environment</strong> directly on <strong>WIndows</strong>. It will bring Linux applications, utilities and Bash command-line tool directly on <strong>Windows</strong> without the overhead of traditional virtual machine or dualboot setup.</p>
+<h2 id="1-prequisites">1. Prequisites</h2>
+<p>The <strong>Windows</strong> must be upgraded to <strong>Windows 10 version 2004 and higher</strong> or <strong>Windows 11</strong> to install <strong>WSL</strong> by a single command line. Open Command Prompt in <strong>Administrator</strong> mode, then run the following command:</p>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-cmd" data-lang="cmd"><span class="line"><span class="cl">wsl --install --no-distribution
+</span></span></code></pre></div><p>The command will setup <strong>WSL version 2</strong> by default without any Linux distribution. Reboot the machine to apply changes.</p>
+<p>Open a Command Prompt window and install latest version Ubuntu distro:</p>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-cmd" data-lang="cmd"><span class="line"><span class="cl">wsl --install -d Ubuntu
+</span></span></code></pre></div><p>The installation takes a few minutes and you need to create <strong>user name</strong> and <strong>password</strong>.</p>
+<p><img loading="lazy" src="/posts/setitng-up-nvidia-cuda-on-wsl2/wsl-ubuntu-installation.png" type="" alt="WSL-Ubuntu Installation"  /></p>
+<details class="admonition note"><summary class="admonition-title">Display available WSL Linux distros</summary>
+<p>If you want to install another Linux distro, you can run following command to display a list of available WSL Linux distros:</p>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-cmd" data-lang="cmd"><span class="line"><span class="cl">wsl --list --online
+</span></span></code></pre></div></details>
+<p>For the first start, we should to install several Linux updates. The process will depend on the speed of the internet, so be patient if it slow!</p>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo apt update -y <span class="o">&amp;&amp;</span> sudo apt upgrade -y
+</span></span></code></pre></div><details class="admonition note"><summary class="admonition-title">Issue: /usr/lib/wsl/lib/libcuda.so.1 is not a symbolic link</summary>
+<p>If your machine has integrated <strong>NVIDIA</strong> GPU, you may meet the <code>/usr/lib/wsl/lib/libcuda.so.1 is not a symbolic link</code> issue when updating the system.</p>
+<p>In the WSL Ubuntu side, run following commands:</p>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">cd</span> /usr/lib/wsl/lib
+</span></span><span class="line"><span class="cl">sudo rm libcuda.so
+</span></span><span class="line"><span class="cl">sudo rm libcuda.so.1
+</span></span><span class="line"><span class="cl">sudo ln -s libcuda.so.1.1 libcuda.so
+</span></span><span class="line"><span class="cl">sudo ln -s libcuda.so.1.1 libcuda.so.1
+</span></span></code></pre></div><p>Now reinstall <code>libc-bin</code> package.</p>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo apt reinstall libc-bin
+</span></span></code></pre></div><p>In the Windows side, run following comands in <strong>Administrator</strong> mode:</p>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-cmd" data-lang="cmd"><span class="line"><span class="cl"><span class="k">cd</span> C:\Windows\System32\lxss\lib
+</span></span><span class="line"><span class="cl"><span class="k">del</span> libcuda.so
+</span></span><span class="line"><span class="cl"><span class="k">del</span> libcuda.so.1
+</span></span><span class="line"><span class="cl"><span class="k">mklink</span> libcuda.so libcuda.so.1.1
+</span></span><span class="line"><span class="cl"><span class="k">mklink</span> libcuda.so.1 libcuda.so.1.1
+</span></span></code></pre></div><p>Reboot the machine and run the <code>sudo ldconfig</code> command in WSL Ubuntu side to verify the problem is solved.</p>
+</details>
+<h2 id="2-installing-mamba">2. Installing Mamba</h2>
+<p><a href="https://mamba.readthedocs.io/en/latest/user_guide/mamba.html"><strong>Mamba</strong></a> is a command-line interfacer (CLI) to manage <code>conda</code>&rsquo;s environemts. For <code>mamba</code> configuration, please refer to <a href="https://conda.io/projects/conda/en/latest/user-guide/configuration/index.html"><strong>conda documentation</strong></a>.</p>
+<p>For the fresh installation, you can install <a href="https://github.com/conda-forge/miniforge"><strong>Miniforge distribution</strong></a> &gt;= <code>Miniforge3-22.3.1.0</code>. <strong>Miniforge</strong> comes with the popular <code>conda-forge</code> channel preconfigured, but you can modify the configuration to use any channel you like.</p>
+<p>For Unix-like platforms (MAC OS and Linux), download the installer using curl or wget or your favorite program and run the script</p>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl -L -O <span class="s2">&#34;https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-</span><span class="k">$(</span>uname<span class="k">)</span><span class="s2">-</span><span class="k">$(</span>uname -m<span class="k">)</span><span class="s2">.sh&#34;</span>
+</span></span><span class="line"><span class="cl">bash Miniforge3-<span class="k">$(</span>uname<span class="k">)</span>-<span class="k">$(</span>uname -m<span class="k">)</span>.sh
+</span></span></code></pre></div><p>After successful installation, you can use use the mamba commands as described in this <a href="https://mamba.readthedocs.io/en/latest/user_guide/mamba.html#mamba"><strong>user guide</strong></a>.</p>
+<div class="admonition note"><p class="admonition-title">Working with Conda Environment</p>
+<p>The command using <code>mamba</code> is similar to the <code>conda</code> command.</p>
+<ul>
+<li>Create new environment</li>
+</ul>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mamba create -n <span class="p">&amp;</span>lt<span class="p">;</span>ENV_NAME<span class="p">&amp;</span>gt<span class="p">;</span> <span class="nv">python</span><span class="o">=</span><span class="p">&amp;</span>lt<span class="p">;</span>VERSION<span class="p">&amp;</span>gt<span class="p">;</span>
+</span></span></code></pre></div><ul>
+<li>Activate an environment</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mamba activate <span class="p">&amp;</span>lt<span class="p">;</span>ENV_NAME<span class="p">&amp;</span>gt<span class="p">;</span>
+</span></span></code></pre></div><ul>
+<li>Deactivate environment</li>
+</ul>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mamba deactivate
+</span></span></code></pre></div><ul>
+<li>Delete an environment</li>
+</ul>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mamba env remove -n <span class="p">&amp;</span>lt<span class="p">;</span>ENV_NAME<span class="p">&amp;</span>gt<span class="p">;</span>
+</span></span></code></pre></div><ul>
+<li>Show all created environments</li>
+</ul>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mamba env list
+</span></span></code></pre></div><p><strong>Remember to activate an environment first, do not install any packages in your base environment!</strong></p>
+<ul>
+<li>Install python packages</li>
+</ul>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mamba install <span class="p">&amp;</span>lt<span class="p">;</span>PKG_NAME<span class="p">&amp;</span>gt<span class="p">;</span><span class="o">[=</span>VERSION<span class="o">]</span> <span class="o">[</span>-c <span class="p">&amp;</span>lt<span class="p">;</span>CHANNEL_NAME<span class="p">&amp;</span>gt<span class="p">;</span><span class="o">]</span>
+</span></span></code></pre></div><p>When installing a package, you can optionally indicate specific additional channel that the packages are posted by community. The <code>conda-forge</code> is one of most common additional channels.</p>
+<ul>
+<li>Delete packages</li>
+</ul>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mamba remove <span class="p">&amp;</span>lt<span class="p">;</span>PKG_NAME<span class="p">&amp;</span>gt<span class="p">;</span>
+</span></span></code></pre></div><ul>
+<li>Show all installed packages in the virtual environment</li>
+</ul>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mamba list <span class="o">[</span>-n <span class="p">&amp;</span>lt<span class="p">;</span>ENV_NAME<span class="p">&amp;</span>gt<span class="p">;</span><span class="o">]</span>
+</span></span></code></pre></div></div>
+<h2 id="2-installing-nvidia-cuda-toolkit-for-wsl-2">2. Installing NVIDIA CUDA Toolkit for WSL 2</h2>
 <p>Note that you <strong>only need to install NVIDIA Driver for Windows. Do not install any Linux Driver in WSL</strong>.</p>
 <p>The latest NVIDIA Windows GPU Driver will fully support WSL 2. With CUDA support in the driver, existing applications compiled on a Linux system for the same target GPU can run unmodified within the WSL environment. Once NVIDIA Windows GPU Driver is installed in the system, the CUDA driver will be stubbed inside the WSL 2 as <code>libcuda.so</code>. Therefore, you only use a separate CUDA Toolkit for WSL 2 which does not contain the NVIDIA Linux GPU Driver.</p>
-<h2 id="1-install-nvidia-cuda-toolkit-for-wsl-2">1. Install NVIDIA CUDA Toolkit for WSL 2</h2>
-<p>First remove the old GPG key from your WSL machine</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sudo apt-key del 7fa2af80
-</span></span></code></pre></div><p>Download <a href="https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&Distribution=WSL-Ubuntu&target_version=2.0&target_type=deb_local">CUDA Toolkit for WSL 2</a>.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">wget https://developer.download.nvidia.com/compute/cuda/repos/wsl-ubuntu/x86_64/cuda-wsl-ubuntu.pin
-</span></span><span class="line"><span class="cl">sudo mv cuda-wsl-ubuntu.pin /etc/apt/preferences.d/cuda-repository-pin-600
-</span></span><span class="line"><span class="cl">wget https://developer.download.nvidia.com/compute/cuda/12.2.1/local_installers/cuda-repo-wsl-ubuntu-12-2-local_12.2.1-1_amd64.deb
-</span></span></code></pre></div><p>Then, folow the installation instruction.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sudo dpkg -i cuda-repo-wsl-ubuntu-12-2-local_12.2.1-1_amd64.deb
-</span></span><span class="line"><span class="cl">sudo cp /var/cuda-repo-wsl-ubuntu-12-2-local/cuda-*-keyring.gpg /usr/share/keyrings/
-</span></span><span class="line"><span class="cl">sudo apt-get update
-</span></span><span class="line"><span class="cl">sudo apt-get -y install cuda
-</span></span></code></pre></div><p>Verify that CUDA is successfully installed by command</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">nvidia-smi
-</span></span></code></pre></div><h2 id="2-install-nvidia-cudnn">2. Install NVIDIA CuDNN</h2>
-<p>You can find the coresponding installation file from <a href="https://developer.nvidia.com/rdp/cudnn-archive">this</a>. Here you need to register and login to download it.</p>
-<p><img loading="lazy" src="/posts/create-ml-development-environment-on-windows11-with-wsl2/cudnn-download.png" type="" alt="CuDNN download"  /></p>
-<p>You can use Windows to download installation files then move to Ubuntu system in WSL 2. The WSL system is mapped to <code>\\wsl$\Ubuntu-22.04</code> and Windows drives are mounted under <code>/mnt</code> and can be accessed directly.</p>
-<p>Once completed, it can be installed with following commands</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sudo dpkg -i cudnn-local-repo-ubuntu2204-8.9.3.28_1.0-1_amd64.deb
-</span></span><span class="line"><span class="cl">sudo cp /var/cudnn-local-repo-ubuntu2204-8.9.3.28/cudnn-local-*-keyring.gpg /usr/share/keyrings/
-</span></span><span class="line"><span class="cl">sudo apt-get -y update
-</span></span><span class="line"><span class="cl">sudo apt-get -y upgrade
-</span></span></code></pre></div><details class="admonition tip"><summary class="admonition-title">Fix &#34;libcuda.so.1 is not a symbolic link&#34; error</summary>
-<p>Once the installattion is completed, you may receive the following error:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">/sbin/ldconfig.real: /usr/lib/wsl/lib/libcuda.so.1 is not a symbolic link
-</span></span></code></pre></div><p>The reason may be the property of read-only of the directory. You can create other directory then link executable from <code>/usr/lib/wsl/lib/</code> to the new directory.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nb">cd</span> /usr/lib/wsl
-</span></span><span class="line"><span class="cl">sudo mkdir lib2
-</span></span><span class="line"><span class="cl">sudo ln -s lib/* lib2
-</span></span><span class="line"><span class="cl">sudo ldconfig
-</span></span></code></pre></div><p>Then change <code>/usr/lib/wsl/lib</code> in the file <code>/etc/ld.so.conf.d/ld.wsl.conf</code> to <code>/usr/lib/wsl/lib2</code>.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># This file was automatically generated by WSL. To stop automatic generation of this file, add the following entry to /etc/wsl.conf:</span>
-</span></span><span class="line"><span class="cl"><span class="c1">#[automount]</span>
-</span></span><span class="line"><span class="cl"><span class="c1">#ldconfig = false</span>
-</span></span><span class="line"><span class="cl">/usr/lib/wsl/lib2
-</span></span></code></pre></div><p>Restarting WSL after setting will automatically restore, if you don’t want to restore, you need to modif <code>/etc/wsl.conf</code></p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>automount<span class="o">]</span>
-</span></span><span class="line"><span class="cl"><span class="nv">ldconfig</span> <span class="o">=</span> <span class="nb">false</span>
+<p>To get started with running CUDA on <strong>WSL 2</strong>, you need to instal NVIDIA Driver on Windows 11 with a compatible GeForce or NVIDIA RTX/Quadro card from <a href="https://www.nvidia.com/Download/index.aspx"><strong>here</strong></a>. Once a <strong>Windows NVIDIA GPU driver</strong> is installed on the system, CUDA becomes available within <strong>WSL 2</strong>. The <strong>CUDA driver</strong> installed on <strong>Windows host</strong> will be stubbed inside the WSL 2 as <code>libcuda.so</code>.</p>
+<p>However, the <strong>NVIDIA CUDA Toolkit for WSL</strong> need to be install for further use.</p>
+<p>First, remove the old GPG key:</p>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo apt-key del 7fa2af80
+</span></span></code></pre></div><p>Install the <strong>NVIDIA CUDA Toolkit for WSL-Ubuntu</strong> by following the step in <a href="https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&Distribution=WSL-Ubuntu&target_version=2.0&target_type=deb_local"><strong>this link</strong></a></p>
+<p>Download <a href="https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&Distribution=WSL-Ubuntu&target_version=2.0&target_type=deb_local">CUDA Toolkit for WSL 2</a>.</p>
+<p><img loading="lazy" src="/posts/setitng-up-nvidia-cuda-on-wsl2/nvidia-cuda-toolkit-installation.png" type="" alt="NVIDIA CUDA Toolkit Installation"  /></p>
+<p>Some actions must be taken after the installation before the CUDA Toolkit and Driver can be used. The <code>PATH</code> and <code>LD_LIBRARY_PATH</code> variables need to be updated.</p>
+<p>Open <code>~/.bashrc</code> by running <code>nano ~/.bashrc</code>, add two lines at the end of the file:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span>/usr/local/cuda-12.4/bin<span class="si">${</span><span class="nv">PATH</span><span class="p">:+:</span><span class="si">${</span><span class="nv">PATH</span><span class="si">}}</span>
+</span></span><span class="line"><span class="cl"><span class="nb">export</span> <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span>/usr/local/cuda-12.4/lib64<span class="si">${</span><span class="nv">LD_LIBRARY_PATH</span><span class="p">:+:</span><span class="si">${</span><span class="nv">LD_LIBRARY_PATH</span><span class="si">}}</span>
+</span></span></code></pre></div><p>Then you run <code>source ~/.bashrc</code> for activation changes without reboot.</p>
+<details class="admonition info"><summary class="admonition-title">Verify CUDA Toolkit Installation</summary>
+<p>You can verify the installation by running the following command:</p>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nvcc --version
+</span></span></code></pre></div><p>If the installation was successful, you should see the CUDA version information displayed.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">nvcc: NVIDIA <span class="o">(</span>R<span class="o">)</span> Cuda compiler driver
+</span></span><span class="line"><span class="cl">Copyright <span class="o">(</span>c<span class="o">)</span> 2005-2024 NVIDIA Corporation
+</span></span><span class="line"><span class="cl">Built on Thu_Mar_28_02:18:24_PDT_2024
+</span></span><span class="line"><span class="cl">Cuda compilation tools, release 12.4, V12.4.131
+</span></span><span class="line"><span class="cl">Build cuda_12.4.r12.4/compiler.34097967_0
+</span></span></code></pre></div><p>It is important to verify that the <strong>NVIDIA CUDA Toolkit</strong> can find and communicate correctly with CUDA-compatible hardware. To do this, you need to compile and run some sample programs.</p>
+<p>CUDA samples are located in <a href="https://github.com/nvidia/cuda-samples"><strong>https://github.com/nvidia/cuda-samples</strong></a>. To use the samples, clone the project, build the samples in <code>cuda-samples</code> directory using <code>make</code> command and run them following the instruction on the Github page.</p>
+<p>To verify a correct configuration of the hardware and software, it is highly recommended that you build and run the <code>deviceQuery</code> sample program.</p>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">./deviceQuery
+</span></span></code></pre></div><p>If  CUDA is installed and configured correctly, the output should look similar as below:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">./deviceQuery Starting...
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"> CUDA Device Query <span class="o">(</span>Runtime API<span class="o">)</span> version <span class="o">(</span>CUDART static linking<span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Detected <span class="m">1</span> CUDA Capable device<span class="o">(</span>s<span class="o">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Device 0: <span class="s2">&#34;NVIDIA GeForce RTX 3070 Ti Laptop GPU&#34;</span>
+</span></span><span class="line"><span class="cl">  CUDA Driver Version / Runtime Version          12.4 / 12.4
+</span></span><span class="line"><span class="cl">  CUDA Capability Major/Minor version number:    8.6
+</span></span><span class="line"><span class="cl">  Total amount of global memory:                 <span class="m">8192</span> MBytes <span class="o">(</span><span class="m">8589410304</span> bytes<span class="o">)</span>
+</span></span><span class="line"><span class="cl">  <span class="o">(</span>046<span class="o">)</span> Multiprocessors, <span class="o">(</span>128<span class="o">)</span> CUDA Cores/MP:    <span class="m">5888</span> CUDA Cores
+</span></span><span class="line"><span class="cl">  GPU Max Clock rate:                            <span class="m">1410</span> MHz <span class="o">(</span>1.41 GHz<span class="o">)</span>
+</span></span><span class="line"><span class="cl">  Memory Clock rate:                             <span class="m">7001</span> Mhz
+</span></span><span class="line"><span class="cl">  Memory Bus Width:                              256-bit
+</span></span><span class="line"><span class="cl">  L2 Cache Size:                                 <span class="m">4194304</span> bytes
+</span></span><span class="line"><span class="cl">  Maximum Texture Dimension Size <span class="o">(</span>x,y,z<span class="o">)</span>         <span class="nv">1D</span><span class="o">=(</span>131072<span class="o">)</span>, <span class="nv">2D</span><span class="o">=(</span>131072, 65536<span class="o">)</span>, <span class="nv">3D</span><span class="o">=(</span>16384, 16384, 16384<span class="o">)</span>
+</span></span><span class="line"><span class="cl">  Maximum Layered 1D Texture Size, <span class="o">(</span>num<span class="o">)</span> layers  <span class="nv">1D</span><span class="o">=(</span>32768<span class="o">)</span>, <span class="m">2048</span> layers
+</span></span><span class="line"><span class="cl">  Maximum Layered 2D Texture Size, <span class="o">(</span>num<span class="o">)</span> layers  <span class="nv">2D</span><span class="o">=(</span>32768, 32768<span class="o">)</span>, <span class="m">2048</span> layers
+</span></span><span class="line"><span class="cl">  Total amount of constant memory:               <span class="m">65536</span> bytes
+</span></span><span class="line"><span class="cl">  Total amount of shared memory per block:       <span class="m">49152</span> bytes
+</span></span><span class="line"><span class="cl">  Total shared memory per multiprocessor:        <span class="m">102400</span> bytes
+</span></span><span class="line"><span class="cl">  Total number of registers available per block: <span class="m">65536</span>
+</span></span><span class="line"><span class="cl">  Warp size:                                     <span class="m">32</span>
+</span></span><span class="line"><span class="cl">  Maximum number of threads per multiprocessor:  <span class="m">1536</span>
+</span></span><span class="line"><span class="cl">  Maximum number of threads per block:           <span class="m">1024</span>
+</span></span><span class="line"><span class="cl">  Max dimension size of a thread block <span class="o">(</span>x,y,z<span class="o">)</span>: <span class="o">(</span>1024, 1024, 64<span class="o">)</span>
+</span></span><span class="line"><span class="cl">  Max dimension size of a grid size    <span class="o">(</span>x,y,z<span class="o">)</span>: <span class="o">(</span>2147483647, 65535, 65535<span class="o">)</span>
+</span></span><span class="line"><span class="cl">  Maximum memory pitch:                          <span class="m">2147483647</span> bytes
+</span></span><span class="line"><span class="cl">  Texture alignment:                             <span class="m">512</span> bytes
+</span></span><span class="line"><span class="cl">  Concurrent copy and kernel execution:          Yes with <span class="m">1</span> copy engine<span class="o">(</span>s<span class="o">)</span>
+</span></span><span class="line"><span class="cl">  Run <span class="nb">time</span> limit on kernels:                     Yes
+</span></span><span class="line"><span class="cl">  Integrated GPU sharing Host Memory:            No
+</span></span><span class="line"><span class="cl">  Support host page-locked memory mapping:       Yes
+</span></span><span class="line"><span class="cl">  Alignment requirement <span class="k">for</span> Surfaces:            Yes
+</span></span><span class="line"><span class="cl">  Device has ECC support:                        Disabled
+</span></span><span class="line"><span class="cl">  Device supports Unified Addressing <span class="o">(</span>UVA<span class="o">)</span>:      Yes
+</span></span><span class="line"><span class="cl">  Device supports Managed Memory:                Yes
+</span></span><span class="line"><span class="cl">  Device supports Compute Preemption:            Yes
+</span></span><span class="line"><span class="cl">  Supports Cooperative Kernel Launch:            Yes
+</span></span><span class="line"><span class="cl">  Supports MultiDevice Co-op Kernel Launch:      No
+</span></span><span class="line"><span class="cl">  Device PCI Domain ID / Bus ID / location ID:   <span class="m">0</span> / <span class="m">1</span> / <span class="m">0</span>
+</span></span><span class="line"><span class="cl">  Compute Mode:
+</span></span><span class="line"><span class="cl">     &lt; Default <span class="o">(</span>multiple host threads can use ::cudaSetDevice<span class="o">()</span> with device simultaneously<span class="o">)</span> &gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">deviceQuery, CUDA <span class="nv">Driver</span> <span class="o">=</span> CUDART, CUDA Driver <span class="nv">Version</span> <span class="o">=</span> 12.4, CUDA Runtime <span class="nv">Version</span> <span class="o">=</span> 12.4, <span class="nv">NumDevs</span> <span class="o">=</span> <span class="m">1</span>
+</span></span><span class="line"><span class="cl"><span class="nv">Result</span> <span class="o">=</span> PASS
+</span></span></code></pre></div><p>By running the <code>bandwidthTest</code> program, you can ensure that the system and CUDA-capable device are able to communicate correctly.</p>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">./bandwidthText
+</span></span></code></pre></div><p>The output shoud be here.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>CUDA Bandwidth Test<span class="o">]</span> - Starting...
+</span></span><span class="line"><span class="cl">Running on...
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"> Device 0: NVIDIA GeForce RTX <span class="m">3070</span> Ti Laptop GPU
+</span></span><span class="line"><span class="cl"> Quick Mode
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"> Host to Device Bandwidth, <span class="m">1</span> Device<span class="o">(</span>s<span class="o">)</span>
+</span></span><span class="line"><span class="cl"> PINNED Memory Transfers
+</span></span><span class="line"><span class="cl">   Transfer Size <span class="o">(</span>Bytes<span class="o">)</span>        Bandwidth<span class="o">(</span>GB/s<span class="o">)</span>
+</span></span><span class="line"><span class="cl">   <span class="m">32000000</span>                     24.5
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"> Device to Host Bandwidth, <span class="m">1</span> Device<span class="o">(</span>s<span class="o">)</span>
+</span></span><span class="line"><span class="cl"> PINNED Memory Transfers
+</span></span><span class="line"><span class="cl">   Transfer Size <span class="o">(</span>Bytes<span class="o">)</span>        Bandwidth<span class="o">(</span>GB/s<span class="o">)</span>
+</span></span><span class="line"><span class="cl">   <span class="m">32000000</span>                     26.3
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"> Device to Device Bandwidth, <span class="m">1</span> Device<span class="o">(</span>s<span class="o">)</span>
+</span></span><span class="line"><span class="cl"> PINNED Memory Transfers
+</span></span><span class="line"><span class="cl">   Transfer Size <span class="o">(</span>Bytes<span class="o">)</span>        Bandwidth<span class="o">(</span>GB/s<span class="o">)</span>
+</span></span><span class="line"><span class="cl">   <span class="m">32000000</span>                     323.6
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nv">Result</span> <span class="o">=</span> PASS
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">NOTE: The CUDA Samples are not meant <span class="k">for</span> performance measurements. Results may vary when GPU Boost is enabled.
+</span></span></code></pre></div><p>For CUDA graphic programs, <strong>WSL 2</strong> currently does not support <strong>GL</strong>, <strong>Vulcan</strong>. Hence, you cannot run CUDA graphic programs.</p>
+</details>
+<h2 id="2-installing-nvidia-cudnn-for-wsl-2">2. Installing NVIDIA CuDNN for WSL 2</h2>
+<p>Since <strong>cuDNN version 9</strong> can exist independently with previous version <strong>cuDNN</strong>, you can refer <a href="https://developer.nvidia.com/cudnn-downloads?target_os=Linux&target_arch=x86_64&Distribution=Ubuntu&target_version=22.04&target_type=deb_local"><strong>here</strong></a> and follow the steps for your target platform.</p>
+<p><img loading="lazy" src="/posts/setitng-up-nvidia-cuda-on-wsl2/nvidia-cudnn-installation.png" type="" alt="NVIDIA cuDNN Installation"  /></p>
+<details class="admonition info"><summary class="admonition-title">Verify cuDNN Installation</summary>
+<p>To verify <strong>cuDNN</strong> is install and is running properly, you can download and compile <strong>cuDNN</strong> samples. These samples can be downloaded by running:</p>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo apt install -y libcudnn9-samples
+</span></span></code></pre></div><p>The samples is located in <strong>/usr/src/cudnn_samples_v9</strong> directory, copy the directory to <code>$HOME</code> and set the permission.</p>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo cp -r cudnn_samples_v9/ <span class="nv">$HOME</span>
+</span></span><span class="line"><span class="cl">sudo chmod -R a+rwx <span class="nv">$HOME</span>/cudnn_samples_v9
+</span></span></code></pre></div><p>For the <code>mnistCUDNN</code> sample, install <code>FreeImage</code> package and compile the sample.</p>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo apt install -y libfreeimage3 libfreeimage-dev
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> <span class="nv">$HOME</span>/cudnn_samples_v9/mnistCUDNN
+</span></span><span class="line"><span class="cl">make clean <span class="o">&amp;&amp;</span> make
+</span></span><span class="line"><span class="cl">./mnistCUDNN
+</span></span></code></pre></div><p>The result should be as:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">Executing: mnistCUDNN
+</span></span><span class="line"><span class="cl">cudnnGetVersion<span class="o">()</span> : <span class="m">90100</span> , CUDNN_VERSION from cudnn.h : <span class="m">90100</span> <span class="o">(</span>9.1.0<span class="o">)</span>
+</span></span><span class="line"><span class="cl">Host compiler version : GCC 11.4.0
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">There are <span class="m">1</span> CUDA capable devices on your machine :
+</span></span><span class="line"><span class="cl">device <span class="m">0</span> : sms <span class="m">46</span>  Capabilities 8.6, SmClock 1410.0 Mhz, MemSize <span class="o">(</span>Mb<span class="o">)</span> 8191, MemClock 7001.0 Mhz, <span class="nv">Ecc</span><span class="o">=</span>0, <span class="nv">boardGroupID</span><span class="o">=</span><span class="m">0</span>
+</span></span><span class="line"><span class="cl">Using device <span class="m">0</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Testing single precision
+</span></span><span class="line"><span class="cl">Loading binary file data/conv1.bin
+</span></span><span class="line"><span class="cl">Loading binary file data/conv1.bias.bin
+</span></span><span class="line"><span class="cl">Loading binary file data/conv2.bin
+</span></span><span class="line"><span class="cl">Loading binary file data/conv2.bias.bin
+</span></span><span class="line"><span class="cl">Loading binary file data/ip1.bin
+</span></span><span class="line"><span class="cl">Loading binary file data/ip1.bias.bin
+</span></span><span class="line"><span class="cl">Loading binary file data/ip2.bin
+</span></span><span class="line"><span class="cl">Loading binary file data/ip2.bias.bin
+</span></span><span class="line"><span class="cl">Loading image data/one_28x28.pgm
+</span></span><span class="line"><span class="cl">Performing forward propagation ...
+</span></span><span class="line"><span class="cl">Testing cudnnGetConvolutionForwardAlgorithm_v7 ...
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 1: -1.000000 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 0: -1.000000 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 2: -1.000000 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 5: -1.000000 <span class="nb">time</span> requiring <span class="m">178432</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 4: -1.000000 <span class="nb">time</span> requiring <span class="m">184784</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 7: -1.000000 <span class="nb">time</span> requiring <span class="m">2057744</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_NOT_SUPPORTED <span class="k">for</span> Algo 6: -1.000000 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_NOT_SUPPORTED <span class="k">for</span> Algo 3: -1.000000 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">Testing cudnnFindConvolutionForwardAlgorithm ...
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 0: 0.009216 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 1: 0.009216 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 5: 0.096256 <span class="nb">time</span> requiring <span class="m">178432</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 7: 0.115712 <span class="nb">time</span> requiring <span class="m">2057744</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 4: 0.168960 <span class="nb">time</span> requiring <span class="m">184784</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 2: 0.546016 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_NOT_SUPPORTED <span class="k">for</span> Algo 6: -1.000000 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_NOT_SUPPORTED <span class="k">for</span> Algo 3: -1.000000 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">Testing cudnnGetConvolutionForwardAlgorithm_v7 ...
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 1: -1.000000 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 0: -1.000000 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 2: -1.000000 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 4: -1.000000 <span class="nb">time</span> requiring <span class="m">2450080</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 5: -1.000000 <span class="nb">time</span> requiring <span class="m">4656640</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 7: -1.000000 <span class="nb">time</span> requiring <span class="m">1433120</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_NOT_SUPPORTED <span class="k">for</span> Algo 6: -1.000000 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_NOT_SUPPORTED <span class="k">for</span> Algo 3: -1.000000 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">Testing cudnnFindConvolutionForwardAlgorithm ...
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 0: 0.035840 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 1: 0.058368 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 2: 0.066560 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 7: 0.093184 <span class="nb">time</span> requiring <span class="m">1433120</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 5: 0.109600 <span class="nb">time</span> requiring <span class="m">4656640</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 4: 0.192512 <span class="nb">time</span> requiring <span class="m">2450080</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_NOT_SUPPORTED <span class="k">for</span> Algo 6: -1.000000 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_NOT_SUPPORTED <span class="k">for</span> Algo 3: -1.000000 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">Resulting weights from Softmax:
+</span></span><span class="line"><span class="cl">0.0000000 0.9999399 0.0000000 0.0000000 0.0000561 0.0000000 0.0000012 0.0000017 0.0000010 0.0000000
+</span></span><span class="line"><span class="cl">Loading image data/three_28x28.pgm
+</span></span><span class="line"><span class="cl">Performing forward propagation ...
+</span></span><span class="line"><span class="cl">Testing cudnnGetConvolutionForwardAlgorithm_v7 ...
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 1: -1.000000 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 0: -1.000000 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 2: -1.000000 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 5: -1.000000 <span class="nb">time</span> requiring <span class="m">178432</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 4: -1.000000 <span class="nb">time</span> requiring <span class="m">184784</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 7: -1.000000 <span class="nb">time</span> requiring <span class="m">2057744</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_NOT_SUPPORTED <span class="k">for</span> Algo 6: -1.000000 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_NOT_SUPPORTED <span class="k">for</span> Algo 3: -1.000000 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">Testing cudnnFindConvolutionForwardAlgorithm ...
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 1: 0.008192 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 2: 0.009216 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 0: 0.026624 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 7: 0.061248 <span class="nb">time</span> requiring <span class="m">2057744</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 4: 0.073728 <span class="nb">time</span> requiring <span class="m">184784</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 5: 0.106496 <span class="nb">time</span> requiring <span class="m">178432</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_NOT_SUPPORTED <span class="k">for</span> Algo 6: -1.000000 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_NOT_SUPPORTED <span class="k">for</span> Algo 3: -1.000000 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">Testing cudnnGetConvolutionForwardAlgorithm_v7 ...
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 1: -1.000000 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 0: -1.000000 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 2: -1.000000 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 4: -1.000000 <span class="nb">time</span> requiring <span class="m">2450080</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 5: -1.000000 <span class="nb">time</span> requiring <span class="m">4656640</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 7: -1.000000 <span class="nb">time</span> requiring <span class="m">1433120</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_NOT_SUPPORTED <span class="k">for</span> Algo 6: -1.000000 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_NOT_SUPPORTED <span class="k">for</span> Algo 3: -1.000000 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">Testing cudnnFindConvolutionForwardAlgorithm ...
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 0: 0.031520 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 1: 0.038912 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 2: 0.066400 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 7: 0.091136 <span class="nb">time</span> requiring <span class="m">1433120</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 5: 0.129024 <span class="nb">time</span> requiring <span class="m">4656640</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 4: 0.145408 <span class="nb">time</span> requiring <span class="m">2450080</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_NOT_SUPPORTED <span class="k">for</span> Algo 6: -1.000000 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_NOT_SUPPORTED <span class="k">for</span> Algo 3: -1.000000 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">Resulting weights from Softmax:
+</span></span><span class="line"><span class="cl">0.0000000 0.0000000 0.0000000 0.9999288 0.0000000 0.0000711 0.0000000 0.0000000 0.0000000 0.0000000
+</span></span><span class="line"><span class="cl">Loading image data/five_28x28.pgm
+</span></span><span class="line"><span class="cl">Performing forward propagation ...
+</span></span><span class="line"><span class="cl">Resulting weights from Softmax:
+</span></span><span class="line"><span class="cl">0.0000000 0.0000008 0.0000000 0.0000002 0.0000000 0.9999820 0.0000154 0.0000000 0.0000012 0.0000006
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Result of classification: <span class="m">1</span> <span class="m">3</span> <span class="m">5</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Test passed!
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Testing half precision <span class="o">(</span>math in single precision<span class="o">)</span>
+</span></span><span class="line"><span class="cl">Loading binary file data/conv1.bin
+</span></span><span class="line"><span class="cl">Loading binary file data/conv1.bias.bin
+</span></span><span class="line"><span class="cl">Loading binary file data/conv2.bin
+</span></span><span class="line"><span class="cl">Loading binary file data/conv2.bias.bin
+</span></span><span class="line"><span class="cl">Loading binary file data/ip1.bin
+</span></span><span class="line"><span class="cl">Loading binary file data/ip1.bias.bin
+</span></span><span class="line"><span class="cl">Loading binary file data/ip2.bin
+</span></span><span class="line"><span class="cl">Loading binary file data/ip2.bias.bin
+</span></span><span class="line"><span class="cl">Loading image data/one_28x28.pgm
+</span></span><span class="line"><span class="cl">Performing forward propagation ...
+</span></span><span class="line"><span class="cl">Testing cudnnGetConvolutionForwardAlgorithm_v7 ...
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 1: -1.000000 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 0: -1.000000 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 2: -1.000000 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 5: -1.000000 <span class="nb">time</span> requiring <span class="m">178432</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 4: -1.000000 <span class="nb">time</span> requiring <span class="m">184784</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 7: -1.000000 <span class="nb">time</span> requiring <span class="m">2057744</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_NOT_SUPPORTED <span class="k">for</span> Algo 6: -1.000000 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_NOT_SUPPORTED <span class="k">for</span> Algo 3: -1.000000 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">Testing cudnnFindConvolutionForwardAlgorithm ...
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 2: 0.009216 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 0: 0.010240 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 1: 0.017408 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 7: 0.068512 <span class="nb">time</span> requiring <span class="m">2057744</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 5: 0.070784 <span class="nb">time</span> requiring <span class="m">178432</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 4: 0.103424 <span class="nb">time</span> requiring <span class="m">184784</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_NOT_SUPPORTED <span class="k">for</span> Algo 6: -1.000000 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_NOT_SUPPORTED <span class="k">for</span> Algo 3: -1.000000 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">Testing cudnnGetConvolutionForwardAlgorithm_v7 ...
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 7: -1.000000 <span class="nb">time</span> requiring <span class="m">1433120</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 1: -1.000000 <span class="nb">time</span> requiring <span class="m">1536</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 0: -1.000000 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 2: -1.000000 <span class="nb">time</span> requiring <span class="m">64000</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 5: -1.000000 <span class="nb">time</span> requiring <span class="m">4656640</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 4: -1.000000 <span class="nb">time</span> requiring <span class="m">2450080</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_NOT_SUPPORTED <span class="k">for</span> Algo 6: -1.000000 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_NOT_SUPPORTED <span class="k">for</span> Algo 3: -1.000000 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">Testing cudnnFindConvolutionForwardAlgorithm ...
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 0: 0.079872 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 1: 0.079872 <span class="nb">time</span> requiring <span class="m">1536</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 2: 0.101376 <span class="nb">time</span> requiring <span class="m">64000</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 5: 0.101440 <span class="nb">time</span> requiring <span class="m">4656640</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 4: 0.105472 <span class="nb">time</span> requiring <span class="m">2450080</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 7: 0.126976 <span class="nb">time</span> requiring <span class="m">1433120</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_NOT_SUPPORTED <span class="k">for</span> Algo 6: -1.000000 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_NOT_SUPPORTED <span class="k">for</span> Algo 3: -1.000000 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">Resulting weights from Softmax:
+</span></span><span class="line"><span class="cl">0.0000001 1.0000000 0.0000001 0.0000000 0.0000563 0.0000001 0.0000012 0.0000017 0.0000010 0.0000001
+</span></span><span class="line"><span class="cl">Loading image data/three_28x28.pgm
+</span></span><span class="line"><span class="cl">Performing forward propagation ...
+</span></span><span class="line"><span class="cl">Testing cudnnGetConvolutionForwardAlgorithm_v7 ...
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 1: -1.000000 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 0: -1.000000 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 2: -1.000000 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 5: -1.000000 <span class="nb">time</span> requiring <span class="m">178432</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 4: -1.000000 <span class="nb">time</span> requiring <span class="m">184784</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 7: -1.000000 <span class="nb">time</span> requiring <span class="m">2057744</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_NOT_SUPPORTED <span class="k">for</span> Algo 6: -1.000000 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_NOT_SUPPORTED <span class="k">for</span> Algo 3: -1.000000 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">Testing cudnnFindConvolutionForwardAlgorithm ...
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 2: 0.010240 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 0: 0.023552 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 1: 0.064480 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 7: 0.087008 <span class="nb">time</span> requiring <span class="m">2057744</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 4: 0.103424 <span class="nb">time</span> requiring <span class="m">184784</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 5: 0.138144 <span class="nb">time</span> requiring <span class="m">178432</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_NOT_SUPPORTED <span class="k">for</span> Algo 6: -1.000000 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_NOT_SUPPORTED <span class="k">for</span> Algo 3: -1.000000 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">Testing cudnnGetConvolutionForwardAlgorithm_v7 ...
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 7: -1.000000 <span class="nb">time</span> requiring <span class="m">1433120</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 1: -1.000000 <span class="nb">time</span> requiring <span class="m">1536</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 0: -1.000000 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 2: -1.000000 <span class="nb">time</span> requiring <span class="m">64000</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 5: -1.000000 <span class="nb">time</span> requiring <span class="m">4656640</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 4: -1.000000 <span class="nb">time</span> requiring <span class="m">2450080</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_NOT_SUPPORTED <span class="k">for</span> Algo 6: -1.000000 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_NOT_SUPPORTED <span class="k">for</span> Algo 3: -1.000000 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">Testing cudnnFindConvolutionForwardAlgorithm ...
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 0: 0.083904 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 7: 0.090112 <span class="nb">time</span> requiring <span class="m">1433120</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 5: 0.094976 <span class="nb">time</span> requiring <span class="m">4656640</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 4: 0.095232 <span class="nb">time</span> requiring <span class="m">2450080</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 2: 0.111616 <span class="nb">time</span> requiring <span class="m">64000</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_SUCCESS <span class="k">for</span> Algo 1: 0.186368 <span class="nb">time</span> requiring <span class="m">1536</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_NOT_SUPPORTED <span class="k">for</span> Algo 6: -1.000000 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">^^^^ CUDNN_STATUS_NOT_SUPPORTED <span class="k">for</span> Algo 3: -1.000000 <span class="nb">time</span> requiring <span class="m">0</span> memory
+</span></span><span class="line"><span class="cl">Resulting weights from Softmax:
+</span></span><span class="line"><span class="cl">0.0000000 0.0000000 0.0000000 1.0000000 0.0000000 0.0000714 0.0000000 0.0000000 0.0000000 0.0000000
+</span></span><span class="line"><span class="cl">Loading image data/five_28x28.pgm
+</span></span><span class="line"><span class="cl">Performing forward propagation ...
+</span></span><span class="line"><span class="cl">Resulting weights from Softmax:
+</span></span><span class="line"><span class="cl">0.0000000 0.0000008 0.0000000 0.0000002 0.0000000 1.0000000 0.0000154 0.0000000 0.0000012 0.0000006
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Result of classification: <span class="m">1</span> <span class="m">3</span> <span class="m">5</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Test passed!
 </span></span></code></pre></div></details>
+<h2 id="3-installing-nvidia-tensorrt-optional">3. Installing NVIDIA TensorRT (Optional)</h2>
+<p><strong>NVIDIA TensorRT</strong> is a C++ library that facilitates high-performance inference NVIDIA graphic processing units (GPUs). <strong>TensorRT</strong> takes a trained network, which consists of a network definition and a set of trained parameters, and produces a highly optimized runtime engine that performs inference for that network.</p>
+<p><strong>TensorRT</strong> provides APIs via C++ and Python that help to express deep learning model via the Network Definition API or load a pre-defined model via the ONNX parser that allow <strong>TensorRT</strong> to optimize and run them on the NVIDIA GPU. <strong>TensorRT</strong> also include optional high speed mixed precision capabilities with difference NVIDIA architectures.</p>
+<p>You can download <strong>TensorRT</strong> local repo that matches the Ubuntu version and CPU architecture of your machine from <a href="https://developer.nvidia.com/tensorrt/download/10x"><strong>here</strong></a>.</p>
+<p>Install the Debian local package.</p>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">os</span><span class="o">=</span><span class="s2">&#34;ubuntuxx04&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">tag</span><span class="o">=</span><span class="s2">&#34;10.x.x-cuda-x.x&#34;</span>
+</span></span><span class="line"><span class="cl">sudo dpkg -i nv-tensorrt-local-repo-<span class="si">${</span><span class="nv">os</span><span class="si">}</span>-<span class="si">${</span><span class="nv">tag</span><span class="si">}</span>_1.0-1_amd64.deb
+</span></span><span class="line"><span class="cl">sudo cp /var/nv-tensorrt-local-repo-<span class="si">${</span><span class="nv">os</span><span class="si">}</span>-<span class="si">${</span><span class="nv">tag</span><span class="si">}</span>/*-keyring.gpg /usr/share/keyrings/
+</span></span><span class="line"><span class="cl">sudo apt-get update
+</span></span></code></pre></div><p>Replace <code>ubuntuxx04</code>, <code>10.x.x</code> and <code>cuda-x.x</code> with your specific OS version, TensorRT version, and CUDA version. The full <strong>TensorRT</strong> C++ and Python runtimes can be installed by:</p>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo apt install -y tensorrt
+</span></span></code></pre></div><details class="admonition info"><summary class="admonition-title">Verify TensorRT Installation</summary>
+<p>To verify the installation, run the command:</p>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">dpkg-query -W tensorrt
+</span></span></code></pre></div><p>The ouput should be as following:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">tensorrt        10.0.0.6-1+cuda12.4
+</span></span></code></pre></div><p>The samples is located in <strong>/usr/src/tensorrt</strong> directory, copy the directory to <code>$HOME</code> and set the permission.</p>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo cp -r tensorrt/ <span class="nv">$HOME</span>
+</span></span><span class="line"><span class="cl">sudo chmod -R a+rwx <span class="nv">$HOME</span>/tensorrt
+</span></span></code></pre></div><p>For the <code>sampleOnnxMNIST</code> sample, compile the sample and run the program.</p>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">cd</span> <span class="nv">$HOME</span>/tensorrt/samples/sampleOnnxMNIST
+</span></span><span class="line"><span class="cl">make clean <span class="o">&amp;&amp;</span> make
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> ../../bin
+</span></span><span class="line"><span class="cl">./sampleOnnxMNIST
+</span></span></code></pre></div><p>The output should be as following:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">&amp;&amp;&amp;&amp;</span> RUNNING TensorRT.sample_onnx_mnist <span class="o">[</span>TensorRT v100000<span class="o">]</span> <span class="c1"># ./sample_onnx_mnist</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>04/15/2024-18:24:17<span class="o">]</span> <span class="o">[</span>I<span class="o">]</span> Building and running a GPU inference engine <span class="k">for</span> Onnx MNIST
+</span></span><span class="line"><span class="cl"><span class="o">[</span>04/15/2024-18:24:17<span class="o">]</span> <span class="o">[</span>I<span class="o">]</span> <span class="o">[</span>TRT<span class="o">]</span> <span class="o">[</span>MemUsageChange<span class="o">]</span> Init CUDA: CPU +19, GPU +0, now: CPU 21, GPU <span class="m">1091</span> <span class="o">(</span>MiB<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>04/15/2024-18:24:19<span class="o">]</span> <span class="o">[</span>I<span class="o">]</span> <span class="o">[</span>TRT<span class="o">]</span> <span class="o">[</span>MemUsageChange<span class="o">]</span> Init builder kernel library: CPU +1765, GPU +312, now: CPU 1922, GPU <span class="m">1403</span> <span class="o">(</span>MiB<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>04/15/2024-18:24:19<span class="o">]</span> <span class="o">[</span>I<span class="o">]</span> <span class="o">[</span>TRT<span class="o">]</span> ----------------------------------------------------------------
+</span></span><span class="line"><span class="cl"><span class="o">[</span>04/15/2024-18:24:19<span class="o">]</span> <span class="o">[</span>I<span class="o">]</span> <span class="o">[</span>TRT<span class="o">]</span> Input filename:   ../data/mnist/mnist.onnx
+</span></span><span class="line"><span class="cl"><span class="o">[</span>04/15/2024-18:24:19<span class="o">]</span> <span class="o">[</span>I<span class="o">]</span> <span class="o">[</span>TRT<span class="o">]</span> ONNX IR version:  0.0.3
+</span></span><span class="line"><span class="cl"><span class="o">[</span>04/15/2024-18:24:19<span class="o">]</span> <span class="o">[</span>I<span class="o">]</span> <span class="o">[</span>TRT<span class="o">]</span> Opset version:    <span class="m">8</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>04/15/2024-18:24:19<span class="o">]</span> <span class="o">[</span>I<span class="o">]</span> <span class="o">[</span>TRT<span class="o">]</span> Producer name:    CNTK
+</span></span><span class="line"><span class="cl"><span class="o">[</span>04/15/2024-18:24:19<span class="o">]</span> <span class="o">[</span>I<span class="o">]</span> <span class="o">[</span>TRT<span class="o">]</span> Producer version: 2.5.1
+</span></span><span class="line"><span class="cl"><span class="o">[</span>04/15/2024-18:24:19<span class="o">]</span> <span class="o">[</span>I<span class="o">]</span> <span class="o">[</span>TRT<span class="o">]</span> Domain:           ai.cntk
+</span></span><span class="line"><span class="cl"><span class="o">[</span>04/15/2024-18:24:19<span class="o">]</span> <span class="o">[</span>I<span class="o">]</span> <span class="o">[</span>TRT<span class="o">]</span> Model version:    <span class="m">1</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>04/15/2024-18:24:19<span class="o">]</span> <span class="o">[</span>I<span class="o">]</span> <span class="o">[</span>TRT<span class="o">]</span> Doc string:
+</span></span><span class="line"><span class="cl"><span class="o">[</span>04/15/2024-18:24:19<span class="o">]</span> <span class="o">[</span>I<span class="o">]</span> <span class="o">[</span>TRT<span class="o">]</span> ----------------------------------------------------------------
+</span></span><span class="line"><span class="cl"><span class="o">[</span>04/15/2024-18:24:19<span class="o">]</span> <span class="o">[</span>I<span class="o">]</span> <span class="o">[</span>TRT<span class="o">]</span> Local timing cache in use. Profiling results in this builder pass will not be stored.
+</span></span><span class="line"><span class="cl"><span class="o">[</span>04/15/2024-18:24:21<span class="o">]</span> <span class="o">[</span>I<span class="o">]</span> <span class="o">[</span>TRT<span class="o">]</span> Detected <span class="m">1</span> inputs and <span class="m">1</span> output network tensors.
+</span></span><span class="line"><span class="cl"><span class="o">[</span>04/15/2024-18:24:21<span class="o">]</span> <span class="o">[</span>I<span class="o">]</span> <span class="o">[</span>TRT<span class="o">]</span> Total Host Persistent Memory: <span class="m">26272</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>04/15/2024-18:24:21<span class="o">]</span> <span class="o">[</span>I<span class="o">]</span> <span class="o">[</span>TRT<span class="o">]</span> Total Device Persistent Memory: <span class="m">0</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>04/15/2024-18:24:21<span class="o">]</span> <span class="o">[</span>I<span class="o">]</span> <span class="o">[</span>TRT<span class="o">]</span> Total Scratch Memory: <span class="m">0</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>04/15/2024-18:24:21<span class="o">]</span> <span class="o">[</span>I<span class="o">]</span> <span class="o">[</span>TRT<span class="o">]</span> <span class="o">[</span>BlockAssignment<span class="o">]</span> Started assigning block shifts. This will take <span class="m">6</span> steps to complete.
+</span></span><span class="line"><span class="cl"><span class="o">[</span>04/15/2024-18:24:21<span class="o">]</span> <span class="o">[</span>I<span class="o">]</span> <span class="o">[</span>TRT<span class="o">]</span> <span class="o">[</span>BlockAssignment<span class="o">]</span> Algorithm ShiftNTopDown took 0.02021ms to assign <span class="m">3</span> blocks to <span class="m">6</span> nodes requiring <span class="m">32256</span> bytes.
+</span></span><span class="line"><span class="cl"><span class="o">[</span>04/15/2024-18:24:21<span class="o">]</span> <span class="o">[</span>I<span class="o">]</span> <span class="o">[</span>TRT<span class="o">]</span> Total Activation Memory: <span class="m">31744</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>04/15/2024-18:24:21<span class="o">]</span> <span class="o">[</span>I<span class="o">]</span> <span class="o">[</span>TRT<span class="o">]</span> Total Weights Memory: <span class="m">26152</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>04/15/2024-18:24:21<span class="o">]</span> <span class="o">[</span>I<span class="o">]</span> <span class="o">[</span>TRT<span class="o">]</span> Engine generation completed in 1.46118 seconds.
+</span></span><span class="line"><span class="cl"><span class="o">[</span>04/15/2024-18:24:21<span class="o">]</span> <span class="o">[</span>I<span class="o">]</span> <span class="o">[</span>TRT<span class="o">]</span> <span class="o">[</span>MemUsageStats<span class="o">]</span> Peak memory usage of TRT CPU/GPU memory allocators: CPU <span class="m">0</span> MiB, GPU <span class="m">5</span> MiB
+</span></span><span class="line"><span class="cl"><span class="o">[</span>04/15/2024-18:24:21<span class="o">]</span> <span class="o">[</span>I<span class="o">]</span> <span class="o">[</span>TRT<span class="o">]</span> <span class="o">[</span>MemUsageStats<span class="o">]</span> Peak memory usage during Engine building and serialization: CPU: <span class="m">3052</span> MiB
+</span></span><span class="line"><span class="cl"><span class="o">[</span>04/15/2024-18:24:21<span class="o">]</span> <span class="o">[</span>I<span class="o">]</span> <span class="o">[</span>TRT<span class="o">]</span> Loaded engine size: <span class="m">0</span> MiB
+</span></span><span class="line"><span class="cl"><span class="o">[</span>04/15/2024-18:24:21<span class="o">]</span> <span class="o">[</span>I<span class="o">]</span> <span class="o">[</span>TRT<span class="o">]</span> <span class="o">[</span>MemUsageChange<span class="o">]</span> TensorRT-managed allocation in IExecutionContext creation: CPU +0, GPU +0, now: CPU 0, GPU <span class="m">0</span> <span class="o">(</span>MiB<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>04/15/2024-18:24:21<span class="o">]</span> <span class="o">[</span>I<span class="o">]</span> Input:
+</span></span><span class="line"><span class="cl"><span class="o">[</span>04/15/2024-18:24:21<span class="o">]</span> <span class="o">[</span>I<span class="o">]</span> @@@@@@@@@@@@@@@@@@@@@@@@@@@@
+</span></span><span class="line"><span class="cl">@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+</span></span><span class="line"><span class="cl">@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+</span></span><span class="line"><span class="cl">@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+</span></span><span class="line"><span class="cl">@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+</span></span><span class="line"><span class="cl">@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+</span></span><span class="line"><span class="cl">@@@@@@@%<span class="o">=</span><span class="c1">#@@@@@%=%@@@@@@@@@@</span>
+</span></span><span class="line"><span class="cl">@@@@@@@           %@@@@@@@@@
+</span></span><span class="line"><span class="cl">@@@@@@@           %@@@@@@@@@
+</span></span><span class="line"><span class="cl">@@@@@@@#:-#-.     %@@@@@@@@@
+</span></span><span class="line"><span class="cl">@@@@@@@@@@@@#    <span class="c1">#@@@@@@@@@@</span>
+</span></span><span class="line"><span class="cl">@@@@@@@@@@@@@    <span class="c1">#@@@@@@@@@@</span>
+</span></span><span class="line"><span class="cl">@@@@@@@@@@@@@:  :@@@@@@@@@@@
+</span></span><span class="line"><span class="cl">@@@@@@@@@%+<span class="o">==</span>   *%%%%%%%%%@@
+</span></span><span class="line"><span class="cl">@@@@@@@@%                 -@
+</span></span><span class="line"><span class="cl">@@@@@@@@@#+.          .:-%@@
+</span></span><span class="line"><span class="cl">@@@@@@@@@@@*     :-###@@@@@@
+</span></span><span class="line"><span class="cl">@@@@@@@@@@@*   -%@@@@@@@@@@@
+</span></span><span class="line"><span class="cl">@@@@@@@@@@@*   *@@@@@@@@@@@@
+</span></span><span class="line"><span class="cl">@@@@@@@@@@@*   @@@@@@@@@@@@@
+</span></span><span class="line"><span class="cl">@@@@@@@@@@@*   <span class="c1">#@@@@@@@@@@@@</span>
+</span></span><span class="line"><span class="cl">@@@@@@@@@@@*   *@@@@@@@@@@@@
+</span></span><span class="line"><span class="cl">@@@@@@@@@@@*   *@@@@@@@@@@@@
+</span></span><span class="line"><span class="cl">@@@@@@@@@@@*   @@@@@@@@@@@@@
+</span></span><span class="line"><span class="cl">@@@@@@@@@@@*   @@@@@@@@@@@@@
+</span></span><span class="line"><span class="cl">@@@@@@@@@@@@+<span class="o">=</span><span class="c1">#@@@@@@@@@@@@@</span>
+</span></span><span class="line"><span class="cl">@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+</span></span><span class="line"><span class="cl">@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>04/15/2024-18:24:21<span class="o">]</span> <span class="o">[</span>I<span class="o">]</span> Output:
+</span></span><span class="line"><span class="cl"><span class="o">[</span>04/15/2024-18:24:21<span class="o">]</span> <span class="o">[</span>I<span class="o">]</span>  Prob <span class="m">0</span>  0.0000 Class 0:
+</span></span><span class="line"><span class="cl"><span class="o">[</span>04/15/2024-18:24:21<span class="o">]</span> <span class="o">[</span>I<span class="o">]</span>  Prob <span class="m">1</span>  0.0000 Class 1:
+</span></span><span class="line"><span class="cl"><span class="o">[</span>04/15/2024-18:24:21<span class="o">]</span> <span class="o">[</span>I<span class="o">]</span>  Prob <span class="m">2</span>  0.0000 Class 2:
+</span></span><span class="line"><span class="cl"><span class="o">[</span>04/15/2024-18:24:21<span class="o">]</span> <span class="o">[</span>I<span class="o">]</span>  Prob <span class="m">3</span>  0.0000 Class 3:
+</span></span><span class="line"><span class="cl"><span class="o">[</span>04/15/2024-18:24:21<span class="o">]</span> <span class="o">[</span>I<span class="o">]</span>  Prob <span class="m">4</span>  0.0000 Class 4:
+</span></span><span class="line"><span class="cl"><span class="o">[</span>04/15/2024-18:24:21<span class="o">]</span> <span class="o">[</span>I<span class="o">]</span>  Prob <span class="m">5</span>  0.0000 Class 5:
+</span></span><span class="line"><span class="cl"><span class="o">[</span>04/15/2024-18:24:21<span class="o">]</span> <span class="o">[</span>I<span class="o">]</span>  Prob <span class="m">6</span>  0.0000 Class 6:
+</span></span><span class="line"><span class="cl"><span class="o">[</span>04/15/2024-18:24:21<span class="o">]</span> <span class="o">[</span>I<span class="o">]</span>  Prob <span class="m">7</span>  1.0000 Class 7: **********
+</span></span><span class="line"><span class="cl"><span class="o">[</span>04/15/2024-18:24:21<span class="o">]</span> <span class="o">[</span>I<span class="o">]</span>  Prob <span class="m">8</span>  0.0000 Class 8:
+</span></span><span class="line"><span class="cl"><span class="o">[</span>04/15/2024-18:24:21<span class="o">]</span> <span class="o">[</span>I<span class="o">]</span>  Prob <span class="m">9</span>  0.0000 Class 9:
+</span></span><span class="line"><span class="cl"><span class="o">[</span>04/15/2024-18:24:21<span class="o">]</span> <span class="o">[</span>I<span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="o">&amp;&amp;&amp;&amp;</span> PASSED TensorRT.sample_onnx_mnist <span class="o">[</span>TensorRT v100000<span class="o">]</span> <span class="c1"># ./sample_onnx_mnist</span>
+</span></span></code></pre></div></details>
+<p>If you are using <strong>TensorRT Python API</strong>, make sure <strong>CUDA-Python</strong> is installed in your system or your virtual environment.</p>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mamba create -n tensorrt_env pip wheel
+</span></span><span class="line"><span class="cl">mamba activate tensorrt_env
+</span></span></code></pre></div><ul>
+<li>Installing from <strong>PyPI</strong>, <strong>TensorRT</strong> runtime wheels</li>
+</ul>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pip install cuda-python
+</span></span><span class="line"><span class="cl">pip install --pre --upgrade tensorrt
+</span></span><span class="line"><span class="cl">pip install --pre --upgrade tensorrt_lean tensorrt_dispatch
+</span></span></code></pre></div><p>To verify the installation is working, use python code.</p>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">tensorrt</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">tensorrt</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">assert</span><span class="p">(</span><span class="n">tensorrt</span><span class="o">.</span><span class="n">Builder</span><span class="p">(</span><span class="n">tensorrt</span><span class="o">.</span><span class="n">Logger</span><span class="p">()))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">tensorrt_lean</span> <span class="k">as</span> <span class="nn">trtl</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">trtl</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">assert</span> <span class="n">trtl</span><span class="o">.</span><span class="n">Runtime</span><span class="p">(</span><span class="n">trt</span><span class="o">.</span><span class="n">Logger</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">tensorrt_dispatch</span> <span class="k">as</span> <span class="nn">trtd</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">trtd</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">assert</span> <span class="n">trtd</span><span class="o">.</span><span class="n">Runtime</span><span class="p">(</span><span class="n">trt</span><span class="o">.</span><span class="n">Logger</span><span class="p">())</span>
+</span></span></code></pre></div><p>The <code>tensorrt/samples</code> directory also provides the samples that utilize with the <strong>TensorRT</strong>, you can follow instructions from <code>README.md</code> to run samples.</p>
 <h2 id="3-set-up-python-environment-using-mambaforge">3. Set up Python environment using Mambaforge</h2>
 <p>Python environment allows to manage separatelly different installations of Python and modules. It is useful when you have many projects running different version of Python and modules. It also help to manage installed modules for publish or reproduce.</p>
 <p>There are different ways to create a python virtual environment, including built-in <code>venv</code>, <code>Conda</code> and <code>Anaconda</code>.</p>
 <p><code>Conda</code> is a packaging tool and installer that aims to handle library dependencies outside of the Python packages as well as the Python packages themselves. For non preinstalled package manager, <code>Miniconda</code>, an installation of Conda, will be a good option.</p>
 <p><code>Anacond</code>a is an installation of Conda that comes pre-loaded with a bunch of packages for scientific computing, i.e., <code>numpy</code>, <code>matplotlib</code>, <code>scipy</code>, etc. It also comes with IDE, Jupyter notebooks out of the box. This is helpful for beginers, but doesn&rsquo;t give much control.</p>
 <p><code>Mamba</code> is a package manager which can be used with Python. Unlike <code>Conda</code>, it uses the C/C++ implementation to speed up the package installation. Read more about <code>mamba</code> in <a href="https://focalplane.biologists.com/2022/12/08/managing-scientific-python-environments-using-conda-mamba-and-friends/">here</a>. To install <code>mamba</code>, access <a href="https://github.com/conda-forge/miniforge">its repo</a> and pick the Mabaforge installer for your operating system.</p>
-<p>Remember to run <code>conda init</code> at the end of your installation in your shell to activate the <code>mamba</code> command.</p>
-<p><img loading="lazy" src="/posts/create-ml-development-environment-on-windows11-with-wsl2/mambaforge-install.png" type="" alt="Mambaforge install"  /></p>
-<h3 id="create-and-use-virtual-environments">Create and use virtual environments</h3>
-<p>The command using <code>mamba</code> is similar to the <code>conda</code> command.</p>
-<ul>
-<li>Create new environment</li>
-</ul>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">mamba create -n &lt;envname&gt; <span class="nv">python</span><span class="o">=</span>&lt;version&gt;
-</span></span></code></pre></div><ul>
-<li>Activate an environment</li>
-</ul>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">mamba activate &lt;envname&gt;
-</span></span></code></pre></div><ul>
-<li>Deactivate environment</li>
-</ul>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">mamba deactivate
-</span></span></code></pre></div><ul>
-<li>Delete an environment</li>
-</ul>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">mamba env remove -n &lt;envname&gt;
-</span></span></code></pre></div><ul>
-<li>Show all created environments</li>
-</ul>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">mamba env list
-</span></span></code></pre></div><h3 id="working-with-python-packages">Working with Python packages</h3>
-<p><strong>Remember to activate an environment first, do not install any packages in your base environment!</strong></p>
-<ul>
-<li>Install python packages</li>
-</ul>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">mamba install &lt;package&gt;<span class="o">[=</span>version<span class="o">]</span> <span class="o">[</span>-c &lt;channelname&gt;<span class="o">]</span>
-</span></span></code></pre></div><p>When installing a package, you can optionally indicate specific additional channel that the packages are posted by community. <code>conda-forge</code> is one of most common additional channels.</p>
-<ul>
-<li>Delete packages</li>
-</ul>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">mamba remove &lt;package&gt;
-</span></span></code></pre></div><ul>
-<li>Show all installed packages in the virtual environment</li>
-</ul>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">mamba list <span class="o">[</span>-n &lt;envname&gt;<span class="o">]</span>
-</span></span></code></pre></div><h2 id="reference">Reference</h2>
+<p>Remember to run <code>conda init</code> at the end of your installation in your bash to activate the <code>mamba</code> command.</p>
+<p><img loading="lazy" src="/posts/setitng-up-nvidia-cuda-on-wsl2/mambaforge-install.png" type="" alt="Mambaforge install"  /></p>
+<h2 id="conclusion">Conclusion</h2>
+<p>By following these steps and installing the required software, you will have an CUDA-ready environment in WSL for further machine learnin/deep learning applications. This environment will provide the necessary tools and libraries for GPU-accelerated computing and Python package management.</p>
+<h2 id="reference">Reference</h2>
 <ul>
 <li><a href="https://medium.com/geekculture/install-cuda-and-cudnn-on-windows-linux-52d1501a8805">Install CUDA and CUDNN on Windows &amp; Linux</a>.</li>
 <li><a href="https://docs.nvidia.com/cuda/wsl-user-guide/index.html">CUDA on WSL User Guide</a>.</li>
 <li><a href="https://visualstudio.microsoft.com/free-developer-offers/">Machine learning environment build: WLS2+Ubuntu+CUDA+cuDNN</a>.</li>
 <li><a href="https://biapol.github.io/blog/mara_lampert/getting_started_with_mambaforge_and_python/readme.html">Getting started with Mambaforge and Python</a>.</li>
 <li><a href="https://ross-dobson.github.io/posts/2021/01/setting-up-python-virtual-environments-with-mambaforge/">Tutorial: Setting up Python enviroments with Mambaforge</a>.</li>
-</ul>
-]]></content:encoded>
-    </item>
-    
-    <item>
-      <title>Working With Windows Subsystem for Linux 2 on Windows 11</title>
-      <link>http://visionbike.github.io/posts/working-with-wsl2-on-windows11/</link>
-      <pubDate>Thu, 13 Jul 2023 01:35:45 +0800</pubDate>
-      
-      <guid>http://visionbike.github.io/posts/working-with-wsl2-on-windows11/</guid>
-      <description>Windows Subsystem for Linux (WSL) is a compatibility layer provided by Microsoft that allows you to run a Linux environment directly on your Windows operating system. It enables you to execute Linux binaries, use Linux command-line tools, and access Linux file systems from within Windows.
-When it comes to machine learning (ML) development, WSL offers several advantages:
-Linux Compatibility: Many ML frameworks, libraries, and tools are primarily developed and optimized for Linux systems.</description>
-      <content:encoded><![CDATA[<p><strong>Windows Subsystem for Linux (WSL)</strong> is a compatibility layer provided by Microsoft that allows you to run a Linux environment directly on your Windows operating system. It enables you to execute Linux binaries, use Linux command-line tools, and access Linux file systems from within Windows.</p>
-<p>When it comes to machine learning (ML) development, WSL offers several advantages:</p>
-<ol>
-<li>
-<p><strong>Linux Compatibility</strong>: Many ML frameworks, libraries, and tools are primarily developed and optimized for Linux systems. By using WSL, you can seamlessly run Linux-specific ML software on your Windows machine without the need for dual-booting or setting up a separate Linux machine.</p>
-</li>
-<li>
-<p><strong>Access to Linux Packages</strong>: WSL provides access to the extensive collection of Linux packages available in various package managers (e.g., APT, YUM, and others). This allows you to easily install and manage Linux dependencies required for your ML projects.</p>
-</li>
-<li>
-<p><strong>Command-Line Tools and Scripts</strong>: ML development often involves working with command-line tools and executing scripts. WSL provides a Linux shell environment, enabling you to run Linux commands and scripts directly on your Windows machine. This ensures compatibility and smooth execution of ML workflows that rely on Linux-specific commands and scripts.</p>
-</li>
-<li>
-<p><strong>Compatibility with Docker</strong>: Docker is widely used in ML development to create isolated environments for running ML applications. WSL provides a seamless integration with Docker, allowing you to run Linux-based Docker containers on your Windows machine without any performance overhead.</p>
-</li>
-<li>
-<p><strong>Consistency across Development Environments</strong>: If you work in a team where some members use Linux for ML development, using WSL allows you to maintain consistency across different development environments. It ensures that code, scripts, and configurations work consistently regardless of the underlying operating system.</p>
-</li>
-</ol>
-<p>By utilizing WSL, you can leverage the power of Linux for ML development while enjoying the convenience of working within the Windows environment. It bridges the gap between Windows and Linux, making it easier to set up and manage a Linux-based ML environment on your Windows machine.</p>
-<p>It is important to note that WSL is available in different versions, such as WSL 1 and WSL 2. WSL 2 offers enhanced performance and better integration with the Windows system, making it the recommended choice for ML development. The WSL 2 is fully integrated in Windows 10 build 19041 or Windows 11, so you may consider upgrade your system before install it.</p>
-<div class="admonition tip"><p class="admonition-title">Check Windows Version</p>
-<p>You can check Window version by going to <strong>Settings &gt; System &gt; About</strong> and scroll down to <strong>Windows specifications</strong>.</p>
-</div>
-<p>If you plan to work with Linux-based ML frameworks, libraries, or tools, using WSL can significantly streamline your development workflow and ensure compatibility with the wider ML community.</p>
-<h2 id="1-pc-requirements">1. PC Requirements</h2>
-<p>WSL 2 uses <strong>Hyper-V</strong> which requires harware virtualization support enabled in your BIOS. To ensure the hardware virtualization is available on your device, you can check by rebooting, pressing <code>DEL</code>, <code>F2</code> or <code>F10</code> (depending on the hardware manufacture) to open the BIOS pannels. Lokking for <strong>Virtualization Technology</strong>, <strong>VTx</strong>, <strong>Secure Virtual Machine (SVM)</strong> or similar options and ensure these options enabled, then reboot the machine.</p>
-<details class="admonition info"><summary class="admonition-title">Disable Fast Start-up (Optional)</summary>
-<p>Fast start-up saves Windows session and device drivers to a file so the next boot become faster. However, this can cause problems for Linux kernel, which may unresponsive on the next boost. If you encounter this problem, you can disable tthe fast start-up option by <strong>Control Panel &gt; Power Options &gt; Choose what the power buttons do &gt; Change settings that are currently unavailable</strong></p>
-<p><img loading="lazy" src="/posts/working-with-wsl2-on-windows11/power-option.png" type="" alt="Power options"  /></p>
-</details>
-<h2 id="2-install-docker-desktop">2. Install Docker Desktop</h2>
-<p><strong>Docker Desktop</strong> with WSL 2 provides an efficient and seamless integration between Docker containers and the WSL 2 environment. This combination allows you to run Linux containers directly on your Windows system, leveraging the power of WSL 2.</p>
-<p>If you haven&rsquo;t installed Docker Desktop yet, please download and install the Docker Desktop for Windows from the <a href="https://www.docker.com/products/docker-desktop/">Docker website</a>. Installing Docker Desktop on Windows enables docker and docker-compose in both Windows and WSL 2.</p>
-<p>Docker Desktop suggests you use WSL 2 when it&rsquo;s first launched. Alternatively, you can select <strong>Settings</strong> from the Docker system tray icon menu, then choose the <strong>General</strong> tab, check <strong>Use the WSL 2 based engine</strong>, and hit <strong>Apply &amp; Restart</strong>. Docker uses the default Linux distro, but you can also enable it in other installed distros from the <strong>WSL Integration</strong> panel in <strong>Settings</strong>, then <strong>Resources</strong>.</p>
-<p><img loading="lazy" src="/posts/working-with-wsl2-on-windows11/docker-setting.png" type="" alt="Docker Settings"  /></p>
-<p>Once Docker Desktop is installed, you can verify that it is running correctly by following command from <code>PowerShell</code> or <code>Command Prompt</code>:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ps" data-lang="ps"><span class="line"><span class="cl"><span class="nf">docker</span> <span class="nf">version</span>
-</span></span></code></pre></div><p>This command displays the Docker version and confirms that Docker is running with WSL 2 integration.</p>
-<p>By combining Docker Desktop with WSL 2, you can take advantage of the containerization capabilities of Docker while benefiting from the compatibility and performance enhancements of WSL 2. It allows for efficient development and deployment of applications in a Linux environment, even if you&rsquo;re working on a Windows system.</p>
-<h2 id="3-install-windows-terminal">3. Install Windows Terminal</h2>
-<p><strong>Windows Terminal</strong> is a powerful and customizable terminal application for Windows that provides a modern and feature-rich command-line experience.  It allows you to interact with various shells and command-line tools in a single window, making it convenient for developers and system administrators. It is available from the <strong>Microsoft Store</strong> or it repository at <a href="github.com/microsoft/terminal/">github.com/microsoft/terminal/</a>.</p>
-<p>Windows Terminal automatically adds WSL 2 Linux distros when they&rsquo;re installed and offers a configurable range of options including tabs, split views, themes, transparency, and key bindings.</p>
-<h2 id="4-install-windows-subsystem-for-linux-2-wsl-2">4. Install Windows Subsystem for Linux 2 (WSL 2)</h2>
-<p>To display a list of available WSL Linux distros, you can run followinf command in <code>PowerShell</code> in <strong>adminitror mode</strong>:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ps" data-lang="ps"><span class="line"><span class="cl"><span class="nf">wsl</span> <span class="nf">--list</span> <span class="nf">--online</span>
-</span></span></code></pre></div><p>To install the default Ubuntu distro (the latest version), run:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ps" data-lang="ps"><span class="line"><span class="cl"><span class="nf">wsl</span> <span class="nf">--install</span>
-</span></span></code></pre></div><p>If you want to install a specific distro by name, such as <code>Ubuntu-22.04</code>, run:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ps" data-lang="ps"><span class="line"><span class="cl"><span class="nf">wsl</span> <span class="nf">--install</span> <span class="nf">-d</span> <span class="nf">Ubuntu-22.04</span>
-</span></span></code></pre></div><details class="admonition tip"><summary class="admonition-title">Install WSL Distros from Microsoft Store</summary>
-<p>Alternaltively, you can install Linux distro from the <strong>Microsoft Store</strong>.</p>
-<p><img loading="lazy" src="/posts/working-with-wsl2-on-windows11/ms-store-wsl-distros.png" type="" alt="Miscroft Store WSL Linux Distros"  /></p>
-</details>
-<p>Once the installation is done, you will be prompted to enter a username and password. These are the credentials for Linux administration and completely separately from your Windows username.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">Please create a default UNIX user account. The username does not need to match your Windows username.
-</span></span><span class="line"><span class="cl">For more information visit: https://aka.ms/wslusers
-</span></span><span class="line"><span class="cl">Enter new UNIX username: Visionbike
-</span></span><span class="line"><span class="cl">New password:
-</span></span><span class="line"><span class="cl">Retype new password:
-</span></span><span class="line"><span class="cl">paddwd: password updated successfully
-</span></span><span class="line"><span class="cl">Installation successful!
-</span></span></code></pre></div><p>Linux will eventually be ready and your terminal will show content similar to:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">To run a <span class="nb">command</span> as administrator <span class="o">(</span>user <span class="s2">&#34;root&#34;</span><span class="o">)</span>, use <span class="s2">&#34;sudo &lt;command&gt;&#34;</span>.
-</span></span><span class="line"><span class="cl">See <span class="s2">&#34;man sudo_root&#34;</span> <span class="k">for</span> details.
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">Welcome to Ubuntu 22.04.2 LTS <span class="o">(</span>GNU/Linux 5.15.90.1-microsoft-standard-WSL2 x86_64<span class="o">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"> * Documentation:  https://help.ubuntu.com
-</span></span><span class="line"><span class="cl"> * Management:     https://landscape.canonical.com
-</span></span><span class="line"><span class="cl"> * Support:        https://ubuntu.com/advantage
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"> * Strictly confined Kubernetes makes edge and IoT secure. Learn how MicroK8s
-</span></span><span class="line"><span class="cl">   just raised the bar <span class="k">for</span> easy, resilient and secure K8s cluster deployment.
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">   https://ubuntu.com/engage/secure-kubernetes-at-the-edge
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">This message is shown once a day. To disable it please create the
-</span></span><span class="line"><span class="cl">/home/visionbike/.hushlogin file.
-</span></span></code></pre></div><p>For the first start, we should to install several Linux updates. The process will depend on the speed of the internet, so be patient if it slow!</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">sudo apt update <span class="o">&amp;&amp;</span> sudo apt upgrade
-</span></span></code></pre></div><p>You can also to check for Linux kernel updates from <code>PowerShell</code> running:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ps" data-lang="ps"><span class="line"><span class="cl"><span class="nf">wsl</span> <span class="nf">--update</span>
-</span></span></code></pre></div><div class="admonition tip"><p class="admonition-title">Verify WSL 2 Installation</p>
-<p>To check if the installation was successful, you can run the following command in <code>PowerShell</code>:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ps" data-lang="ps"><span class="line"><span class="cl"><span class="nf">wsl</span> <span class="nf">-l</span> <span class="nf">-v</span>
-</span></span><span class="line"><span class="cl">  <span class="nf">NAME</span>                   <span class="nf">STATE</span>           <span class="nf">VERSION</span>
-</span></span><span class="line"><span class="cl"><span class="nf">*</span> <span class="nf">Ubuntu-22.04</span>           <span class="nf">Running</span>         <span class="mf">2</span>
-</span></span><span class="line"><span class="cl">  <span class="nf">docker-desktop</span>         <span class="nf">Stopped</span>         <span class="mf">2</span>
-</span></span><span class="line"><span class="cl">  <span class="nf">docker-desktop-data</span>    <span class="nf">Stopped</span>         <span class="mf">2</span>
-</span></span></code></pre></div></div>
-<h2 id="5-working-with-wsl-2">5. Working with WSL 2</h2>
-<h3 id="set-a-default-linux-distribution">Set a Default Linux Distribution</h3>
-<p>If you have more than one WSL Linu distro, you need to set the most frequent used distro as a default one. To set the default distro, run the following command in <strong>PowerShell</strong> temrinal.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ps" data-lang="ps"><span class="line"><span class="cl"><span class="nf">wsl</span> <span class="nf">--setdefault</span> <span class="p">&lt;</span><span class="nf">DISTRONAME</span><span class="p">&gt;</span>
-</span></span></code></pre></div><p>where <code>&lt;DISTRONAME&gt;</code> is the distro&rsquo;s name you installed.</p>
-<h3 id="file-system-in-wls-2">File System in WLS 2</h3>
-<p>In WSL 2, the Linux file system is located within the WSL 2 virtual machine. It provides a Linux-compatible file system hierarchy, including the root directory (<code>/</code>) and various standard directories, such as <code>/home</code>, <code>/usr</code>, and <code>/var</code>. These directories and their subdirectories contain the files and directories specific to the Linux environment.</p>
-<p>The WSL 2 file system integration ensures that Linux processes can access and manipulate files stored on the Windows file system. This means you can work with files and directories in both the Linux and Windows environments seamlessly. For example, you can create, modify, and delete files from within WSL 2, and those changes will be reflected in the corresponding Windows directories and vice versa.</p>
-<p>Windows drives are mounted in the Linux <code>/mnt/</code> directory. For instance, you can access <code>Users</code> folder a <code>C:\User\</code> by running in WSL terminal:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nb">cd</span> /mnt/c/Users/
-</span></span></code></pre></div><p>Noting that accessing Windows files from Linux is considerably slower than using the native Linux file system. Where possible, create projects in the Linux file space, typically in your home folder (<code>/home/&lt;USERNAME&gt;</code> or <code>~</code>).</p>
-<p>You can also access WSL 2 files from the network path <code>\\wsl$\</code> in Windows&rsquo;s <strong>File Explorer</strong>.</p>
-<p><img loading="lazy" src="/posts/working-with-wsl2-on-windows11/file-explorer.png" type="" alt="File Explorer"  /></p>
-<details class="admonition tip"><summary class="admonition-title">Create Linux symbolic link for Windows folder</summary>
-<p>For ease of access, you can create a Linux symbolic link to any Windows folder from the terminal. For example, for <code>C:\projects\</code>:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl"><span class="nb">cd</span> ~
-</span></span><span class="line"><span class="cl">ln -s /mnt/d/projects/
-</span></span></code></pre></div><p>A <code>projects</code> folder will appear in your Linux home directory. Navigate to it using cd <code>~/project</code> and you&rsquo;ll actually be in <code>/mnt/d/projects/</code>, which maps directly to <code>D:\projects\</code>.</p>
-</details>
-<h3 id="move-or-clone-your-wsl-linux-disk-image">Move or Clone Your WSL Linux Disk Image</h3>
-<p>WSL Linux disk images are installed on your <code>C:</code> drive in deault. This may occupy a lot of space in the Windows&rsquo;s system drive. Optionally, you can either move it to another drive to free up space on <code>C:</code>, or use the same image to create multiple Linux installations (which can be useful <strong>if you need different applications and setups for different projects</strong> - although Docker may be more practical).</p>
-<p>Presume that you are moving the Ubuntu Linux distro to <code>D:\wsl</code>. In a <strong>Powershell</strong> terminal, then export Linux distro you want to move by name to a backup <code>.tar</code> file, such as <code>D:\backup\ubuntu-22.04.tar</code>.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ps" data-lang="ps"><span class="line"><span class="cl"><span class="nf">mkdir</span> <span class="nf">D:\backup</span>
-</span></span><span class="line"><span class="cl"><span class="nf">wsl</span> <span class="nf">--expoer</span> <span class="nf">Ubuntu-22.04</span> <span class="nf">D:\backup\ubuntu-22.04.tar</span>
-</span></span></code></pre></div><p>Then, unregister that distro to remove it by name from the <code>C:</code> drive.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ps" data-lang="ps"><span class="line"><span class="cl"><span class="nf">wsl</span> <span class="nf">--unregister</span> <span class="nf">Ubuntu-22.04</span>
-</span></span></code></pre></div><p>You can run <code>wsl -l</code> to verify the distro has been removed. Now, you can import the new WSL 2 distro at another location, such as <code>D:\wsl</code>.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ps" data-lang="ps"><span class="line"><span class="cl"><span class="nf">mkdir</span> <span class="nf">D:\wsl</span>
-</span></span><span class="line"><span class="cl"><span class="nf">wsl</span> <span class="nf">--import</span> <span class="nf">Ubuntu-22.04</span> <span class="nf">D:\wsl\</span> <span class="nf">D:\backup\ubuntu-22.04.tar</span>
-</span></span></code></pre></div><p>You can make any number of named clones from the same back-up by changing the name of distro after <code>--import</code> argument.</p>
-<p>Again, verify the WSL distro has been successfully created by <code>wsl -l</code> command. At this point, Ubuntu will use root as the default user. To revert to your own account, run the following command:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ps" data-lang="ps"><span class="line"><span class="cl"><span class="nf">ubuntu</span> <span class="nf">config</span> <span class="nf">--default-user</span> <span class="p">&lt;</span><span class="nf">USERNAME</span><span class="p">&gt;</span>
-</span></span></code></pre></div><p>where <code>&lt;USERNAME&gt;</code> is the username you defined before.</p>
-<p>For other distros that aren&rsquo;t the WSL2 default distro, you need to log on to the distro and create/edit <code>/etc/wsl.conf</code> file.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">nano /etc/wsl.conf
-</span></span></code></pre></div><p>Add the following lines to the file</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>user<span class="o">]</span>
-</span></span><span class="line"><span class="cl"><span class="nv">default</span><span class="o">=</span>&lt;USERNAME&gt;
-</span></span></code></pre></div><p>Save the file, then restart the distro in <strong>PowerShell</strong> terminal.</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-ps" data-lang="ps"><span class="line"><span class="cl"><span class="nf">wsl</span> <span class="nf">--terminate</span> <span class="p">&lt;</span><span class="nf">DISTRONAME</span><span class="p">&gt;</span>
-</span></span></code></pre></div><p>where <code>&lt;DISTRONAME&gt;</code> is the distro&rsquo;s name you installed. Now you can feel free to delete backup file if you want.</p>
-<details class="admonition tip"><summary class="admonition-title">Save &amp; Exit &#34;nano&#34; editor</summary>
-<p>To save the file use <code>Ctrl + S</code> combination while <code>Ctrl + X</code> is use to exit the editor in terminal.</p>
-</details>
-<h3 id="visual-studio-code-with-wsl-2-integration">Visual Studio Code with WSL 2 Integration</h3>
-<p><a href="https://code.visualstudio.com/"><strong>Visual Studio Code (VS Code)</strong></a> permits you to use any Windows or Linux terminal. In VS Code, you need to install <strong>WSL</strong> extension (search in <strong>Extensions</strong> tab). The WSL extension enables you to run VS Code within the WSL.</p>
-<p><img loading="lazy" src="/posts/working-with-wsl2-on-windows11/wsl-extension.png" type="" alt="WSL extension"  /></p>
-<p>When the WSL extension si installed, you will see a new <strong>Remote Status</strong> bar item at the far left.</p>
-<p><img loading="lazy" src="/posts/working-with-wsl2-on-windows11/remote-status.png" type="" alt="Remote status"  /></p>
-<p>The Remote Status bar item can quickly show you in which context VS Code is running (local or remote).</p>
-<p><img loading="lazy" src="/posts/working-with-wsl2-on-windows11/remote-status-activated.png" type="" alt="Remote status activated"  /></p>
-<p>To open new remote WSL window, you can press <code>F1</code> to open <strong>Command Pallete</strong> in VS C and type <strong>WSL</strong> to select the option.</p>
-<p><img loading="lazy" src="/posts/working-with-wsl2-on-windows11/connect-wsl.png" type="" alt="Connect WSL"  /></p>
-<h2 id="conclusion">Conclusion</h2>
-<p>Working with WSL 2 on Windows 11 offers an improved experience for running Linux applications. With WSL 2, you can seamlessly integrate Windows and Linux environments, allowing you to develop and execute code using Windows tools while leveraging the power of a Linux-based runtime. This integration simplifies web development, eliminates the need for virtual machines, and provides a more efficient workflow. Overall, WSL 2 on Windows 11 offers the benefits of both operating systems, enhancing productivity and making it easier to work with Linux applications on a Windows platform.</p>
-<h2 id="reference">Reference</h2>
-<ul>
-<li><a href="https://learn.microsoft.com/en-us/windows/wsl/">Windows Subsystem for Linux Documentation</a>.</li>
-<li><a href="https://www.sitepoint.com/wsl2/">Windows Subsystem for Linux 2: The Complete Guide for Windows 10 &amp; 11</a>.</li>
-<li><a href="https://code.visualstudio.com/docs/remote/wsl-tutorial">Remote development in WSL</a>.</li>
-<li><a href="https://towardsdatascience.com/how-to-create-perfect-machine-learning-development-environment-with-wsl2-on-windows-10-11-2c80f8ea1f31">How to Create a Perfect Machine Learning Development Environment With WSL2 on Windows 10/11</a>.</li>
 </ul>
 ]]></content:encoded>
     </item>
@@ -540,6 +816,43 @@ You can verify if your machine has CUDA-supported GPU through Display Adapters s
 <p><img loading="lazy" src="/posts/setting-up-nvidia-cuda-on-windows-11/miniforge-installation.png" type="" alt="Miniforge Installation"  /></p>
 </div>
 <p>After successful installation, you can use use the mamba commands as described in this <a href="https://mamba.readthedocs.io/en/latest/user_guide/mamba.html#mamba"><strong>user guide</strong></a>.</p>
+<div class="admonition note"><p class="admonition-title">Working with Conda Environment</p>
+<p>The command using <code>mamba</code> is similar to the <code>conda</code> command.</p>
+<ul>
+<li>Create new environment</li>
+</ul>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mamba create -n <span class="p">&amp;</span>lt<span class="p">;</span>ENV_NAME<span class="p">&amp;</span>gt<span class="p">;</span> <span class="nv">python</span><span class="o">=</span><span class="p">&amp;</span>lt<span class="p">;</span>VERSION<span class="p">&amp;</span>gt<span class="p">;</span>
+</span></span></code></pre></div><ul>
+<li>Activate an environment</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mamba activate <span class="p">&amp;</span>lt<span class="p">;</span>ENV_NAME<span class="p">&amp;</span>gt<span class="p">;</span>
+</span></span></code></pre></div><ul>
+<li>Deactivate environment</li>
+</ul>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mamba deactivate
+</span></span></code></pre></div><ul>
+<li>Delete an environment</li>
+</ul>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mamba env remove -n <span class="p">&amp;</span>lt<span class="p">;</span>ENV_NAME<span class="p">&amp;</span>gt<span class="p">;</span>
+</span></span></code></pre></div><ul>
+<li>Show all created environments</li>
+</ul>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mamba env list
+</span></span></code></pre></div><p><strong>Remember to activate an environment first, do not install any packages in your base environment!</strong></p>
+<ul>
+<li>Install python packages</li>
+</ul>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mamba install <span class="p">&amp;</span>lt<span class="p">;</span>PKG_NAME<span class="p">&amp;</span>gt<span class="p">;</span><span class="o">[=</span>VERSION<span class="o">]</span> <span class="o">[</span>-c <span class="p">&amp;</span>lt<span class="p">;</span>CHANNEL_NAME<span class="p">&amp;</span>gt<span class="p">;</span><span class="o">]</span>
+</span></span></code></pre></div><p>When installing a package, you can optionally indicate specific additional channel that the packages are posted by community. The <code>conda-forge</code> is one of most common additional channels.</p>
+<ul>
+<li>Delete packages</li>
+</ul>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mamba remove <span class="p">&amp;</span>lt<span class="p">;</span>PKG_NAME<span class="p">&amp;</span>gt<span class="p">;</span>
+</span></span></code></pre></div><ul>
+<li>Show all installed packages in the virtual environment</li>
+</ul>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mamba list <span class="o">[</span>-n <span class="p">&amp;</span>lt<span class="p">;</span>ENV_NAME<span class="p">&amp;</span>gt<span class="p">;</span><span class="o">]</span>
+</span></span></code></pre></div></div>
 <div class="admonition note"><p class="admonition-title">Post-installation</p>
 <p>After installation, you make sure that the <strong>Anaconda</strong> is not the default configured channel, seeing <a href="https://mamba.readthedocs.io/en/latest/user_guide/troubleshooting.html#defaults-channels"><strong>this</strong></a>.</p>
 <p><strong>DO NOT</strong> install anything into the <code>base</code> environment as this might break your installation. See <a href="https://mamba.readthedocs.io/en/latest/user_guide/troubleshooting.html#base-packages"><strong>here</strong></a> for details.</p>
@@ -564,7 +877,7 @@ You can verify if your machine has CUDA-supported GPU through Display Adapters s
 </span></span><span class="line"><span class="cl">Cuda compilation tools, release 12.4, V12.4.99
 </span></span><span class="line"><span class="cl">Build cuda_12.4.r12.4/compiler.33961263_0
 </span></span></code></pre></div><p>It is important to verify that the <strong>NVIDIA CUDA Toolkit</strong> can find and communicate correctly with CUDA-compatible hardware. To do this, you need to compile and run some sample programs.</p>
-<p>CUDA samples are located in <a href="https://github.com/nvidia/cuda-samples"><strong>https://github.com/nvidia/cuda-samples</strong></a>. To use the samples, clone the project, build the samples in <code>cyda-samples</code> directory using <strong>MVSC 2022 compiler</strong> and run them following the instruction on the Github page.</p>
+<p>CUDA samples are located in <a href="https://github.com/nvidia/cuda-samples"><strong>https://github.com/nvidia/cuda-samples</strong></a>. To use the samples, clone the project, build the samples in <code>cuda-samples</code> directory using <strong>MVSC 2022 compiler</strong> and run them following the instruction on the Github page.</p>
 <p>To verify a correct configuration of the hardware and software, it is highly recommended that you build and run the <code>deviceQuery</code> sample program.</p>
 <div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-cmd" data-lang="cmd"><span class="line"><span class="cl">deviceQuery.exe
 </span></span></code></pre></div><p>If  CUDA is installed and configured correctly, the output should look similar as below:</p>
@@ -804,31 +1117,28 @@ You can verify if your machine has CUDA-supported GPU through Display Adapters s
 </span></span><span class="line"><span class="cl"><span class="p">&amp;&amp;&amp;&amp;</span> PASSED TensorRT.sample_onnx_mnist [TensorRT v100000] # .\sample_onnx_mnist.exe
 </span></span></code></pre></div></details>
 <p>If you are using <strong>TensorRT Python API</strong>, make sure <strong>CUDA-Python</strong> is installed in your system or your virtual environment.</p>
-<ul>
-<li>Installing from <strong>PyPI</strong>.</li>
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-cmd" data-lang="cmd"><span class="line"><span class="cl">mamba create -n tensorrt_env pip wheel
+</span></span><span class="line"><span class="cl">mamba activate tensorrt_env
+</span></span></code></pre></div><ul>
+<li>Installing from <strong>PyPI</strong>, <strong>TensorRT</strong> runtime wheels</li>
 </ul>
 <div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-cmd" data-lang="cmd"><span class="line"><span class="cl">pip install cuda-python
-</span></span></code></pre></div><ul>
-<li>Installing from <strong>Conda</strong>.</li>
-</ul>
-<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-cmd" data-lang="cmd"><span class="line"><span class="cl">conda install -c nvidia cuda-python
-</span></span></code></pre></div><p>Conda packages are assign a dependency to CUDA Toolkit: <code>cuda-cudart</code> (providing CUDA headers to enable writting NVRTC kernel with CUDA types) and <code>cuda-nvrtc</code> (providing NVTC shared library).</p>
-<p>Then you install <strong>TensorRT</strong> Python wheel.</p>
-<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-cmd" data-lang="cmd"><span class="line"><span class="cl">pip install --pre --upgrade tensorrt
-</span></span></code></pre></div><p>Optional, install <strong>TensorRT</strong> lean and dispatch runtime wheels:</p>
-<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-cmd" data-lang="cmd"><span class="line"><span class="cl">pip install tensorrt_lean tensorrt_dispatch
+</span></span><span class="line"><span class="cl">pip install --pre --upgrade tensorrt
+</span></span><span class="line"><span class="cl">pip install --pre --upgrade tensorrt_lean tensorrt_dispatch
 </span></span></code></pre></div><p>To verify the installation is working, use python code.</p>
 <div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">tensorrt</span>
 </span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">tensorrt</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="k">assert</span><span class="p">(</span><span class="n">tensorrt</span><span class="o">.</span><span class="n">Builder</span><span class="p">(</span><span class="n">tensorrt</span><span class="o">.</span><span class="n">Logger</span><span class="p">()))</span>
-</span></span></code></pre></div><p>Use a similar procedure to verify that the lean and dispatch modules work as expected.</p>
-<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">tensorrt_lean</span> <span class="k">as</span> <span class="nn">trt</span>
-</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">trt</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="k">assert</span> <span class="n">trt</span><span class="o">.</span><span class="n">Runtime</span><span class="p">(</span><span class="n">trt</span><span class="o">.</span><span class="n">Logger</span><span class="p">())</span>
-</span></span></code></pre></div><div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">tensorrt_dispatch</span> <span class="k">as</span> <span class="nn">trt</span>
-</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">trt</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="k">assert</span> <span class="n">trt</span><span class="o">.</span><span class="n">Runtime</span><span class="p">(</span><span class="n">trt</span><span class="o">.</span><span class="n">Logger</span><span class="p">())</span>
-</span></span></code></pre></div><h2 id="conclusion">Conclusion</h2>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">tensorrt_lean</span> <span class="k">as</span> <span class="nn">trtl</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">trtl</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">assert</span> <span class="n">trtl</span><span class="o">.</span><span class="n">Runtime</span><span class="p">(</span><span class="n">trt</span><span class="o">.</span><span class="n">Logger</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">tensorrt_dispatch</span> <span class="k">as</span> <span class="nn">trtd</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">trtd</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">assert</span> <span class="n">trtd</span><span class="o">.</span><span class="n">Runtime</span><span class="p">(</span><span class="n">trt</span><span class="o">.</span><span class="n">Logger</span><span class="p">())</span>
+</span></span></code></pre></div><p>The <code>tensorrt/samples</code> directory also provides the samples that utilize with the <strong>TensorRT</strong>, you can follow instructions from <code>README.md</code> to run samples.</p>
+<h2 id="conclusion">Conclusion</h2>
 <p>By following these steps and installing the required software, you will have an CUDA-ready environment in Windows 11 system for further machine learnin/deep learning applications. This environment will provide the necessary tools and libraries for GPU-accelerated computing and Python package management.</p>
 <h2 id="reference">Reference</h2>
 <ul>
@@ -878,13 +1188,13 @@ Low-cost - Free or as close to free as posisble. Productive - Easy to write and 
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">hugo v0.92.2+extended linux/amd64 <span class="nv">BuildDate</span><span class="o">=</span>2023-01-31T11:11:57Z <span class="nv">VendorInfo</span><span class="o">=</span>ubuntu:0.92.2-1ubuntu0.1
 </span></span></code></pre></div><h2 id="3-creating-a-new-hugo-site">3. Creating a new Hugo site</h2>
 <p>You can run <code>hugo new site</code> command to create a new Hugo site:</p>
-<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">hugo new site &lt;USERNAME&gt;-hugo -f yml
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">hugo new site <span class="p">&amp;</span>lt<span class="p">;</span>USERNAME<span class="p">&amp;</span>gt<span class="p">;</span>-Hugo -f yml
 </span></span></code></pre></div><p>This command will set up the basic directory structure and configuration file in <code>*.yml</code> format for your blog.</p>
 <div class="admonition tip"><p class="admonition-title">What is `&lt;USERNAME&gt;`?</p>
-<p>For convenient management and organization, you should name the your blog project as above format with <strong>&lt;USERNAME&gt;</strong> as the your GitHub&rsquo;s username, i.e., <code>visionbike-hugo</code>. It&rsquo;s helpful to keep track your project and ensuring clarity when managing multiple repositories.</p>
+<p>For convenient management and organization, you should name the your blog project as above format with <strong>&lt;USERNAME&gt;</strong> as the your GitHub&rsquo;s username, i.e., <code>Visionbike-Hugo</code>. It&rsquo;s helpful to keep track your project and ensuring clarity when managing multiple repositories.</p>
 </div>
 <p>The site will be associated with a GitHub repository where you can store the source code of your blog. Hence, you need to initialize <code>git</code> in the local project for further use.</p>
-<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">cd</span> <span class="p">&amp;</span>lt<span class="p">;</span>USERNAME<span class="p">&amp;</span>gt<span class="p">;</span>-hugo
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">cd</span> <span class="p">&amp;</span>lt<span class="p">;</span>USERNAME<span class="p">&amp;</span>gt<span class="p">;</span>-Hugo
 </span></span><span class="line"><span class="cl">git init
 </span></span></code></pre></div><p>You also need to create a new repository on GitHub storage for your blog&rsquo;s source code.</p>
 <p><img loading="lazy" src="/posts/setting-up-personal-blog-with-hugo-and-gh-pages/create-source-code-repo.png" type="" alt="Create source code repository"  /></p>
@@ -892,7 +1202,7 @@ Low-cost - Free or as close to free as posisble. Productive - Easy to write and 
 <p>By creating a repository without a <strong>README</strong> file, you can avoid accidental history conflicts when pushing your local project to a fresh repository. You can always add a <strong>README</strong> file later if needed.</p>
 </div>
 <p>Now, you link the local project to the GitHub repository by the <code>git remote</code> command:</p>
-<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git remote add origin https://github.com/&lt;USERNAME&gt;/&lt;USERNAME&gt;.github.io.git
+<div class="highlight command"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git remote add origin https://github.com/<span class="p">&amp;</span>lt<span class="p">;</span>USERNAME<span class="p">&amp;</span>gt<span class="p">;</span>/<span class="p">&amp;</span>lt<span class="p">;</span>USERNAME<span class="p">&amp;</span>gt<span class="p">;</span>.github.io.git
 </span></span><span class="line"><span class="cl">git banrch -M master
 </span></span></code></pre></div><p>By completing these steps, you have linked your local Hugo site to the GitHub repository. Now you can continue working on your site locally, commit any changes, and push them to the remote repository when ready.</p>
 <h2 id="4-installing-hugo-theme">4. Installing Hugo Theme</h2>
