@@ -33,7 +33,7 @@
 </head>
 <body class="dark type-posts kind-page layout-" id=top><script data-no-instant>function switchTheme(a){switch(a){case'light':document.body.classList.remove('dark');break;case'dark':document.body.classList.add('dark');break;default:window.matchMedia('(prefers-color-scheme: dark)').matches&&document.body.classList.add('dark')}}function isDarkTheme(){return document.body.className.includes("dark")}function getPrefTheme(){return localStorage.getItem("pref-theme")}function setPrefTheme(a){switchTheme(a),localStorage.setItem("pref-theme",a)}const toggleThemeCallbacks={};toggleThemeCallbacks.main=a=>{a?setPrefTheme('light'):setPrefTheme('dark')},window.addEventListener('toggle-theme',function(){const a=isDarkTheme();for(const b in toggleThemeCallbacks)toggleThemeCallbacks[b](a)});function toggleThemeListener(){window.dispatchEvent(new CustomEvent('toggle-theme'))}</script>
 <script>(function(){const b='dark',a=getPrefTheme(),c=a||b;switchTheme(c)})()</script>
-<script>document.addEventListener('DOMContentLoaded',function(){var a=document.querySelectorAll('.command code');a.forEach(function(a){var c=a.textContent.split('\n'),d,b;a.textContent='',d=a.dataset.lang||'bash',b=d==='cmd'?'>':'$',b=d==='python'?'>>>':b,c.forEach(function(d,e){d.trim()!==''&&(a.innerHTML+='<span class="prompt">'+b+'</span> '+d,e!==c.length-1&&(a.innerHTML+='<br>'))})})})</script>
+<script>document.addEventListener('DOMContentLoaded',function(){var a=document.querySelectorAll('.command code');a.forEach(function(a){var b=a.textContent.split('\n'),c,d;a.textContent='',c=a.dataset.lang||'bash',d=c==='cmd'?'>':'$',c==='python'&&(d='>>>'),b.forEach(function(c,e){c.trim()!==''&&(a.innerHTML+='<span class="prompt">'+d+'</span> '+c,e!==b.length-1&&(a.innerHTML+='<br>'))})})})</script>
 <header class=header>
 <nav class=nav>
 <div class=logo>
@@ -143,13 +143,13 @@
 <div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>hugo v0.92.2+extended linux/amd64 <span class=nv>BuildDate</span><span class=o>=</span>2023-01-31T11:11:57Z <span class=nv>VendorInfo</span><span class=o>=</span>ubuntu:0.92.2-1ubuntu0.1
 </code></pre></div><h2 id=3-creating-a-new-hugo-site>3. Creating a new Hugo site<a hidden class=anchor aria-hidden=true href=#3-creating-a-new-hugo-site>¶</a></h2>
 <p>You can run <code>hugo new site</code> command to create a new Hugo site:</p>
-<div class="highlight command"><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>hugo new site &lt;USERNAME&gt;-hugo -f yml
+<div class="highlight command"><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>hugo new site <span class=p>&amp;</span>lt<span class=p>;</span>USERNAME<span class=p>&amp;</span>gt<span class=p>;</span>-Hugo -f yml
 </code></pre></div><p>This command will set up the basic directory structure and configuration file in <code>*.yml</code> format for your blog.</p>
 <div class="admonition tip"><p class=admonition-title>What is `&lt;USERNAME>`?</p>
-<p>For convenient management and organization, you should name the your blog project as above format with <strong>&lt;USERNAME></strong> as the your GitHub&rsquo;s username, i.e., <code>visionbike-hugo</code>. It&rsquo;s helpful to keep track your project and ensuring clarity when managing multiple repositories.</p>
+<p>For convenient management and organization, you should name the your blog project as above format with <strong>&lt;USERNAME></strong> as the your GitHub&rsquo;s username, i.e., <code>Visionbike-Hugo</code>. It&rsquo;s helpful to keep track your project and ensuring clarity when managing multiple repositories.</p>
 </div>
 <p>The site will be associated with a GitHub repository where you can store the source code of your blog. Hence, you need to initialize <code>git</code> in the local project for further use.</p>
-<div class="highlight command"><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=nb>cd</span> <span class=p>&amp;</span>lt<span class=p>;</span>USERNAME<span class=p>&amp;</span>gt<span class=p>;</span>-hugo
+<div class="highlight command"><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=nb>cd</span> <span class=p>&amp;</span>lt<span class=p>;</span>USERNAME<span class=p>&amp;</span>gt<span class=p>;</span>-Hugo
 git init
 </code></pre></div><p>You also need to create a new repository on GitHub storage for your blog&rsquo;s source code.</p>
 <p><img loading=lazy src=/posts/setting-up-personal-blog-with-hugo-and-gh-pages/create-source-code-repo.png type alt="Create source code repository"></p>
@@ -157,7 +157,7 @@ git init
 <p>By creating a repository without a <strong>README</strong> file, you can avoid accidental history conflicts when pushing your local project to a fresh repository. You can always add a <strong>README</strong> file later if needed.</p>
 </div>
 <p>Now, you link the local project to the GitHub repository by the <code>git remote</code> command:</p>
-<div class="highlight command"><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>git remote add origin https://github.com/&lt;USERNAME&gt;/&lt;USERNAME&gt;.github.io.git
+<div class="highlight command"><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>git remote add origin https://github.com/<span class=p>&amp;</span>lt<span class=p>;</span>USERNAME<span class=p>&amp;</span>gt<span class=p>;</span>/<span class=p>&amp;</span>lt<span class=p>;</span>USERNAME<span class=p>&amp;</span>gt<span class=p>;</span>.github.io.git
 git banrch -M master
 </code></pre></div><p>By completing these steps, you have linked your local Hugo site to the GitHub repository. Now you can continue working on your site locally, commit any changes, and push them to the remote repository when ready.</p>
 <h2 id=4-installing-hugo-theme>4. Installing Hugo Theme<a hidden class=anchor aria-hidden=true href=#4-installing-hugo-theme>¶</a></h2>

@@ -75,7 +75,10 @@
       block.textContent = '';
       var lang = block.dataset.lang || 'bash'; // Default to 'bash' if data-lang is not set
       var prefix = lang === 'cmd' ? '>' : '$';
-      prefix = lang === 'python' ? '>>>' : prefix;
+      if (lang === 'python') {
+        prefix = '>>>';
+      }
+      // prefix = lang === 'python' ? '>>>' : prefix;
       lines.forEach(function(line, index) {
         if (line.trim() !== '') {
           block.innerHTML += '<span class="prompt">' + prefix + '</span> ' + line;

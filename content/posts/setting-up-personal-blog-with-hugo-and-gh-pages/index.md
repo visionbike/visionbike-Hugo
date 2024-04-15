@@ -69,18 +69,18 @@ hugo v0.92.2+extended linux/amd64 BuildDate=2023-01-31T11:11:57Z VendorInfo=ubun
 You can run `hugo new site` command to create a new Hugo site:
 
 ```bash {.command}
-hugo new site <USERNAME>-hugo -f yml
+hugo new site &lt;USERNAME&gt;-Hugo -f yml
 ```
 
 This command will set up the basic directory structure and configuration file in `*.yml` format for your blog.
 {{% admonition type="tip" title="What is `<USERNAME>`?" details="false" %}}
-For convenient management and organization, you should name the your blog project as above format with **\<USERNAME\>** as the your GitHub's username, i.e., `visionbike-hugo`. It's helpful to keep track your project and ensuring clarity when managing multiple repositories.
+For convenient management and organization, you should name the your blog project as above format with **&lt;USERNAME&gt;** as the your GitHub's username, i.e., `Visionbike-Hugo`. It's helpful to keep track your project and ensuring clarity when managing multiple repositories.
 {{% /admonition %}}
 
 The site will be associated with a GitHub repository where you can store the source code of your blog. Hence, you need to initialize `git` in the local project for further use.
 
 ```bash {.command}
-cd &lt;USERNAME&gt;-hugo
+cd &lt;USERNAME&gt;-Hugo
 git init
 ```
 
@@ -95,7 +95,7 @@ By creating a repository without a **README** file, you can avoid accidental his
 Now, you link the local project to the GitHub repository by the `git remote` command:
 
 ```bash {.command}
-git remote add origin https://github.com/<USERNAME>/<USERNAME>.github.io.git
+git remote add origin https://github.com/&lt;USERNAME&gt;/&lt;USERNAME&gt;.github.io.git
 git banrch -M master
 ```
 
@@ -131,7 +131,7 @@ git submodule update --remote --merge
 
 Once you have added the theme, you can configure it in your Hugo site's configuration file (`config.yml`). Refer to the theme's documentation for specific instructions on customization and configuration options. You will most likely want to modify the following fields:
 
-* <u>**baseURL**</u>: This should be set into the URL GitHub Pages for hosting your blog. If the GitHub repository is named **\<USERNAME\>.github.io**, then the value of baseURL will be **https://\<USERNAME\>.github.io/**. If the GitHub repository has any other name, then the value will be **https://\<USERNAME\>.github.io/&lt;REPOSITORY_NAME&gt;/**. For instance, my GitHub username is `visionbike`, then:
+* <u>**baseURL**</u>: This should be set into the URL GitHub Pages for hosting your blog. If the GitHub repository is named **&lt;USERNAME&gt;.github.io**, then the value of baseURL will be **https://&lt;USERNAME&gt;.github.io/**. If the GitHub repository has any other name, then the value will be **https://&lt;USERNAME&gt;.github.io/&lt;REPOSITORY_NAME&gt;/**. For instance, my GitHub username is `visionbike`, then:
   * If the GitHub repository is named `visionbike.github.io`, then the baseURL will be `https://visionbike.github.io/`.
   * If the GitHub repository is named `visionbike-hugo`, then the baseURL will be `https://visionbike.github.io/visionbike-hugo/`.
 

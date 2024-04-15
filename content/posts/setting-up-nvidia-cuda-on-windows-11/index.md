@@ -59,13 +59,69 @@ Follow the instaltion prompts, taking note of options to **Create start menu sho
 
 After successful installation, you can use use the mamba commands as described in this [**user guide**](https://mamba.readthedocs.io/en/latest/user_guide/mamba.html#mamba).
 
+{{% admonition type="note" title="Working with Conda Environment" details="false" %}}
+The command using `mamba` is similar to the `conda` command.
+
+- Create new environment
+
+```bash {.command}
+mamba create -n &lt;ENV_NAME&gt; python=&lt;VERSION&gt;
+```
+
+- Activate an environment
+
+```bash (.command)
+mamba activate &lt;ENV_NAME&gt;
+```
+
+- Deactivate environment
+
+```bash {.command}
+mamba deactivate
+```
+
+- Delete an environment
+
+```bash {.command}
+mamba env remove -n &lt;ENV_NAME&gt;
+```
+
+- Show all created environments
+
+```bash {.command}
+mamba env list
+```
+
+**Remember to activate an environment first, do not install any packages in your base environment!**
+
+- Install python packages
+
+```bash {.command}
+mamba install &lt;PKG_NAME&gt;[=VERSION] [-c &lt;CHANNEL_NAME&gt;]
+```
+
+When installing a package, you can optionally indicate specific additional channel that the packages are posted by community. The `conda-forge` is one of most common additional channels.
+
+- Delete packages
+
+```bash {.command}
+mamba remove &lt;PKG_NAME&gt;
+```
+
+- Show all installed packages in the virtual environment
+
+```bash {.command}
+mamba list [-n &lt;ENV_NAME&gt;]
+```
+{{% /admonition %}}
+
+
 {{% admonition type="note" title="Post-installation" details="false" %}}
 After installation, you make sure that the **Anaconda** is not the default configured channel, seeing [**this**](https://mamba.readthedocs.io/en/latest/user_guide/troubleshooting.html#defaults-channels).
 
 **DO NOT** install anything into the `base` environment as this might break your installation. See [**here**](https://mamba.readthedocs.io/en/latest/user_guide/troubleshooting.html#base-packages) for details.
 
 The most convenient way to use the **Mamba** will be via the **Miniforge Prompt** installed in the **Start Menu**.
-
 {{% /admonition %}}
 
 ## 3. Installing NVIDIA CUDA Toolkit
@@ -105,7 +161,7 @@ Build cuda_12.4.r12.4/compiler.33961263_0
 
 It is important to verify that the **NVIDIA CUDA Toolkit** can find and communicate correctly with CUDA-compatible hardware. To do this, you need to compile and run some sample programs.
 
-CUDA samples are located in [**https://github.com/nvidia/cuda-samples**](https://github.com/nvidia/cuda-samples). To use the samples, clone the project, build the samples in `cyda-samples` directory using **MVSC 2022 compiler** and run them following the instruction on the Github page.
+CUDA samples are located in [**https://github.com/nvidia/cuda-samples**](https://github.com/nvidia/cuda-samples). To use the samples, clone the project, build the samples in `cuda-samples` directory using **MVSC 2022 compiler** and run them following the instruction on the Github page.
 
 To verify a correct configuration of the hardware and software, it is highly recommended that you build and run the `deviceQuery` sample program.
 
@@ -410,30 +466,17 @@ The output should be as following:
 
 If you are using **TensorRT Python API**, make sure **CUDA-Python** is installed in your system or your virtual environment.
 
-* Installing from **PyPI**.
+```cmd {.command}
+mamba create -n tensorrt_env pip wheel
+mamba activate tensorrt_env
+```
+
+* Installing from **PyPI**, **TensorRT** runtime wheels
 
 ```cmd {.command}
 pip install cuda-python
-```
-
-* Installing from **Conda**.
-
-```cmd {.command}
-conda install -c nvidia cuda-python
-```
-
-Conda packages are assign a dependency to CUDA Toolkit: `cuda-cudart` (providing CUDA headers to enable writting NVRTC kernel with CUDA types) and `cuda-nvrtc` (providing NVTC shared library).
-
-Then you install **TensorRT** Python wheel.
-
-```cmd {.command}
 pip install --pre --upgrade tensorrt
-```
-
-Optional, install **TensorRT** lean and dispatch runtime wheels:
-
-```cmd {.command}
-pip install tensorrt_lean tensorrt_dispatch
+pip install --pre --upgrade tensorrt_lean tensorrt_dispatch
 ```
 
 To verify the installation is working, use python code.
@@ -442,21 +485,17 @@ To verify the installation is working, use python code.
 import tensorrt
 print(tensorrt.__version__)
 assert(tensorrt.Builder(tensorrt.Logger()))
+
+import tensorrt_lean as trtl
+print(trtl.__version__)
+assert trtl.Runtime(trt.Logger())
+
+import tensorrt_dispatch as trtd
+print(trtd.__version__)
+assert trtd.Runtime(trt.Logger())
 ```
 
-Use a similar procedure to verify that the lean and dispatch modules work as expected.
-
-```python {.command}
-import tensorrt_lean as trt
-print(trt.__version__)
-assert trt.Runtime(trt.Logger())
-```
-
-```python {.command}
-import tensorrt_dispatch as trt
-print(trt.__version__)
-assert trt.Runtime(trt.Logger())
-```
+The `tensorrt/samples` directory also provides the samples that utilize with the **TensorRT**, you can follow instructions from `README.md` to run samples.
 
 ## Conclusion
 

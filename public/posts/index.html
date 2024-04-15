@@ -27,7 +27,7 @@
 </head>
 <body class="list-page dark type-posts kind-section layout-" id=top><script data-no-instant>function switchTheme(a){switch(a){case'light':document.body.classList.remove('dark');break;case'dark':document.body.classList.add('dark');break;default:window.matchMedia('(prefers-color-scheme: dark)').matches&&document.body.classList.add('dark')}}function isDarkTheme(){return document.body.className.includes("dark")}function getPrefTheme(){return localStorage.getItem("pref-theme")}function setPrefTheme(a){switchTheme(a),localStorage.setItem("pref-theme",a)}const toggleThemeCallbacks={};toggleThemeCallbacks.main=a=>{a?setPrefTheme('light'):setPrefTheme('dark')},window.addEventListener('toggle-theme',function(){const a=isDarkTheme();for(const b in toggleThemeCallbacks)toggleThemeCallbacks[b](a)});function toggleThemeListener(){window.dispatchEvent(new CustomEvent('toggle-theme'))}</script>
 <script>(function(){const b='dark',a=getPrefTheme(),c=a||b;switchTheme(c)})()</script>
-<script>document.addEventListener('DOMContentLoaded',function(){var a=document.querySelectorAll('.command code');a.forEach(function(a){var c=a.textContent.split('\n'),d,b;a.textContent='',d=a.dataset.lang||'bash',b=d==='cmd'?'>':'$',b=d==='python'?'>>>':b,c.forEach(function(d,e){d.trim()!==''&&(a.innerHTML+='<span class="prompt">'+b+'</span> '+d,e!==c.length-1&&(a.innerHTML+='<br>'))})})})</script>
+<script>document.addEventListener('DOMContentLoaded',function(){var a=document.querySelectorAll('.command code');a.forEach(function(a){var b=a.textContent.split('\n'),c,d;a.textContent='',c=a.dataset.lang||'bash',d=c==='cmd'?'>':'$',c==='python'&&(d='>>>'),b.forEach(function(c,e){c.trim()!==''&&(a.innerHTML+='<span class="prompt">'+d+'</span> '+c,e!==b.length-1&&(a.innerHTML+='<br>'))})})})</script>
 <header class=header>
 <nav class=nav>
 <div class=logo>
@@ -89,37 +89,19 @@ Install the Visual Studio Community 2022 and select Desktop development with C++
 </article>
 <article class=post-entry>
 <header class=entry-header>
-<h2>Setting Up NVIDIA CUDA on Windows 11 With WSL 2
+<h2>Setting Up NVIDIA CUDA on WSL 2
 </h2>
 </header>
 <section class=entry-content>
-<p>To get started with running CUDA on WSL, you need to instal NVIDIA Driver on Windows 11 with a compatible GeForce or NVIDIA RTX/Quadro card from this link.
-Note that you only need to install NVIDIA Driver for Windows. Do not install any Linux Driver in WSL.
-The latest NVIDIA Windows GPU Driver will fully support WSL 2. With CUDA support in the driver, existing applications compiled on a Linux system for the same target GPU can run unmodified within the WSL environment....</p>
+<p>Windows Subsystem for Linux (WSL) is a compatibility layer provided by Microsoft that allows you to run a Linux environment directly on WIndows. It will bring Linux applications, utilities and Bash command-line tool directly on Windows without the overhead of traditional virtual machine or dualboot setup.
+1. Prequisites The Windows must be upgraded to Windows 10 version 2004 and higher or Windows 11 to install WSL by a single command line....</p>
 </section>
 <footer class=entry-footer><span class=meta-item><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
 <span>July 13, 2023</span></span><span class=meta-item><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text" style="user-select:text"><path d="M14 2H6A2 2 0 004 4v16a2 2 0 002 2h12a2 2 0 002-2V8z" style="user-select:text"/><polyline points="14 2 14 8 20 8" style="user-select:text"/><line x1="16" y1="13" x2="8" y2="13" style="user-select:text"/><line x1="16" y1="17" x2="8" y2="17" style="user-select:text"/><polyline points="10 9 9 9 8 9" style="user-select:text"/></svg>
-<span>752 words</span></span><span class=meta-item><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-<span>4 min</span></span>
+<span>4104 words</span></span><span class=meta-item><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<span>20 min</span></span>
 </footer>
-<a class=entry-link aria-label="post link to Setting Up NVIDIA CUDA on Windows 11 With WSL 2" href=http://visionbike.github.io/posts/create-ml-development-environment-on-windows11-with-wsl2/></a>
-</article>
-<article class=post-entry>
-<header class=entry-header>
-<h2>Working With Windows Subsystem for Linux 2 on Windows 11
-</h2>
-</header>
-<section class=entry-content>
-<p>Windows Subsystem for Linux (WSL) is a compatibility layer provided by Microsoft that allows you to run a Linux environment directly on your Windows operating system. It enables you to execute Linux binaries, use Linux command-line tools, and access Linux file systems from within Windows.
-When it comes to machine learning (ML) development, WSL offers several advantages:
-Linux Compatibility: Many ML frameworks, libraries, and tools are primarily developed and optimized for Linux systems....</p>
-</section>
-<footer class=entry-footer><span class=meta-item><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
-<span>July 13, 2023</span></span><span class=meta-item><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text" style="user-select:text"><path d="M14 2H6A2 2 0 004 4v16a2 2 0 002 2h12a2 2 0 002-2V8z" style="user-select:text"/><polyline points="14 2 14 8 20 8" style="user-select:text"/><line x1="16" y1="13" x2="8" y2="13" style="user-select:text"/><line x1="16" y1="17" x2="8" y2="17" style="user-select:text"/><polyline points="10 9 9 9 8 9" style="user-select:text"/></svg>
-<span>2068 words</span></span><span class=meta-item><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-<span>10 min</span></span>
-</footer>
-<a class=entry-link aria-label="post link to Working With Windows Subsystem for Linux 2 on Windows 11" href=http://visionbike.github.io/posts/working-with-wsl2-on-windows11/></a>
+<a class=entry-link aria-label="post link to Setting Up NVIDIA CUDA on WSL 2" href=http://visionbike.github.io/posts/setitng-up-nvidia-cuda-on-wsl2/></a>
 </article>
 <article class=post-entry>
 <header class=entry-header>
@@ -132,8 +114,8 @@ NVIDIA Drivers. Microsoft Visual Studio 2022 Community. NVIDIA CUDA Toolkit. NVI
 </section>
 <footer class=entry-footer><span class=meta-item><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar" style="user-select:text"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" style="user-select:text"/><line x1="16" y1="2" x2="16" y2="6" style="user-select:text"/><line x1="8" y1="2" x2="8" y2="6" style="user-select:text"/><line x1="3" y1="10" x2="21" y2="10" style="user-select:text"/></svg>
 <span>July 6, 2023</span></span><span class=meta-item><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text" style="user-select:text"><path d="M14 2H6A2 2 0 004 4v16a2 2 0 002 2h12a2 2 0 002-2V8z" style="user-select:text"/><polyline points="14 2 14 8 20 8" style="user-select:text"/><line x1="16" y1="13" x2="8" y2="13" style="user-select:text"/><line x1="16" y1="17" x2="8" y2="17" style="user-select:text"/><polyline points="10 9 9 9 8 9" style="user-select:text"/></svg>
-<span>2528 words</span></span><span class=meta-item><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-<span>12 min</span></span>
+<span>2613 words</span></span><span class=meta-item><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke="currentcolor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<span>13 min</span></span>
 </footer>
 <a class=entry-link aria-label="post link to Setting Up NVIDIA CUDA on Windows 11" href=http://visionbike.github.io/posts/setting-up-nvidia-cuda-on-windows-11/></a>
 </article>
